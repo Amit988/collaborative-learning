@@ -1,0 +1,54 @@
+{% extends "quizes/base.html" %}
+{% load static %}
+{% load cloudinary %}
+{% load humanize %}
+
+
+{% block title %}
+Qize-History
+{% endblock title %}
+
+{% block content %}
+
+
+    {% if recent %}
+        <div class="table-responsive">
+            
+            <table class="table mt-5 mb-5 table-hover table-sm">
+                <thead class="thead-dark table-dark">
+                  <tr>
+                    <th scope="col">Quiz Name</th>
+                    <th scope="col">Your Score</th>
+                    <th scope="col">Attempted By</th>
+                    <th scope="col">Average Score</th>
+                    <th scope="col">When</th>
+                </tr>
+                </thead>
+
+                <tbody class="">
+         
+                    {% for i in recent%}
+
+                    <tr>
+                        <th scope="row"><a href="/quiz/{{i.0.quiz.id}}">{{i.0.quiz.name}}</a></th>
+                        <td>{{i.0.score}}</td>
+                        <td>{{i.1.0}} Users</td>
+                        <td>{{i.1.1}}</td>
+                        <td>{{i.0.time | naturalday}}</td>
+                        
+                    </tr>
+                
+                    {% endfor %}
+
+                </tbody>
+
+                
+            </table>
+        </div>
+
+
+ 
+    {% endif %}
+
+
+{% endblock content %}

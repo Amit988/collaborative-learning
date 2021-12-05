@@ -1,0 +1,168 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+
+{% block title %}Courses{% endblock %}
+
+{% block script %}
+
+  <style type="text/css">
+
+        .filled-button {
+            background-color: transparent;
+            color: #fff;
+            background-color: #515148;
+            border: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            transition: all 0.3s;
+            outline: none;
+            box-shadow: none;
+            text-shadow: none;
+            cursor: pointer;
+        }
+           
+        .filled-button:hover {
+            background-color: #fff;
+            color: #a4c639;
+        }
+    
+
+        .section-heading h2 {
+            font-size: 36px;
+            font-weight: 600;
+            color: #1e1e1e;
+        }
+
+        .section-heading em {
+            font-style: normal;
+            color: white;
+        }
+
+        .services {
+            margin-top: 80px;
+            margin-bottom: 100px;
+        }
+
+        .service-item img {
+            width: 100%;
+            overflow: hidden;
+            box-shadow:
+              2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+              6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+              12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+              22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+              41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+              100px 100px 80px rgba(0, 0, 0, 0.07)
+            ;
+        }
+
+        .service-item .down-content {
+            background-color: #1a1a1a;
+            padding: 30px;
+        }
+
+
+        .service-item .down-content h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.25px;
+            margin-bottom: 15px;
+            
+        }
+
+        .service-item .down-content p {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+
+        @import url(https://fonts.googleapis.com/css?family=Cabin+Condensed);
+        svg{font-weight:bold;max-width:300px;height:100%;}
+  </style>
+
+{% endblock %}
+{% block main %}
+
+<div class="container text-center mt-2">
+
+
+    <div class="row">
+        <div class="section-heading">
+            <svg viewbox="0 0 100 20">
+              <defs>
+                <linearGradient id="gradient">
+                  <stop color="#000"/>
+                </linearGradient>
+                <pattern id="wave" x="0" y="-0.5" width="100%" height="100%" patternUnits="userSpaceOnUse">
+                  <path id="wavePath" d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z" mask="url(#mask)" fill="url(#gradient)"> 
+                    <animateTransform
+                        attributeName="transform"
+                        begin="0s"
+                        dur="1.5s"
+                        type="translate"
+                        from="0,0"
+                        to="40,0"
+                        repeatCount="indefinite" />
+                  </path>
+                </pattern>
+              </defs>
+              <text text-anchor="middle" x="50" y="15" font-size="17" fill="white" fill-opacity="0.1"><a href="{% url 'courses:courses-view' %}" class="text-dark" style = "text-decoration: none;">Courses</a></text>
+              <text text-anchor="middle" x="50" y="15" font-size="17" fill="url(#wave)"  fill-opacity="1"><a href="{% url 'courses:courses-view' %}" class="text-dark" style = "text-decoration: none;">Courses</a></text>
+            </svg>
+        </div>
+    </div>
+    
+
+</div>
+
+    <div class="services text-dark">
+      <div class="container">
+        <div class="row">
+
+        {% for i in crs %}
+          <div class="col-md-4">
+            <div class="service-item">
+              <img src="{{i.poster.url}}" alt="club's logo">
+              <div class="down-content">
+                <h4>{{i.title}}</h4>
+                <h4>Author: {{i.auther}}</h4>
+
+                {% if i.tag %}
+                    <p>Tags: 
+                    {% for j in i.tag.all %}
+                        {{j}}|
+                    {% endfor %}
+                    </p>
+                {% endif %}
+                <h6 class="text-muted">{{i.duration}} Hours long</h6>
+                <!--<p>{{i.discription}}</p>-->
+                <a href="{% url 'courses:lesson-view' i.id  %}" class="filled-button" style="text-decoration: none;">View</a>
+              </div>
+            </div>
+          </div>
+
+        {% empty %}
+        <h4 class="text-center mt-5 mb-5 text-muted">No Courses added yet.</h4>
+
+        {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+
+    <script async id="slcLiveChat" src="https://widget.sonetel.com/SonetelWidget.min.js" data-account-id="207865070"></script>
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+{% endblock %}
+
+    

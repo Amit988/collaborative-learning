@@ -1,0 +1,254 @@
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+    Hey Join my club {{club.name}} on cosb, We will learn together there!!
+{% endblock %}
+
+
+{% block script %} 
+
+    <meta property="og:title" content="Join my club {{club.name}}!!" />
+    <meta property="og:url" content="https://www.cosb.live/accounts/view-club/{{club.id}}/" />
+    <meta property="og:image" content="{{data.logo.url}}" />
+    <meta property="og:description" content="Hey, Join my club {{club.name}} on cosb. We will learn together there!!" />
+    <meta property="og:site_name" content="cosb" />
+
+    <link href='https://css.gg/bulb.css' rel='stylesheet'>
+
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=613337eb495f05001236fe40&product=inline-share-buttons' async='async'></script>
+
+    <style type="text/css">
+
+    /* #fff */
+      
+      .filled-button {
+            background-color: transparent;
+            color: #e2f3f5;
+            background-color: #17b978;
+            border: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            transition: all 0.3s;
+            outline: none;
+            box-shadow: none;
+            text-shadow: none;
+            cursor: pointer;
+        }
+
+        .containers {
+          position: relative;
+          background: #2c3e50;
+          height: 50vh;
+        }
+
+        .wave {
+          position: absolute;
+          height: 70px;
+          width: 100%;
+          background: #2c3e50;
+          bottom: 0;
+        }
+
+        .wave::before, .wave::after {
+          content: "";
+          display: block;
+          position: absolute;
+          border-radius: 100% 50%;
+        }
+
+        .wave::before {
+          width: 55%;
+          height: 109%;
+          background-color: #f3f7f8;
+          right: -1.5%;
+          top: 60%;
+        }
+        .wave::after {
+          width: 55%;
+          height: 100%;
+          background-color: #2c3e50;
+          left: -1.5%;
+          top: 40%;
+        }
+
+        .shadow{
+
+            box-shadow:
+              2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+              6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+              12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+              22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+              41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+              100px 100px 80px rgba(0, 0, 0, 0.07)
+            ;
+        }
+
+
+        .slide-top {
+          -webkit-animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                  animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        @-webkit-keyframes slide-top {
+          0% {
+            -webkit-transform: translateY(0);
+                    transform: translateY(0);
+          }
+          100% {
+            -webkit-transform: translateY(-100px);
+                    transform: translateY(-100px);
+          }
+        }
+        @keyframes slide-top {
+          0% {
+            -webkit-transform: translateY(0);
+                    transform: translateY(0);
+          }
+          100% {
+            -webkit-transform: translateY(-100px);
+                    transform: translateY(-100px);
+          }
+        }
+
+
+        .curved {
+          position: relative;
+          background: #2c3e50;
+          height: 50vh;
+          border-bottom-left-radius: 50% 20%;
+          border-bottom-right-radius: 50% 20%;
+        }
+
+  </style>
+{% endblock script %}
+
+{% block main %}
+
+<div class="container m-2">
+
+  {% for msg in messages %}
+
+      <div class="row">
+          <p class="text-success text-center">{{msg}}</p>
+      </div>
+      
+  {% endfor %}
+
+</div>
+
+
+<section class="curved">
+
+
+    <div class="container">
+    <div class="row">
+      <div class="col mt-5">
+
+
+        <h5 class="text-white">{{club.name}} {{club.tagline}}</h5>
+        {% if club.tag == 'ALL' %}
+
+          <p class="text-white">Field: <mark>General</mark></p>
+
+        {% else %}
+          <p class="text-white">Field: <mark>{{club.tag}}</mark></p>
+
+        {% endif %}
+        <p class="text-muted">About: {{club.vision_and_mission}}</p>
+        {% if club.dateoffound %}
+          <p class="text-muted">Found On :- {{club.dateoffound | naturalday}}</p>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+  
+
+</section>
+
+
+
+
+      <div class="container mt-5 mb-5">
+        <div class="row">
+
+          <div class="section-heading text-center mb-5 mt-3">
+            <h6 class="display-100 fw-bold lh-5 mb-3">Share your club with your friends!</h6>
+            <div class="sharethis-inline-share-buttons" data-url="https://www.cosb.live/accounts/view-club/{{club.id}}/" data-title="Join my club {{club.name}}" data-image="{{data.logo.url}}" data-description = "Hey, Join my club {{club.name}} on cosb. We will learn together there!!" data-message="Hey, Join my club {{club.name}} on cosb. We will learn together there!!"></div>
+          </div>
+
+        {% if request.user.is_authenticated %}
+          <div class="col">
+
+            {% if flag2 %}
+              <a href="{% url 'your-club' club.id  %}" class="filled-button" style="text-decoration: none;">Visit Club</a>
+
+            {% elif not flag1 %}
+              
+              <div id="msg"></div>
+
+              <button class="filled-button" style="text-decoration: none;" onclick="registration();" data-id = {{club.id}} id="register">Request to Join</button>
+
+            {% else %}
+              <p class="text-success">Request Sent!</p>
+
+            {% endif %}
+          </div>
+
+        {% endif %}
+        </div>
+      </div>
+
+
+
+{% endblock main %}
+
+
+{% block ajaxbox %}
+
+  <script type="text/javascript">
+
+    function registration() 
+
+    {
+
+
+      const reg = document.getElementById("register");
+      const msg = document.getElementById("msg");
+
+        const id = reg.dataset.id;
+        $.ajax({
+        type: 'GET',
+        url: `/accounts/join-club/${id}/`,
+
+        success: function(response){
+
+          if (response.status === 1){
+
+            reg.style.visibility = "hidden";
+            msg.innerHTML += `<p class="text-success">Request Sent!</p>`
+          }
+
+          else{
+
+            msg.innerHTML += `<p class="text-danger">Please try in few moments.</p>`
+          }
+
+
+        }
+      })
+
+    }
+  </script>
+
+{% endblock %}

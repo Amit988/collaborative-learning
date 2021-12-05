@@ -1,0 +1,36 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block script %}
+
+    <script>
+        setTimeout(function(){
+
+            window.location.href = "{% url 'event' %}";
+            },
+         1000);
+    </script>
+{% endblock %}
+
+{% block main %}
+
+
+    <div class="container">
+
+        <div class="row m-5">
+
+            <div class="col">
+
+                {% if msg %}
+
+
+                <h4 style="text-align: center; color: green;">{{msg}}</h4>
+
+                {% endif %}
+            
+            </div>
+        </div>
+    
+    </div>
+
+{% endblock %}

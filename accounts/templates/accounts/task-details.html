@@ -1,0 +1,37 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Task-Details{% endblock %}
+{% block main %}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-sm-6 mx-auto text-dark">
+
+                <ul>
+                    <!-- Display Objects -->
+                    
+                    <li>club: {{task_details.club}}</li>
+                    <hr/>
+                    <li>By: {{task_details.user.username}}</li>
+                    <hr/>
+                    <li>Tag: {{task_details.tag}}</li>
+                    <hr>
+                    <li>Deadline: {{task_details.deadline_date}}--{{task_details.deadline_time}}</li>
+                    <hr>
+                    <li>Details: {{task_details.msg}}</li>
+                    
+                </ul>
+
+                <div class="pull-right">
+
+                    <a href="{% url 'taskstatus' task_details.id  %}" class="btn btn-outline-dark mb-2">Join</a>
+
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

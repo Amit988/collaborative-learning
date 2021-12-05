@@ -1,0 +1,180 @@
+{% extends "quizes/base.html" %}
+{% load static %}
+{% load cloudinary %}
+
+{% block script %}
+  <script src="{% static 'quizes/main.js'%}" defer></script> 
+
+    <style type="text/css">
+    
+        .filled-button {
+            background-color: transparent;
+            color: #fff;
+            background-color: #515148;
+            border: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            transition: all 0.3s;
+            outline: none;
+            box-shadow: none;
+            text-shadow: none;
+            cursor: pointer;
+        }
+           
+        .filled-button:hover {
+            background-color: #17b978;
+            color: white;
+        }
+
+        .card{
+
+            box-shadow:
+              2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+              6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+              12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+              22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+              41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+              100px 100px 80px rgba(0, 0, 0, 0.07)
+            ;
+
+
+        }
+
+
+  </style>
+{% endblock script %}
+
+{% block title %}
+Qize
+{% endblock title %}
+
+
+{% block content %}
+
+<!-- Modal -->
+
+    <!--
+    <div class="modal fade bg-dark" id="quizStartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Start?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-body-confirm"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">No</button>
+            <button type="button" id="start-button" class="btn btn-outline-dark">Yupe!</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    
+
+<div class="container">
+
+
+  <div class="container pt-5">
+
+
+    <div class="row">
+      <div class="col-sm-8 text-dark">
+
+        {% if recent_quizzes %}
+
+          <a href="{% url 'quizes:recent-quizzes' %}" >Recent Quizzes</a>
+          <ul>
+            {% for i in recent_quizzes %}
+
+              <li><p><a href="/quiz/{{i.quiz.id}}">{{i.quiz.name}}</a> | <small class="text-muted"> Your score: {{i.score}}</small></p></li>
+              
+            {% endfor %}
+          </ul>
+          
+        {% endif %}
+        
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <h2 class="text-dark m-3">All Quizzes</h2>
+  <hr class="text-dark">
+
+
+    <div class="container mb-5 mt-5">
+      <div class="row">
+    
+        {% for obj in object_list %}
+    
+          <div class="col-sm-4 mt-3">
+      
+            <div class="card text-dark">
+              <img src="{{obj.img.url}}" class="card-img-top img-thumbnail" alt="Quiz Poster">
+              <div class="card-body bg-dark text-white">
+                <h6 class="card-title">{{obj.name}}</h6>
+                <p class="card-text">Topic: {{obj.topic}}</p>
+
+                <span>
+                  <p class="card-text mb-2" style="font-size: 14px;"><small>Tag: {{obj.difficluty}}</small></p>    
+                </span>
+
+
+              
+              </div>
+
+                <div class="card-footer bg-dark border-dark">
+
+                  <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#quizbox-{{obj.pk}}" aria-expanded="false" aria-controls="quizbox-{{obj.pk}}">
+                  Show More
+                  </a>
+                  <div class="collapse" id="quizbox-{{obj.pk}}">
+                      <div class="card card-body my-2">
+                        <p>Number of questions <mark>{{obj.number_of_questions}}.</mark></p>
+                        <p>Required score to pass <mark>{{obj.required_score_to_pass}}%.</mark></p>
+                        <a href="/quiz/{{obj.pk}}" class="filled-button text-decoration-none">Start</a>
+                      </div>
+                  </div>
+
+                  <!--
+                  <button
+                    class="filled-button"
+                    data-pk="{{obj.pk}}"
+                    data-quiz="{{obj.name}}"
+                    data-questions="{{obj.number_of_questions}}"
+                    data-difficulty="{{obj.difficluty}}"
+                    data-time="{{obj.time}}"
+                    data-pass = "{{obj.required_score_to_pass}}"
+                    data-toggle="modal"
+                    data-target="#quizStartModal">Start
+                  </button>-->
+                
+                </div>
+
+            </div>
+
+            
+      
+          </div>
+    
+        {% empty %}
+        <h4 class="text-dark text-center mt-5 mb-5">No Quiz added yet.</h4>
+    
+        {% endfor %}
+    
+      </div>
+    </div>
+  
+</div>
+
+
+{% endblock content %}

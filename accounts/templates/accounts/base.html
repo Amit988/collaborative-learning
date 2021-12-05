@@ -1,0 +1,263 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style type="text/css">
+      
+        body{
+
+            background-color: #f3f7f8;
+
+
+        }
+    </style>
+
+    <title>cosb | {% block title %} {% endblock %}</title>
+
+    {% block script %}
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'index' %}">cosb</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target = "#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Clubs</a>
+              </li>
+
+              {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'users:register' %}">Sign up</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'users:login' %}">Sign in</a>
+                </li>
+
+              {% endif %}
+
+              {% if request.user.is_authenticated %}
+
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'courses:courses-view' %}">Courses</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'event' %}">Competitions</a>
+                </li>
+
+
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'users:logout' %}">Log Out</a>
+                </li>
+
+                <li class="nav-item dropdown text-dark">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{request.user.username}}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'password_reset' %}">Change Password</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:update-info' request.user.id  %}">Update Info</a></li>
+                    <!--<li><a class="dropdown-item" href="{% url 'rating'  %}">Your Ratings</a></li>-->
+                    <li><a class="dropdown-item" href="{% url 'qna:your-question-view' %}">Your questions</a></li>
+                    <li><a class="dropdown-item" href="{% url 'qna:your-answer-view' %}">Your answers</a></li>
+                    <!--<li><a class="dropdown-item" href="{% url 'users:delete-account' %}">Delete Account</a></li>-->
+                  </ul>
+
+              {% endif %}
+
+            </ul>
+
+                {% block search %}
+
+                {% endblock search %}
+          </div>
+        </div>
+      </nav>
+
+    
+  
+
+      {% block main %}
+
+      {% endblock %}
+
+
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h5 class="modal-title text-dark" id="staticBackdropLabel">Teach on cosb</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'teach-on-cosb' %}" enctype="multipart/form-data" method="post">
+
+                {% csrf_token %}
+
+                <div class="form-floating mb-5">
+                  <input type="email" id="defaultForm" class="form-control text-dark" name="email" required placeholder="email">
+                  <label data-error="wrong" data-success="right" for="defaultForm" class="text-dark">Email</label>
+                </div>
+
+
+                <div class= "form-floating">
+
+                  <input type="text" id="msgForm" class="form-control text-dark" name="msg" required placeholder="What You Want to create?">
+                  <label data-error="wrong" data-success="right" for="msgForm" class="text-dark">What You Want to create?</label>
+                  
+                  
+                </div>
+
+
+                <div class="text-center">
+                  <button type="submit" class="filled-button mb-5 mt-5">Send</button>
+                </div>
+
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <footer class="text-center text-lg-start bg-dark text-light" id="myfooter">
+
+      <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+
+ 
+        <div class="me-5 d-none d-lg-block">
+          <span>cosb Press:</span>
+        </div>
+
+
+        <div>
+          <a href="" class="me-4 text-reset">
+            <i class="fa fa-facebook"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fa fa-twitter"></i>
+          </a>
+          <!--
+          <a href="" class="me-4 text-reset">
+            <i class="fa fa-google"></i>
+          </a>
+          -->
+          <a href="" class="me-4 text-reset">
+            <i class="fa fa-instagram"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fa fa-linkedin"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fa fa-github"></i>
+          </a>
+        </div>
+
+      </section>
+
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+
+          <div class="row mt-3">
+
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+ 
+              <h6 class="text-uppercase fw-bold mb-4">
+                cosb Business
+              </h6>
+
+
+              <p>
+                <a class="text-decoration-none text-reset" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="">
+                  Teach on cosb                
+                </a>
+              </p>
+        
+            </div>
+
+ 
+ 
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+              <p>
+                <a href="/accounts/club-by-tag/ALL/" class="text-reset text-decoration-none">View All clubs</a>
+              </p>
+              <!--
+              <p>
+                <a href="{% url 'rating' %}" class="text-reset">Your Ratings</a>
+              </p>-->
+              <p>
+                <a href="{% url 'club-registration' %}" class="text-reset text-decoration-none">Open Club</a>
+              </p>
+              <p>
+                <a href="{% url 'feedback' %}" class="text-reset text-decoration-none">Feedbacks</a>
+              </p>
+
+            </div>
+     
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+              <h6 class="text-uppercase fw-bold mb-4">
+                Contact
+              </h6>
+          
+              <p><i class="fa fa-envelope me-3"></i><a href="mailto:neeshamraghav0@gmail.com" class="text-decoration-none">Send Email</a></p>
+              <p><i class="fa fa-phone me-3"></i>Neesham: 7206126235</p>
+              <p><i class="fa fa-phone me-3"></i>Amit: 7503006720</p>
+              <p><i class="fa fa-phone me-3"></i>Nitish: 7042256613</p>
+            </div>
+ 
+          </div>
+ 
+        </div>
+      </section>
+
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2021 cosb
+        <a class="text-reset fw-bold text-decoration-none" href="#">Some rights reserved</a>
+      </div>
+   
+    </footer>
+
+
+      
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+ 
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+  {% block ajaxbox %}
+
+  {% endblock ajaxbox %}
+    
+  </body>
+</html>

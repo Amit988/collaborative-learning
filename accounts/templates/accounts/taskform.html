@@ -1,0 +1,69 @@
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Add-Discussion{% endblock %}
+{% block main %}
+
+<div class="container m-2">
+
+  {% for msg in messages %}
+
+      <div class="row">
+          <p class="text-success text-center">{{msg}}</p>
+      </div>
+      
+  {% endfor %}
+
+</div>
+
+<!--
+<div class="container text-end">
+  <a href="{% url 'recent-tasks' %}">Recent tasks.</a>
+</div>-->
+
+<main class="container pt-5">
+
+    <form method="POST" class="form-horizontal" action="{% url 'taskform' %}">{% csrf_token %}
+
+      {{form | crispy}}
+
+      <div class="mb-3 mt-2">
+        <label for="exampleInputPassword1" class="form-label">Message*</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" name="msg" required>
+      </div>
+
+      <div>
+
+        <label class="form-label" for="club-name">Club*</label>
+        <select class="form-select" aria-label="Default select example" name="club-name">
+          {% for i in clubs %}
+            <option value="{{i.id}}">{{i.name}}</option>
+          {% endfor %}
+        </select>
+        
+      </div>
+
+      <!--
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Deadline Date*</label>
+        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deadline_date" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Deadline Time*</label>
+        <input type="time" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="deadline_time" required>
+      </div>-->
+
+      <button type="submit", class="btn btn-success mb-5 mt-3">Add topic</button>
+        
+
+        
+    </form>
+      
+
+  </main>
+
+
+    
+
+{% endblock %}

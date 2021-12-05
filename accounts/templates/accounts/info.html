@@ -1,0 +1,160 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Info{% endblock %}
+{% block main %}
+
+
+<div class="container text-center text-dark mt-5">    
+    <div class="row">
+      <div class="col-sm-3">
+
+        <div class="card mt-2 mb-2">
+
+
+          
+          <div class="card-body">
+            
+
+            <p>Interests</p>
+            <div class="list-group">
+
+              {% if clubs %}
+
+                {% for i in clubs %}
+
+                  {% if i.tag == 'ALL' %}
+
+                  {% else %}
+                    <a href = "{% url 'your-club' i.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+
+                        <h5 class="mb-1">{{i.tag}}</h5>
+    
+                      </div>
+                      
+                    </a>
+
+                  {% endif %}
+
+                {% endfor %}
+
+              {% else %}
+
+                <h6 class="text-center mt-2">No Interests</h6>
+
+              {% endif %}
+
+            </div>
+
+            
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-sm-6">
+      
+        <div class="row mt-2 mb-5">
+          <div class="col-sm-12">
+            <div class="card text-left">
+              <div class="card-body">
+                <p>{{info.username}}</p>
+                {% if ratings %}
+                    <p class="text-info">Ratings: {{ratings.rating}}</p>
+                {% else %}
+                    <p class="text-info"> Ratings: 0</p>
+                {% endif %}
+
+
+      
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row mt-2 mb-2">
+
+          <div class="col-sm-12 mb-5">
+            <div class="card">
+
+                <div class="card-header bg-dark text-white">
+                    Features
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    {% for i in extended_info %}
+                        {% if i.course %}
+                          <li class="list-group-item">Course:   {{i.course}}</li>
+                        {% endif %}
+
+                        {% if i.branch %}
+                          <li class="list-group-item">Branch:   {{i.branch}}</li>
+                        {% endif %}
+
+                        {% if i.sem %}
+                          <li class="list-group-item">Semester: {{i.sem}}</li>
+                        {% endif %}
+
+                        {% if i.phone %}
+                          <li class="list-group-item">Mobile No: {{i.phone}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+   
+
+      <div class="col-sm-3">
+
+        <div class="card mt-2">
+
+          <div class="card-header bg-dark text-white">
+            <p>Clubs</p>
+          </div>
+          
+          <div class="card-body">
+
+            <div class="list-group">
+
+              {% if clubs %}
+
+                {% for i in clubs %}
+
+
+                    <a href = "{% url 'your-club' i.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+
+                        <h5 class="mb-1">{{i.name}}</h5>
+            
+                      </div>
+                      
+                    </a>
+
+                {% endfor %}
+
+              {% else %}
+
+                <h6 class="text-center mt-2">No clubs joined yet.</h6>
+
+              {% endif %}
+
+            </div>
+
+
+          </div>
+        </div>
+ 
+      </div>
+
+  </div>
+
+</div>
+
+
+{% endblock %}

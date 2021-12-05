@@ -1,0 +1,184 @@
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+{% load static %}
+{% block title %}Events{% endblock %}
+
+{% block script %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="{% static 'accounts/css/templatemo-style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <style type="text/css">
+
+        .filled-button {
+            background-color: transparent;
+            color: #fff;
+            background-color: #515148;
+            border: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            transition: all 0.3s;
+            outline: none;
+            box-shadow: none;
+            text-shadow: none;
+            cursor: pointer;
+        }
+           
+        .filled-button:hover {
+            background-color: #17b978;
+            color: white;
+        }
+
+        body {
+
+          background-color: #f3f7f8;
+        }
+
+        .card{
+
+            box-shadow:
+              2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+              6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+              12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+              22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+              41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+              100px 100px 80px rgba(0, 0, 0, 0.07)
+            ;
+
+
+        }
+
+        .containers{
+          display: inline-block;
+          color: #17b978;
+        }
+
+
+        .typed-out{
+
+          overflow: hidden;
+          border-right: .20em solid orange;
+          white-space: nowrap;
+          animation: typing 2s steps(20, end) forwards, blink .8s infinite;
+          font-size: 1rem;
+          width: 0;
+        }
+
+        @keyframes blink {
+          from { border-color: transparent }
+          to { border-color: #17b978; }
+        }
+                
+        @keyframes typing {
+          from { width: 0 }
+          to { width: 100% }
+        }
+
+
+        @import url(https://fonts.googleapis.com/css?family=Cabin+Condensed);
+        svg{font-weight:bold;max-width:300px;height:100%;}
+    </style>
+{% endblock %}
+
+{% block main %}
+ 
+
+            <div class="container text-center">
+
+                <div class="containers mt-5">
+                    <div class="typed-out">Organized by students for the students.</div>
+                </div>
+
+                <br>
+                <a href="/quiz/" class="filled-button mb-5 mt-5" style="text-decoration: none;">Take Quiz</a>
+
+                
+                
+                <div class="row">
+                    <div class="section-heading">
+                        <svg viewbox="0 0 100 20">
+                          <defs>
+                            <linearGradient id="gradient">
+                              <stop color="#000"/>
+                            </linearGradient>
+                            <pattern id="wave" x="0" y="-0.5" width="100%" height="100%" patternUnits="userSpaceOnUse">
+                              <path id="wavePath" d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z" mask="url(#mask)" fill="url(#gradient)"> 
+                                <animateTransform
+                                    attributeName="transform"
+                                    begin="0s"
+                                    dur="1.5s"
+                                    type="translate"
+                                    from="0,0"
+                                    to="40,0"
+                                    repeatCount="indefinite" />
+                              </path>
+                            </pattern>
+                          </defs>
+                          <text text-anchor="middle" x="50" y="15" font-size="17" fill="white" fill-opacity="0.1"><a href="{% url 'event'  %}" class="text-dark" style = "text-decoration: none;">Competitions</a></text>
+                          <text text-anchor="middle" x="50" y="15" font-size="17" fill="url(#wave)"  fill-opacity="1"><a href="{% url 'event'  %}" class="text-dark" style = "text-decoration: none;">Competitions</a></text>
+                        </svg>
+                
+                    </div>
+                </div>
+
+            </div>
+
+ 
+            
+            <div class="container mt-5 mb-5">
+              <div class="row">
+
+                {% for i in object_list %}
+
+                <div class="col-sm-4 mb-4">
+
+                  <div class="card mb-1 bg-dark h-100">
+                      <img src="{{i.poster.url}}" class="card-img-top img-thumbnail" alt="Event Poster">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">{{i.name}}</h5>
+                        <h4 class="card-title text-white">by {{i.club.name}}</h4>
+                        <p class="card-text" style="font-size: 14px;"><small><mark>On {{i.event_date }} at {{i.event_time}}</mark></small></p>
+                        
+
+                        <a href="{% url 'event-details' i.id   %}" class="btn btn-dark text-left">Show More</a>
+                          
+
+                        
+                      </div>
+                  </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="text-center mt-5">
+
+                  <h4>Events are Over.</h4>
+
+                </div>
+                
+
+                {% endfor %}
+
+              </div>
+            </div>
+
+            <script async id="slcLiveChat" src="https://widget.sonetel.com/SonetelWidget.min.js" data-account-id="207865070"></script>
+
+  {% block ajaxbox %}
+
+
+    <script src="{% static 'accounts/js/templatemo-script.js' %}"></script>
+    <!--<script src="{% static 'accounts/js/jquery-3.2.1.slim.min.js' %}"></script>-->
+    <script src="{% static 'accounts/js/jquery.min.js' %}"></script>
+
+  {% endblock ajaxbox %}
+
+
+{% endblock %}

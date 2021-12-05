@@ -1,0 +1,38 @@
+
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+
+{% block title %}Events{% endblock %}
+{% block main %}
+
+{% if data_sem %}
+    <canvas id="myChart" width="200" height="200"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for i in data_sem.keys %} "{{i}}", {% endfor %}],
+                datasets: [{
+                    label: 'Branch Vise Participation',
+                    data: [{% for i in data_sem.values %} {{i}}, {% endfor %}],
+
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+{% endif %}
+
+
+
+{% endblock %}

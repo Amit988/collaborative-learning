@@ -1,0 +1,49 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% load cloudinary %}
+{% load humanize %}
+
+
+{% block title %}
+Event-History
+{% endblock title %}
+
+{% block main %}
+
+
+    {% if upcoming_events %}
+        <div class="table-responsive">
+            
+            <table class="table mt-5 mb-5 table-hover table-sm">
+                <thead class="thead-dark table-dark">
+                  <tr>
+                    <th scope="col">Event Name</th>
+                    <th scope="col">Event Date</th>
+        
+                </tr>
+                </thead>
+
+                <tbody class="">
+         
+                    {% for i in upcoming_events %}
+
+                    <tr>
+                        <th scope="row"><a href="{% url 'event-details' i.event.id %}">{{i.event.name}}</a></th>
+                        <td>{{i.event.event_date}}</td>
+
+                    </tr>
+                
+                    {% endfor %}
+
+                </tbody>
+
+                
+            </table>
+        </div>
+
+
+ 
+    {% endif %}
+
+
+{% endblock main %}

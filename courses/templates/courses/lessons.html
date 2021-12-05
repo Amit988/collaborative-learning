@@ -1,0 +1,139 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+{% load static %}
+{% block title %}{{course.title}}{% endblock %}
+
+{% block script %}
+
+  <style type="text/css">
+
+        .card{
+          
+            box-shadow:
+              2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+              6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+              12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+              22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+              41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+              100px 100px 80px rgba(0, 0, 0, 0.07)
+            ;
+
+
+        }
+
+        .section-heading h2 {
+            font-size: 36px;
+            font-weight: 600;
+            color: #1e1e1e;
+        }
+
+        .section-heading em {
+            font-style: normal;
+            color: black;
+        }
+
+        .filled-button {
+            background-color: transparent;
+            color: #fff;
+            background-color: #17b978;
+            border: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            transition: all 0.3s;
+            outline: none;
+            box-shadow: none;
+            text-shadow: none;
+            cursor: pointer;
+        }
+           
+        .filled-button:hover {
+            background-color: #a7ff83;
+            color: white;
+        }
+    
+
+
+        @import url(https://fonts.googleapis.com/css?family=Cabin+Condensed);
+        svg{font-weight:bold;max-width:300px;height:100%;}
+  </style>
+
+{% endblock %}
+{% block main %}
+
+
+
+      <div class="container mt-5 mb-5">
+
+
+
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+          <div class="col-10 col-sm-8 col-lg-6">
+            <img src="{{course.poster.url}}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
+          </div>
+          <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">{{course.title}}</h1>
+            <h6 class="lead">{{course.discription}}</h6>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <!--<button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
+              <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>-->
+
+
+            </div>
+          </div>
+        </div>
+
+        {% if about.details %}
+          <div class="p-5 mb-4 bg-light">
+            <h1 class="display-5 fw-bold lh-1 mb-3">About the Course</h1>
+            <div class="container-fluid py-5">
+              <p class="col-md-8 fs-4">{{about.details|safe}}</p>
+              <!--<button class="btn btn-primary btn-lg" type="button">Example button</button>-->
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="row mt-5">
+
+
+          <div class="section-heading text-center mb-5 mt-3">
+            <h2><em>Course Content</em></h2>
+          </div>
+
+        {% for i in lessons %}
+          <div class="col-sm-4 mb-2">
+            <div class="card m-1 bg-light text-end h-100">
+              <div class="card-body">
+
+                <h4 class="card-title">Lesson {{i.lesson_no}}</h4>
+                <h4 class="card-title">{{i.title}}</h4>
+                <h6 class="text-muted">Duration {{i.duration}} Minutes</h6>
+                <p>{{i.discription}}</p>
+                <a href="{% url 'courses:lesson-video' i.video_url i.course.id i.id  %}" class="filled-button" style="text-decoration: none;">Start</a>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        {% empty %}
+        <h4 class="text-center mt-5 mb-5 text-muted">No Lessons added yet.</h4>
+
+        {% endfor %}
+
+        </div>
+      </div>
+
+      <script async id="slcLiveChat" src="https://widget.sonetel.com/SonetelWidget.min.js" data-account-id="207865070"></script>
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'qna/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Q&A{% endblock %}
+{% load humanize %}
+
+{% block script %}
+
+<style type="text/css">
+  
+  .iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; 
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+{% endblock %}
+
+{% block main %}
+
+
+<div class="container text-center mb-5 mt-5">  
+
+
+  <h4 class="text-dark text-center">Number Theory</h4>
+
+  <a href="https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbXI2ZG1jc3AyWklJbEY5dkxkRk1EelhxMElCd3xBQ3Jtc0tuV1piUFQyX0M3SjVaY0dpZGMyZV9xZWo1SDYzUWprc2lWX1RqM2FzU0xjNUhPRG9xbHg5TEQ3N0E3cDdxQk5HUEpZeUxxWS1HUHZsSkVPdUdTeTFUSW1GT1BaSFdmWl83TTRBd3ZCaGVza1FvZ3B1MA&q=https%3A%2F%2Fgithub.com%2Fpttrilok%2Fcourses%2Ftree%2Fmaster%2FNumber%2520Theory">Problem Sets</a>
+
+
+  
+    <div class="row">
+      <div class="col-sm-3">
+
+        <div class="card mt-2 mb-2">
+
+            
+
+
+          
+          <div class="card-body">
+
+  
+            <button class="btn btn-success m-2" onclick="addVideo('iframe_1');">lesson 01</button>
+            <button class="btn btn-success m-2" onclick="addVideo('iframe_2');" target="iframe_2">lesson 02</button>
+            <button class="btn btn-success m-2" onclick="addVideo('iframe_3');" target="iframe_3">lesson 03</button>
+            <button class="btn btn-success m-2" onclick="addVideo('iframe_4');" target="iframe_4">lesson 04</button>
+            <button class="btn btn-success m-2" onclick="addVideo('iframe_5')" target="iframe_5">lesson 05</button>
+            <button class="btn btn-success m-2" onclick="addVideo('iframe_6');" target="iframe_6">lesson 06</button>
+            
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-sm-9">
+      
+        <div class="row mt-2" >
+          <div class="iframe-container" hidden="" id="iframe_1">
+
+
+
+              <iframe  width="560" height="315" src="https://www.youtube.com/embed/UgenfNhHKWM?rel=0&showinfo=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ 
+    
+
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="iframe-container" hidden="" id="iframe_2">
+
+
+
+              <iframe  width="560" height="315" src="https://www.youtube.com/embed/ZnP5dovqnIk?rel=0&showinfo=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="iframe-container" hidden="" id= "iframe_3">
+
+
+
+              <iframe  width="560" height="315" src="https://www.youtube.com/embed/40MJGS4AjDQ?rel=0&showinfo=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+              
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="iframe-container" hidden="" id="iframe_4">
+
+
+
+              <iframe  width="560" height="315" src="https://www.youtube.com/embed/K9zbkUyUgLY?rel=0&showinfo=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+             
+
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="iframe-container" hidden="" id="iframe_5">
+
+
+
+              <iframe  width="560" height="315" src="https://www.youtube.com/embed/awnEypuTJR0?rel=0&showinfo=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+              
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="iframe-container" hidden="" id="iframe_6">
+        
+              <iframe  width="560" height="315" src="https://www.youtube.com/embed/GdKQcMfhjdo?rel=0&showinfo=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+          </div>
+        </div>
+
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+{% endblock%}
+
+
+{% block ajaxbox %}
+
+<script type="text/javascript">
+  
+  const arr = ["iframe_1", "iframe_2", "iframe_3", "iframe_4", "iframe_5", "iframe_6"]
+  function addVideo(name){
+
+
+    for (const i of arr){
+
+      var div = document.getElementById(i);
+
+      div.hidden = true;
+
+
+    }
+    
+    var d = document.getElementById(name);
+
+    console.log(d);
+
+
+    d.hidden = false;
+  }
+</script>
+
+{% endblock ajaxbox %}
+
+
+

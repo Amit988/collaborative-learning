@@ -1,0 +1,88 @@
+
+{% extends 'qna/base.html' %}
+
+{% block title %}Your Answers{% endblock %}
+{% load humanize %}
+
+{% block scripts %}
+
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+
+
+    <style type="text/css">
+        
+        .blog-post {
+          margin-bottom: 4rem;
+        }
+        .blog-post-title {
+          margin-bottom: .25rem;
+          font-size: 2.5rem;
+        }
+        .blog-post-meta {
+          margin-bottom: 1.25rem;
+          color: #727272;
+        }
+    </style>
+
+{% endblock %}
+{% block main %}
+
+
+<main class="container mt-5">
+
+
+    {% for i in ans %}
+        <article class="blog-post">
+          <h2 class="blog-post-title text-dark"><a href="{% url 'qna:add-answere-view' i.id %}" class="text-success text-decoration-none text-dark">{{i.question.title}}</a></h2>
+          <p class="blog-post-meta text-dark">{{i.time|naturaltime}} by <a href="{% url 'info' request.user.username %}">You</a></p>
+
+          <h6 class="text-dark"><a href="{% url 'qna:add-answere-view' i.id %}" class="text-success text-decoration-none text-dark">{{i.ans|safe|truncatewords:15}}</a></h6>
+
+
+        </article>
+
+        <hr class="text-dark">
+
+    {% empty %}
+
+        <div class="text-center">
+
+            <h6>No answers yet.</h6>
+            
+        </div>
+        
+
+    {% endfor %}
+    
+</main>
+
+
+   <!-- 
+    {% if ans %}
+
+        {% for i in ans %}
+
+            <div class="row  text-center m-3">
+
+
+                    <a href="{% url 'qna:add-answere-view' i.question.id %}" class="text-success text-decoration-none "><h4>{{i.question.title}}</h4></a>
+                    <small class="text-muted" style = "font-size: xx-small;">{{i.time|naturalday}}</small>
+                    <p><small  style = "font-size: 16px;">{{i.answere|safe}}</small></p>
+                    <span>
+
+                        <a href = "{% url 'qna:update-answere-view' i.id  %} " class="text-decoration-none">update</a>
+                        <a href = "{% url 'qna:delete-answere-view' i.id  %} " class="text-decoration-none">delete</a>
+
+                    </span>
+
+
+
+            </div>
+        {% endfor %}
+
+    {% else %}
+    <span>You Didn't ans any Question yet.</span>
+
+    {% endif %}-->
+
+{% endblock%}

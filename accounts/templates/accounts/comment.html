@@ -1,0 +1,57 @@
+<script>
+
+
+    $(document).ready(function() {
+
+        $("#btnsave").click(function () {
+
+            output = "";
+            console.log("Button CLicked")
+
+            let id = $(this).data("sid")
+
+            let cm = $("#commentid").val();
+            let csrf = $("input[name = csrfmiddlewaretoken]").val();
+
+            if (cm == ""){
+
+                console.log("please enter a comment!");
+            }
+
+            else{
+                mydata = { comment: cm, csrf:csrf};
+                $.ajax({
+
+                    url: "{% url 'comment-save' id %}",
+                    method: "POST",
+                    data: mydata,
+
+                    success: function (data) {
+
+                        x = data.comments_data;
+                        if (data.status == 'save')
+                        {
+                            
+
+                            for (i = 0; i < x.length; i++)
+                            {
+                                output += "<p>" + x[i].comment + "</p>"
+                            }
+                            $("form")[0].reset();
+                        }
+
+                        $("#commentbody").html(output);
+
+                    },
+
+                });
+
+            }
+
+        });
+        
+    });
+
+
+
+</script>

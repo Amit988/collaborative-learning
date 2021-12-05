@@ -1,0 +1,390 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Tasks
+{% endblock %}
+
+{% block script %}
+    
+    <meta http-equiv="refresh" content="5">
+
+    <style type="text/css">
+        
+        body {
+            
+            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+    </style>
+{% endblock %}
+
+{% block search %}
+
+
+<form class="d-flex" action="{% url 'searchCluster' %}" method="post">
+    <!--color: #858796;<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+    {% csrf_token %}
+    {{search.search}}
+    <button class="btn btn-dark text-white" type="submit">
+
+        <i class="fa fa-search"></i>
+
+    </button>
+    <!--<p class="text-info ml-1" style="font-size: 12px;"><small>{{search.search.help_text}}</small></p>-->
+</form>
+
+
+{% endblock search %}
+
+{% block main %}
+
+{% for msg in messages %}
+   
+    <p class="text-success text-center" id = "msg-container">{{msg}}</p>
+
+                
+{% endfor %}
+<!--
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-sm-8">
+
+            <form action="{% url 'searchCluster' %}" method="post">
+
+                {% csrf_token %}
+
+
+
+                <div class="input-group text-dark">
+                            
+                    {{search.search}}
+                    <span class="input-group-btn">
+                        <button class="btn btn-dark"  type="submit"><span><i class="fa fa-search"></i></span></button>
+                    </span>
+                            
+                </div>
+             
+                <p class="text-info ml-1" style="font-size: 12px;"><small>{{search.search.help_text}}</small></p>
+                    
+
+
+            </form>
+            
+        </div>
+
+    </div>
+</div>
+-->
+<!--
+<iframe width="560" height="315" name = "iframe_a" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><a href="https://www.youtube.com/embed/KP_A2ooJIYI" target="iframe_a">GeeksMan</a></p>
+-->
+<div class="container mt-5">
+    <div class="row">
+
+
+            <h4 class="text-center text-dark">New Tasks.</h4>
+            <nav class="nav justify-content-center">
+
+                {% if tasks %}
+
+                <ul class="nav nav-pills"></ul>
+
+                    
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'android-developement'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('android-developement')"  class="nav-link active border-dark bg-dark text-white" data-tag ="android-developement">android-developement</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'cosb'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('cosb')"  class="nav-link active bg-dark text-white border-dark" data-tag ="cosb">cosb</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'content-writting'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('content-writting')" class="nav-link active border-dark bg-dark text-white" data-tag ="content-writting">content-writting</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'designing'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('designing')" class="nav-link active border-dark bg-dark text-white"  data-tag ="designing">designing</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'jsecs'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('jsecs')" class="nav-link active border-dark bg-dark text-white" data-tag ="jsecs">jsecs</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'machine-learning'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('machine-learning')" class="nav-link active border-dark bg-dark text-white" data-tag ="machine-learning">machine-learning</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'marketing'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('marketing')" class="nav-link active border-dark bg-dark text-white" data-tag ="marketing">marketing</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'video-editing'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('video-editing')" class="nav-link active border-dark bg-dark text-white" data-tag ="video-editing">video-editing</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'web-development'  %}
+
+                        <li class="nav-item">
+                            <button onclick="getData('web-development')" class="nav-link active border-dark bg-dark text-white"  data-tag ="web-development">web-development</button>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+ 
+                </ul>
+
+                {% else %}
+
+                    <p>Please First select your interest.</p>
+
+                {% endif %}
+
+            </nav>
+
+
+
+    </div>
+</div>
+<div class="container mb-3">
+    <div class="row" >
+
+
+        <div class="col-sm-6 mx-auto text-center">
+            
+            <div class="card border-dark">
+              <div class="card-body text-dark">
+                Click on tabs to see new Tasks.
+                <ul class="list-group list-group-flush" id="taskid">
+
+                </ul>
+                <div id="spinner-box" class="invisible">
+                    <div class="spinner-border text-dark" role="status"></div>
+                </div>
+
+
+
+              </div>
+            </div>
+
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+<div class="container mb-5 mt-5">
+
+    <div class="row">
+
+        <div class="card bg-dark">
+            <div class="card-header text-white">
+                Discussions.
+            </div>
+            <div class="card-body">
+
+
+                {% if recent_tasks %}
+                    <ul class="list-group list-group-flush">
+                    {% for i in recent_tasks %}
+                        
+                                        
+                            <li><a href="{% url 'task-chat' i.id %}" class="list-group-item text-info">{{i.msg}}</a></li><p class="text-muted">Deadline: {{i.deadline_date}}, {{i.deadline_time}}</p>
+                            <hr>
+                                    
+                        
+
+                        
+                    {% endfor %}
+                    </ul>
+
+                {% else %}
+                    <li class="list-group-item ">No task joined yet.</li>
+                {% endif %}
+                
+            </div>
+
+            <div class="card-footer text-white">
+                Add interests.
+                <form action="{% url 'cluster' %}" method="post" class="form-inline text-dark">
+
+                    {% csrf_token %}
+
+
+                    
+
+                    <div class="input-group mb-2 ">
+                        {{form.interest}}
+                        <span class="input-group-btn">
+
+                            <button class="btn btn-outline-success" type="submit">Add</button>
+                           
+                        </span>
+                    </div>
+                    
+
+
+                    
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+    
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+  <script>
+
+    function getData(tagName) {
+
+        output = "";
+
+        console.log(tagName);
+        const spinnerBox = document.getElementById('spinner-box');
+        const tasks = document.getElementById('taskid');
+        // ajax call
+        $.ajax({
+
+            type: 'GET',
+            url: `/accounts/tasks/taskmsg/${tagName}/`,
+
+
+            success: (function(response){
+
+                let x = response.task_msg;
+
+                console.log(x);
+                if (x.length == 0)
+                {
+                    console.log("length is zero");
+                    spinnerBox.classList.remove('invisible');
+
+
+
+                    setTimeout(()=>{
+
+                        spinnerBox.classList.add('invisible');
+
+                        output += `<li class="list-group-item text-success"> No task in this cluster. </li>`;
+
+                    tasks.innerHTML = output;
+                            
+                    }, 500) 
+
+                    
+                }
+
+                else{
+
+                    console.log("length is not zero");
+                    spinnerBox.classList.remove('invisible');
+                    setTimeout(()=>{
+
+                        spinnerBox.classList.add('invisible');
+                        for (let i = 0; i < x.length; i++)
+
+                        {
+                
+
+                            const u = `/accounts/task-details/${x[i].id}/`
+
+                            output += `<li class="list-group-item">
+
+                                            <h4 style="font-size:18px;">
+
+                                                <a href= "${u}"> ${x[i].msg} </a>
+
+                                            </h4>
+
+                                            <p style="font-size: 14px;"> <small>${x[i].deadline_date+ " " + x[i].deadline_time}</small></p>
+
+
+                                        </li>`;   
+
+
+                            console.log(output);      
+
+                        }
+
+                        tasks.innerHTML = output;
+
+                    }, 500)
+
+                }
+
+                //tasks.innerHTML = output;
+                //$("#taskid").html(output);
+            })
+
+
+        })
+
+    }
+
+
+    const ele = document.getElementById("msg-container")
+    setTimeout(function(){
+
+        ele.style.display = "none";
+        },
+         3000);
+
+  </script>
+
+{% endblock ajaxbox %}

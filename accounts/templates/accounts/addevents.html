@@ -1,0 +1,38 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Add-Events{% endblock %}
+{% block main %}
+
+
+
+    <main class="container pt-100">
+
+        <form action="{% url 'addevents' %}"  method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+    
+            {{form | crispy}}
+
+	        <div class="mb-3">
+	        	<label for="exampleInputEmail1" class="form-label">Event Date</label>
+	        	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="event_date">
+
+	        </div>
+
+	        <div class="mb-3">
+	        	<label for="exampleInputEmail1" class="form-label">Event Time</label>
+	        	<input type="time" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="event_time">
+
+	        </div>
+            <button class="btn btn-outline-dark  mt-3 mb-3 text-right" type="submit">Add</button>
+        </form>
+
+        
+
+    </main>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}All-Participants{% endblock %}
+{% block main %}
+    {% if not results %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col">
+                <form action="{% url 'search' %}" method="post" class="form-inline">
+
+                    {% csrf_token %}
+        
+                    <div class="form-group mt-3">
+                        <input class="form-control" name="search" placeholder="Enter a name to search..." type="search">
+                    </div>
+                    <button class="btn btn-outline-dark mt-3 text-right"  type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-5 mb-5">
+
+            <div class="col mx-auto mt-2 text-center">
+
+                <ul>
+                    <!-- Iterate over object_list -->
+                    {% for object in par %}
+                    <!-- Display Objects -->
+                    
+                        {% if object.user != request.user %}
+                            <li>{{ object.user.username}}</li>
+                            <hr/>
+
+                        {% else %}
+                            <li>You</li>
+                            <hr/>
+                        {% endif %}
+
+                    <!-- If objet_list is empty  -->
+                    {% empty %}
+                    <li>No participants yet.</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+    {% endif %}
+
+
+{% endblock %}

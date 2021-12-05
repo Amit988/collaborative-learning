@@ -1,0 +1,30 @@
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+    {% if results %}
+
+    <div class="container">
+        <div class="row">
+
+        {% for i in results %}
+
+            <div class="col">
+                <p class="m-3">{{i.username}}</p>
+                <a href="{% url 'addmem' i.id  %}" class="btn btn-dark m-3">Add</a>
+            </div>
+
+        {% endfor %}
+
+        </div>
+    </div>
+
+    {% else %}
+
+    <h4>No result match your query.</h4>
+
+    {% endif %}
+
+{% endblock %}

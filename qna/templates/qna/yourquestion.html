@@ -1,0 +1,104 @@
+
+{% extends 'qna/base.html' %}
+
+{% block title %}Q&A{% endblock %}
+{% load humanize %}
+
+{% block main %}
+
+{% block scripts %}
+
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+
+
+    <style type="text/css">
+        
+        .blog-post {
+          margin-bottom: 4rem;
+        }
+        .blog-post-title {
+          margin-bottom: .25rem;
+          font-size: 2.5rem;
+        }
+        .blog-post-meta {
+          margin-bottom: 1.25rem;
+          color: #727272;
+        }
+    </style>
+
+{% endblock %}
+
+<main class="container mt-5">
+
+
+    {% for i in questions %}
+        <article class="blog-post">
+          <h2 class="blog-post-title text-dark"><a href="{% url 'qna:add-answere-view' i.id %}" class="text-success text-decoration-none text-dark">{{i.title}}</a></h2>
+          <p class="blog-post-meta text-dark">{{i.time|naturaltime}} by <a href="{% url 'info' request.user.username %}">You</a></p>
+
+          <h6 class="text-dark"><a href="{% url 'qna:add-answere-view' i.id %}" class="text-success text-decoration-none text-dark">{{i.detail|safe|truncatewords:30}}</a></h6>
+
+
+        </article>
+
+        <hr class="text-dark">
+
+    {% empty %}
+
+        <div class="text-center">
+
+            <h6>No questions yet.</h6>
+            
+        </div>
+        
+
+    {% endfor %}
+    
+</main>
+
+<!--
+    <div class="container m-3 text-dark">
+        
+
+            {% if questions %}
+
+                {% for i in questions %}
+
+                <div class="row">
+
+
+                        <a href="{% url 'qna:add-answere-view' i.id %}" class="text-success text-decoration-none "><h4>{{i.title}}</h4></a>
+                        <p><small>Asked on {{i.time|naturaltime}} by you :)</small></p>
+
+                        <span class="mb-2">
+
+                            <a href = "{% url 'qna:update-question-view' i.id  %} " class="text-decoration-none m-1">update</a>
+
+                            <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#deleteBox{{i.id}}" aria-expanded="false" aria-controls="deleteBox{{i.id}}">
+                            delete
+                            </a>
+
+                            <div class="collapse" id="deleteBox{{i.id}}">
+                                <div class="card card-body my-2">
+
+                                    <h5 class="card-title text-danger">Are you sure?</h5>
+                                    <a href = "{% url 'qna:delete-question-view' i.id  %} " class="text-decoration-none m-1">Yup!</a>
+                                    
+                                </div>
+                            </div>
+
+                        </span>
+
+
+                </div>
+                {% endfor %}
+
+            {% else %}
+            <span>You Don't ask any Question yet.</span>
+
+            {% endif %}
+        
+    </div>-->
+
+
+{% endblock%}

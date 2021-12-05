@@ -1,0 +1,363 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+{% load humanize %}
+{% block title %}
+    Home
+{% endblock %}
+{% block script %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="{% static 'accounts/css/templatemo-style.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+    <style type="text/css">
+
+        body{
+
+            
+            background-color: #f3f7f8;
+            color: white;
+
+
+        }
+
+
+        #load{
+            width:100%;
+            height:100%;
+            position:fixed;
+            z-index:9999;
+            background:url("{% static 'courses/787.gif' %}") no-repeat center center;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block main %}
+
+{% for msg in messages %}
+   
+    <p class="text-success text-center" id = "msg-container">{{msg}}</p>
+
+                
+{% endfor %}
+
+<div id="load"></div>
+
+<div id = "cont">
+    <div class="container pt-2">
+            <!-- Carousel wrapper -->
+        <div id="carouselBasicExample" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel">
+
+            <!-- Indicators -->
+            
+            <div class="carousel-indicators">
+                <button
+                    type="button"
+                    data-bs-target="#carouselBasicExample"
+                    data-bs-slide-to="0"
+                    class="active"
+                    aria-current="true"
+                    aria-label="Slide 1"
+                ></button>
+                <button
+                    type="button"
+                    data-bs-target="#carouselBasicExample"
+                    data-bs-slide-to="1"
+                    aria-label="Slide 2"
+                ></button>
+                <button
+                    type="button"
+                    data-bs-target="#carouselBasicExample"
+                    data-bs-slide-to="2"
+                    aria-label="Slide 3"
+                ></button>
+            </div>
+
+            <!-- Inner -->
+            <div class="carousel-inner">
+                <!-- Single item -->
+                <div class="carousel-item active">
+
+
+
+
+                    <!--<img src="{% static 'accounts/img-1.png' %}" class="d-block w-100" alt="Crousel-image">-->
+                    <img src="https://source.unsplash.com/1600x900/?online-courses" class="d-block w-100" alt="Crousel-image">
+
+
+                 
+
+                </div>
+
+                <!-- Single item -->
+                <div class="carousel-item">
+
+                    <!--<img src="{% static 'accounts/img-2.png' %}" class=" d-block w-100" alt="Crousel-image">-->
+                    <img src="https://source.unsplash.com/1600x900/?learn-together" class="d-block w-100" alt="Crousel-image">
+
+                    <!--
+
+                    <picture>
+                        <source media = "(min-width: 450px)" srcset="{% static 'accounts/clubs.png' %}">
+                        <source media = "(min-width: 200px)" style="" srcset="{% static 'accounts/img-02.png' %}">
+                        <img src="{% static 'accounts/clubs.png' %}" class=" d-block w-100" alt="Crousel-image">
+                    </picture>-->
+                    
+
+
+                </div>
+
+                <!-- Single item -->
+                <div class="carousel-item">
+                    <!--<img src="{% static 'accounts/img-3.png'%}" class="d-block w-100" alt="Crousel-image">-->
+                    <img src="https://source.unsplash.com/1600x900/?quiz" class="d-block w-100" alt="Crousel-image">
+        
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+<div class="container text-center mt-5">
+
+
+    <div class="px-4 pt-5 my-5 text-center border-bottom bg-dark">
+      <h6 class="display-5 fw-bold">Learning together!</h6>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">cosb is a one of its kind platform. Get clubbed with your friends, take a course from our wide catalog and start learning together. Collaborate on projects, Ask doubts, Discuss ideas, Conduct live sessions, Participate in competitions, All in one place.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+
+            <a class="btn btn-outline-light text-decoration-none" href="{% url 'club-registration' %}">Open Club</a>
+
+        </div>
+      </div>
+      <div class="overflow-hidden" style="max-height: 90vh;">
+        <div class="container px-5">
+          <img src="{% static 'accounts/illus.png' %}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="row text-center">
+        <div class="section-heading">
+
+            <h2> <em><a href="{% url 'event' %}" class="text-dark" style = "text-decoration: none;">Competitions</a></em></h2>
+
+
+        </div>
+    </div>
+    
+
+</div>
+
+<section class="curved">
+
+    <div class="container" >
+        <div class="row mt-5">
+
+            <div class="col-sm-8 mx-auto text-center">
+
+
+                    <i class="fa fa-bullhorn mt-3" aria-hidden="true"></i>
+
+                        <div class="mt-1">
+
+                            {% if events_upcoming %}
+
+                                <h6 class="text-white"><em>Upcoming Competitions</em></h6>
+
+                                {% for i in events_upcoming %}
+
+                                    <li><a href="{% url 'event-details' i.event.id  %}" style="font-size: 18px;"> {{i.event.name}}.</a></li>
+                                    <p class="text-white" style="font-size: 14px;">{{i.event.event_date}}</p>
+                                    
+    
+                                {% endfor %}
+                                <a href="{% url 'reg-events' %}">View all</a>
+                            {% else %}
+
+                                <h6 class="text-white text-center mt-5"> Your Registered Competitions will appear here.</h6>
+
+                            {% endif %}
+
+                            <!-- add view all registered events -->
+                        </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    
+
+</section>
+
+
+
+<div class="container text-center mt-5">
+
+
+    <div class="row">
+        <div class="section-heading">
+
+            <h2> <em><a href="/accounts/club-by-tag/ALL/" class="text-dark" style = "text-decoration: none;">Your Club's</a></em></h2>
+
+        </div>
+    </div>
+    
+
+</div>
+
+    <div class="services">
+      <div class="container">
+        <div class="row">
+
+        {% for i in clubs %}
+          <div class="col-md-4 mt-3 mb-3">
+            <div class="service-item">
+              <img src="{{i.logo.url}}" alt="club's logo">
+              <div class="down-content">
+                <h4>{{i.name}}</h4>
+                <p>{{i.tagline}}</p>
+                <a href="{% url 'your-club' i.id  %}" class="filled-button" style="text-decoration: none;">Visit</a>
+              </div>
+            </div>
+          </div>
+ 
+        {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container text-center mt-5 mb-5">
+
+
+        <div class="row mb-5">
+            <div class="section-heading">
+
+                <h2> <em><a href="/accounts/club-by-tag/ALL/" class="text-dark" style = "text-decoration: none;">Explore More</a></em></h2>
+            </div>
+        </div>
+        
+
+    
+
+            <div class="row tm-section-mb">
+                <div class="col-lg-12">
+                    <div class=" tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="{% static 'accounts/coding.png' %}" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark tm-timeline-description">
+                                    <a href="/accounts/club-by-tag/SOFTWARE/" style="text-decoration: none;"><h3 class="tm-text-green tm-font-400">Coding Club's</h3></a>
+                                    <p>Want to learn how to code? Join the coding clubs to learn in an effective way.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="{% static 'accounts/drama.png' %}" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark-light tm-timeline-description">
+                                    <a href="/accounts/club-by-tag/DRAMA/" style="text-decoration: none;"><h3 class="tm-text-yellow tm-font-400">Dramatic Club's</h3></a>
+                                    <p>To learn and improve your acting skills, join one of the best dramatic clubs on cosb.</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="{% static 'accounts/sports.jpg' %}" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark tm-timeline-description">
+                                    <a href="/accounts/club-by-tag/SPORTS/" style="text-decoration: none;"><h3 class="tm-text-cyan tm-font-400">Sports Club's</h3></a>
+                                    <p>Take participate in sports competitions, organized by the best clubs in the respective field.</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-timeline-connector-vertical"></div>
+                    </div>
+
+                    <div class="tm-timeline-item">
+                        <div class="tm-timeline-item-inner">
+                            <img src="{% static 'accounts/technical.png' %}" alt="Image" class="rounded-circle tm-img-timeline">
+                            <div class="tm-timeline-connector">
+                                <p class="mb-0">&nbsp;</p>
+                            </div>
+                            <div class="tm-timeline-description-wrap">
+                                <div class="tm-bg-dark-light tm-timeline-description">
+                                    <a href="/accounts/club-by-tag/TECHNICAL/" style="text-decoration: none;"><h3 class="tm-text-orange tm-font-400">Technical Club's</h3></a>
+                                    <p>Make amazing projects, learn new technologies, and ask doubts to experienced members of clubs.</p>
+                                    <a href="/accounts/club-by-tag/ALL/" style="text-decoration: none;"><p class="tm-text-yellow float-right mb-0">View All</p></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <script async id="slcLiveChat" src="https://widget.sonetel.com/SonetelWidget.min.js" data-account-id="207865070"></script>
+
+
+</div>
+{% endblock %}
+
+{% block ajaxbox %}
+
+
+    <script>
+
+        const ele = document.getElementById("msg-container")
+        setTimeout(function(){
+
+            ele.style.display = "none";
+            },
+         3000);
+
+        document.onreadystatechange = function () {
+        var state = document.readyState
+        if (state == 'interactive') {
+             document.getElementById('cont').style.visibility="hidden";
+        } else if (state == 'complete') {
+            setTimeout(function(){
+               document.getElementById('interactive');
+               document.getElementById('load').style.visibility="hidden";
+               document.getElementById('cont').style.visibility="visible";
+            },1000);
+        }
+      }
+    </script>
+{% endblock %}

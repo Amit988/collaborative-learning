@@ -1,0 +1,89 @@
+
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}
+Sign in
+{% endblock %}
+{% block main %}
+{% block script %}
+
+    
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+<style type="text/css">
+
+
+    body {
+
+      background-image: linear-gradient(to right, #C0D5ED, #9DE3FC);
+
+
+    }
+
+        
+</style>
+
+{% endblock %}
+
+{% for msg in messages %}
+   
+    <p class="text-success text-center" id = "msg-container">{{msg}}</p>
+
+                
+{% endfor %}
+
+
+
+        <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+          <div class="row align-items-center g-lg-5 py-5">
+
+            <div class="col-md-10 mx-auto col-lg-5">
+
+
+
+              <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'users:login' %}" method="post">
+
+                <a class="btn btn-primary mb-3" href="{% url 'social:begin' 'google-oauth2' %}" style="background-color: #dd4b39;" role="button"
+                  ><i class="fa fa-google me-2"> Sign in with Google</i></a
+                >
+
+                {% csrf_token %}
+
+                <div class="form-floating mb-3">
+                  <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Username">
+                  <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" name = "password" class="form-control" id="floatingPassword" placeholder="Password">
+                  <label for="floatingPassword">Password</label>
+                </div>
+
+                <button class="w-100 filled-button" type="submit">Sign in</button>
+                <hr class="my-4">
+                <small class="text-muted">New To cosb?<a href="{% url 'users:register' %}"> Sign Up</a></small><br>
+
+              </form>
+            </div>
+
+            <div class="col-lg-7 text-center text-lg-start mt-3">
+              <img src="{% static 'accounts/illus.png' %}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="learning together!!" width="700" height="500" loading="lazy">
+            </div>
+          </div>
+
+        </div>
+
+
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+    <script>
+
+        const ele = document.getElementById("msg-container")
+        setTimeout(function(){
+
+            ele.style.display = "none";
+            },
+         3000);
+    </script>
+{% endblock %}

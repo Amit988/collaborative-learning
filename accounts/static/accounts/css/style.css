@@ -1,0 +1,174 @@
+
+@import url(https://fonts.googleapis.com/css?family=Cabin+Condensed);
+
+svg{font-weight:bold;max-width:300px;height:100%;}
+
+.filled-button {
+    background-color: transparent;
+    color: #fff;
+    background-color: #515148;
+    border: none;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 30px;
+    display: inline-block;
+    transition: all 0.3s;
+    outline: none;
+    box-shadow: none;
+    text-shadow: none;
+    cursor: pointer;
+}
+   
+.filled-button:hover {
+    background-color: #17b978;
+    color: white;
+}
+
+
+
+.curved {
+  position: relative;
+  background: #40514e;
+  height: 50vh;
+  border-bottom-left-radius: 50% 20%;
+  border-bottom-right-radius: 50% 20%;
+}
+
+.carousel-indicators{
+    max-width: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    border-radius: 25px;
+    padding: 8px;
+    align-items: center;
+}
+.carousel-indicators li{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: black;
+    opacity: 1;
+    border: 0;
+}
+.carousel-indicators li.active {
+    background-color: red;
+}
+
+
+
+.section-heading h2 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #1e1e1e;
+}
+
+.section-heading em {
+    font-style: normal;
+    color: black;
+}
+
+.services {
+    margin-top: 80px;
+    margin-bottom: 100px;
+}
+
+.service-item img {
+    width: 100%;
+    overflow: hidden;
+    box-shadow:
+      2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      100px 100px 80px rgba(0, 0, 0, 0.07)
+    ;
+
+}
+
+.service-item .down-content {
+    background-color: #262626;
+    padding: 30px;
+}
+
+
+.service-item .down-content h4 {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.25px;
+    margin-bottom: 15px;
+    
+}
+
+.service-item .down-content p {
+    color: white;
+    margin-bottom: 20px;
+}
+
+
+.containers {
+  position: relative;
+  background: #2c3e50;
+  height: 50vh;
+}
+
+.wave {
+  position: absolute;
+  height: 70px;
+  width: 100%;
+  background: #2c3e50;
+  bottom: 0;
+}
+
+.wave::before, .wave::after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+}
+
+.wave::before {
+  width: 55%;
+  height: 109%;
+  background-color: #f3f7f8;
+  right: -1.5%;
+  top: 60%;
+}
+.wave::after {
+  width: 55%;
+  height: 100%;
+  background-color: #2c3e50;
+  left: -1.5%;
+  top: 40%;
+}
+
+.shadow{
+
+    box-shadow:
+      2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      100px 100px 80px rgba(0, 0, 0, 0.07)
+    ;
+}
+
+
+.card{
+
+    box-shadow:
+      2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      100px 100px 80px rgba(0, 0, 0, 0.07)
+    ;
+
+
+}

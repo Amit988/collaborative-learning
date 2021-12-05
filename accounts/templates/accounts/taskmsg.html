@@ -1,0 +1,56 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+
+    <div class="container">
+
+        <div class="row m-5">
+
+            <div class="col">
+
+                {% if msg %}
+                    {% for i in msg %}
+
+                    <div class="media">
+                        <div class="media-body">
+                          <h4 class="media-heading">{{i.club.name}}: <p>{{i.user.username}}</p></h4>
+                          <p>{{i.msg}}</p>
+                          <p><strong>Deadline: {{i.deadline_date}} {{i.deadline_time}}</strong></p>
+                          <form action="{% url 'taskstatus' i.id %}" method="post">
+
+                                {% csrf_token %}
+                                <button type="submit", class="btn btn-success">In</button>
+                            
+                            </form>
+
+                        </div>
+                      </div>
+                      <br>
+       
+
+            
+
+                    {% endfor %}
+                {% else %}
+
+                <span>You have completed all the tasks.</span>
+
+                {% endif %}
+            
+            </div>
+
+            
+        
+        </div>
+
+        <div class="row m-5">
+            <a href = "{% url 'tasks' %}">Go Back</a>
+        </div>
+    
+    
+    </div>
+
+
+{% endblock %}

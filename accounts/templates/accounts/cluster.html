@@ -1,0 +1,53 @@
+
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Club-Members{% endblock %}
+{% block main %}
+    {% if not results %}
+
+    <!--
+    <div class="container">
+        <div class="row">
+
+            <div class="col">
+                <form action="{% url 'search' %}" method="post">
+
+                    {% csrf_token %}
+        
+                    {{form|crispy}}
+
+                    <button class="btn btn-outline-dark mt-3 text-right"  type="submit">Search</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+-->
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            <h4 class="text-info m-3">All the members in {{ group_name }}</h4>
+            <div class="col-sm-4 mt-2">
+
+                <ul>
+                    <!-- Iterate over object_list -->
+                    {% for object in cluster %}
+                    <!-- Display Objects -->
+                   
+                    <li><a href="{% url 'info' object.username %}" class="mt-2">{{ object.username}}</a></li>
+            
+                    <hr/>
+                    <!-- If objet_list is empty-->
+                    {% empty %}
+                    <li>No Member in this cluster.</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

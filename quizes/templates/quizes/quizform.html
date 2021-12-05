@@ -1,0 +1,116 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Add-Tasks{% endblock %}
+{% block main %}
+
+<div class="container m-2">
+
+  {% for msg in messages %}
+
+      <div class="row">
+          <p class="text-success text-center">{{msg}}</p>
+      </div>
+      
+  {% endfor %}
+
+</div>
+
+<div class="container text-end">
+  <a href="{% url 'recent-tasks' %}">Recent tasks.</a>
+</div>
+
+<main class="container pt-3">
+
+
+<form id="form_with_formset" action="{% url 'quizes:quizform' %}" method="post">
+  {% csrf_token %}
+  <table class="table">
+    {{ form.as_table }}
+  </table>
+
+  <!-- this inputs value indicates the we want to add or remove a row -->
+  <input id="wtd" name="wtd" type="hidden" value="1">
+
+  <div id="formset_container">
+      {% include 'quizes/formset.html' %}
+  </div>
+
+  <button type="button" class="btn btn-info m-1 mb-5" data-target-url="{{ request.path }}" id="addNewRow">add new row</button>
+  <button type="button" class="btn btn-warning m-1 mb-5" data-target-url="{{ request.path }}" id="remLastRow" disabled="disabled">delete last row</button>
+
+  <button type="submit" class="btn btn-success m-1 mb-5">submit</button>
+</form>
+
+
+</main>
+
+    
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+  <script type="text/javascript">
+    
+    $(document).ready(function() {
+
+      // formset control
+      $('#addNewRow').on('click', function(e) {
+          e.preventDefault();
+
+          var ajax_link = this.getAttribute('data-target-url');
+
+          // +1 to indicate this a request to add new formset instance
+          $('#form_with_formset').find('#wtd').val(1);
+
+          $.ajax({
+              url: ajax_link,
+              data: $('#form_with_formset').serialize(),
+              type: 'POST',
+
+              success: function(res) {
+                  // clear the formset container and then fill it with the-
+                  // response of ajax call. the response contains the-
+                  // previous formset instance plus one new instance 
+                  $('#formset_container').empty();
+                  $('#formset_container').append(res);
+              }
+          });
+
+          $('#remLastRow').removeAttr('disabled');
+      });
+
+      $('#remLastRow').on('click', function(e) {
+          e.preventDefault();
+
+          var ajax_link = this.getAttribute('data-target-url');
+
+          // at least one formset instance is mandatory
+          if ($('#formset_container').children('table').length > 1) {
+
+              // -1 to indicate this a request to remove the last formset instance
+              $('#form_with_formset').find('#wtd').val(-1);
+
+              // because I handled fromsets in separate tables so
+              // for remove last instance we just remove the last child (table)
+              $('#formset_container table').last().remove();
+
+              $.ajax({
+                  url: ajax_link,
+                  data: $('#form_with_formset').serialize(),
+                  type: 'POST',
+
+                  success: function(res) {
+                      $('#formset_container').empty();
+                      $('#formset_container').append(res);
+                  }
+              });
+          }
+          // disabling remove button if just one instance remained
+          if ($('#formset_container').children('table').length <= 1)
+              $('#remLastRow').attr('disabled', 'true');
+      });
+  });
+  </script>
+
+{% endblock %}

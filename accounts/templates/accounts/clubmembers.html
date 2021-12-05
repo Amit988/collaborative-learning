@@ -1,0 +1,91 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{club.name}} Members
+{% endblock %}
+{% block main %}
+
+
+    <div class="container bcontent mt-5 mb-5">
+        <h2>Your Club Members</h2>
+        <hr />
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" onclick= "getData('/accounts/Your-club-members/{{club.id}}/')" data-toggle="tab"  type="button">Members</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" onclick= "getData('/accounts/member-requests/{{club.id}}/')" type="button">Requests</a>
+            </li>
+
+        </ul>
+
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="home">Home Section</div>
+            <div class="tab-pane fade" id="tutorials">Tutorials Section</div>
+            <div class="tab-pane fade" id="articles">Articles Section</div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{%  block ajaxbox %}
+
+    <script type="text/javascript">
+
+        function getData(u) {
+            
+            $.ajax({
+
+                type: 'GET',
+                url: "u",
+
+                data: {},
+
+                success: function(response)
+                {
+
+                    x = response.data;
+                    console.log(x);
+
+
+                }
+            })
+        }
+        
+
+    </script>
+
+{% endblock %}
+
+<!--
+
+                Total Members: <span class="badge bg-secondary">{{total}}</span>
+                <ul>
+
+                
+                    {% for member in members %}
+     
+                        {% if member == request.user.username %}
+                            
+            
+                            <a href="{% url 'info' member.memname.username  %}">
+                                <li>You</li>
+                            </a>
+
+                        {% else %}
+
+                            <a href="{% url 'info' member.memname.username %}">
+                                <li>{{member}}</li>
+
+                            </a>
+                            
+                        {% endif %}
+                        <hr/>
+  
+                    {% empty %}
+                        <li>No Members yet.</li>
+                    {% endfor %}
+                </ul>-->

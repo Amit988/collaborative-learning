@@ -1,0 +1,252 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+Discussions
+{% endblock %}
+
+{% block script %}
+    
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+    
+{% endblock %}
+{% block main %}
+
+<!-- Section: Contact v.1 -->
+
+<div class="container">
+
+
+  <section class="my-5">
+
+    <!-- Section heading -->
+    
+
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-sm-4 mb-lg-0 mb-4 m-3">
+
+        <h6 class="mt-2 text-dark"><i class=" fa fa-align-justify m-1 text-dark"></i>All the discussions.</h6>
+
+        <ol class="list-group list-group-numbered">
+
+          {% for i in disc %}
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold"><a href="{% url 'info' i.user.username %}" style="text-decoration: none;">{{i.user.username}}</a></div>
+                <a  href="{% url 'task-chat' i.id club_id %}" style="text-decoration: none;">{{i.msg|safe}}</a>
+              </div>
+              <span class="badge bg-primary rounded-pill">{{i.time|naturaltime}}</span>
+            </li>
+          {% endfor %}
+
+        </ol>
+
+
+    </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-sm-7 mt-5">
+
+
+        <div class="list-group">
+
+
+
+          <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{task.user.username}}</h5>
+              <small>{{task.time|naturaltime}}</small>
+            </div>
+            <p class="mb-1">{{task.msg|safe}}</p>
+            <p class="mb-1">Views: {{total_views}}</p>
+            
+          </a>
+
+
+
+
+
+        </div>
+
+        <div class="container mt-5 mb-5">
+
+          <!-- begin wwww.htmlcommentbox.com -->
+           <div id="HCB_comment_box">loading comments...</div>
+           <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+           <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24smQFpSrElVLoyPCVmkxue%2F"+"&opts=16798&num=10&ts=1637649470319");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+          <!-- end www.htmlcommentbox.com -->
+          
+        </div>
+
+        <!--<h2 class="h1-responsive font-weight-bold text-center my-5 text-dark">{{task.msg}}</h2>-->
+
+        <!--
+        <div class="col-sm-12 mt-5">
+
+          <div class="card">
+
+            <form method="POST" id = "chatform" class="form-inline m-3">
+                  {% csrf_token %}
+
+
+                  {{form|crispy}}
+
+                  <div class="pull-right">
+
+                    <button class="filled-button mt-3 mb-3"  id = "btnsave" value="Save" type="submit">Post</button>
+                    
+                  </div>
+                  
+              </form>
+            
+          </div>
+
+        </div>
+
+
+        <div class="row text-dark">
+
+          <div class="col-sm-12 mt-3" id="msg">
+
+
+
+
+
+          </div>
+
+
+          {% if chat %}
+
+            {% for i in chat %}
+            <div class="col-sm-12 mt-3">
+
+
+
+                  <div class="card">
+
+
+
+                    <div class="mt-2">
+
+                      <h6 class="pb-4 mb-auto fst-italic mx-4">
+                        <a  href="{% url 'info' i.user.username %}" style="text-decoration: none; color:black;">{{i.user.username}}</a>
+                        <small>. {{i.time|naturaltime}}</small>
+                      </h6>
+                      
+                    </div>
+
+                  <div class="card-body">
+                    <p class="card-text">{{i.msg|safe}}</p>
+
+                    <form>
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="comment" id="floatingInput" placeholder="Enter message!">
+                        <label for="floatingInput">Comment</label>
+                      </div>
+                      <div class="pull-right">
+
+                        <button type="submit" class="filled-button">Post</button>
+                        
+                      </div>
+                      
+                    </form>
+                  </div>
+                  
+
+                  </div>
+
+              </div>
+              {% endfor %}
+
+            {% else %}
+
+              <p class="text-success text-center m-5">No Updates yet.</p>
+
+            {% endif %}-->
+
+
+
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </section>
+  
+</div>
+
+
+
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+<script>
+
+    $(document).on('submit', '#chatform', function(e){
+
+
+      e.preventDefault();
+      output = "";
+      let chat = $("#chatid").val();
+
+      // ajax call
+
+      $.ajax({
+
+        type: 'POST',
+        url: "{% url 'chat-save' id  %}",
+
+        data: {
+
+          'chat': chat,
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+
+        success: function(response)
+        {
+
+          console.log(response.status);
+          console.log(chat);
+
+          $("#msg").html(`
+
+            <div class="card">
+
+
+
+              <div class="mt-2">
+
+                <h6 class="pb-4 mb-auto fst-italic mx-4">
+                  <a  href="accounts/info/${response.user}/" style="text-decoration: none; color:black;">${response.user}</a>
+                  <small>. just now</small>
+                </h6>
+                
+              </div>
+
+
+            <div class="card-body">
+              <p class="card-text">${chat}</p>
+            </div>
+                        
+                      `)
+
+          $("form")[0].reset(); 
+
+        }
+      })
+
+    })
+
+</script>
+
+{% endblock ajaxbox %}
