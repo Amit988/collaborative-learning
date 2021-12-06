@@ -70,6 +70,4 @@ urlpatterns = [
     path("jsecs/<int:club_id>/<int:mem_id>/", views.make_jsec, name = "make-jsec"),
     path("teach-on-cosb/", views.content_creators, name = "teach-on-cosb"),
     path("report-club/<int:club_id>/", views.report_club, name = "report-club"),
-    path("suPpoRt/", views.donation, name = "support"),
-
 ]

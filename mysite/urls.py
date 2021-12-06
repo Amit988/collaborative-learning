@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 from django.conf.urls import url
-from accounts.views import index
+from accounts.views import index, donation
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from agora.views import Agora
@@ -38,6 +38,9 @@ urlpatterns = [
 
 
     path('^agora/', Agora.as_view(app_id='4ad86adbd5a04a4d9ed8ad1f91802c46', channel='1')),
+
+    path("suPpoRt/", donation, name = "support"),
+
 ]
 
 if settings.DEBUG:
