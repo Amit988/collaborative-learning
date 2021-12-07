@@ -82,7 +82,17 @@
         {% for i in clubs %}
           <div class="col-md-4 mt-5">
             <div class="service-item">
-              <img src="{{i.club.logo.url}}" alt="club's logo">
+
+              {% if i.logo == 'blank' %}
+
+                <img src="{% static 'accounts/default.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
+                
+
+              {% else %}
+                <img src="{{i.logo.url}}" alt="club's logo">
+
+              {% endif %}
+
               <div class="down-content">
                 <h4>{{i.club.name}}</h4>
                 <p>{{i.club.tagline}}</p>

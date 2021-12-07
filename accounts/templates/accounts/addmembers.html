@@ -92,7 +92,15 @@ Members
             <li class="list-group-item d-flex">
 
               <div class="ms-2 me-auto">
-                <div class="fw-bold"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;">{{i.memname.username}}</a></div>
+
+                {% if i.memname.username == request.user.username %}
+                  <div class="fw-bold"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;">You</a></div>
+
+                {% else %}
+
+                  <div class="fw-bold"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;">{{i.memname.username}}</a></div>
+
+                {% endif %}
               </div><br>
 
 

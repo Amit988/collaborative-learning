@@ -40,13 +40,14 @@
           <label for="floatingInput">Club's Name</label>
         </div>
 
+        <!--
         <div class="form-floating mb-3">
           <input type="email" name = "email" class="form-control" id="floatingPassword" placeholder="email" required>
           <label for="floatingPassword">Email</label>
-        </div>
+        </div>-->
 
         <div class="form-floating mb-3">
-          <select class="form-select" aria-label="Default select example" id="floatingSelect" name="tag">
+          <select class="form-select" aria-label="Default select example" id="floatingSelect" name="tag" required>
             <option value="SOFTWARE">Software</option>
             <option value="DRAMA">Drama</option>
             <option value="TECHNICAL">Technical</option>
@@ -61,19 +62,20 @@
         </div>
 
         <div class="form-floating mb-3">
-            <span>Choose logo <small style="font-size: 14px;">(Recomended 300px*300px Image.)</small></span>
+            <span>Choose logo <small style="font-size: 14px;">(Optional)(Recomended 300px*300px Image.)</small></span>
+            <small style="font-size: 14px;">(Recomended 300px*300px Image.)</small>
             <input type="file" name="logo" id="floatingFile">
             <!--<label for="floatingFile">Choose logo</label>-->
         </div>
 
         <div class="form-floating mb-3">
           <input type="text" name="tagline" class="form-control" id="floatingInput" placeholder="Club's Tagline">
-          <label for="floatingInput">Club's Tagline</label>
+          <label for="floatingInput">Club's Tagline(Optional)</label>
         </div>
 
         <div class="form-floating mb-3">
           <textarea name="vision_and_mission" class="form-control" id="floatingInput" placeholder="Club's Vision"></textarea>
-          <label for="floatingInput">Club's About</label>
+          <label for="floatingInput">Club's About(Optional)</label>
         </div>
 
         <button class="w-100 filled-button" type="submit">Register</button>

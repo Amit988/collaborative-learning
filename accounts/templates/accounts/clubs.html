@@ -217,11 +217,28 @@
 
   <div class="row flex-lg-row-reverse align-items-center g-5 py-5 text-dark">
     <div class="col-10 col-sm-8 col-lg-6">
-      <img src="{{club.logo.url}}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
+
+      {% if club.logo == 'blank' %}
+
+        <img src="{% static 'accounts/default.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
+        
+
+      {% else %}
+        <img src="{{club.logo.url}}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
+
+      {% endif %}
     </div>
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold lh-1 mb-3">{{club.name}}: {{club.tagline}}</h1>
-      <h6 class="lead">About: {{club.vision_and_mission}}</h6>
+
+      {% if club.vision_and_mission %}
+        <h6 class="lead">About: {{club.vision_and_mission}}</h6>
+
+      {% else %}
+
+        <h6 class="lead">About: We love to learn togehter!!</h6>
+
+      {% endif %}
 
       {% if club.dateoffound %}
         <p class="text-muted">Found On :- {{club.dateoffound | naturalday}}</p>

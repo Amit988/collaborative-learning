@@ -2,14 +2,15 @@
 {% extends "accounts/base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-    {{club.name}} Members
+  {{club.name}} Members
 {% endblock %}
 {% block main %}
+
     {% if not results %}
     
     <div class="container pt-5 mb-5">
 
-        <div class="row m-2">
+        <div class="row m-5">
 
             <div class="list-group">
 
@@ -18,8 +19,20 @@
                 {% for i in object_list %}
 
                   <a href="{% url 'info' i.memname.username %}" class="list-group-item list-group-item-action" aria-current="true">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{i.memname.username}}</h5>
+                    <div class="d-flex w-100 justify-content-between text-center">
+
+                      {% if i.memname.username == request.user.username %}
+
+                        <h5 class="mb-1">You</h5>
+
+                      {% else %}
+
+                        <h5 class="mb-1">{{i.memname.username}}</h5>
+
+                      {% endif %}
+
+
+
                     </div>
                     
                   </a>

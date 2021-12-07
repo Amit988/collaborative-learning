@@ -777,40 +777,38 @@ def clubRegistration(request):
 
 
     if request.method == 'POST':
-        form = ClubverificationForm(request.POST, request.FILES)
-        if form.is_valid():
-            name = request.POST['name']
-            logo = request.FILES['logo']
 
-            tag = request.POST['tag']
+        name = request.POST['name']
+        logo = request.FILES.get('logo', 'blank')
 
-            email = request.POST['email']
-            tagline = request.POST['tagline']
-            vision_and_mission = request.POST['vision_and_mission']
+        tag = request.POST['tag']
+
+        #email = request.POST['email']
+        tagline = request.POST['tagline']
+        vision_and_mission = request.POST['vision_and_mission']
 
 
-            club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission)
-            club.save()
-            now = datetime.now()
+        club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission)
+        club.save()
+        now = datetime.now()
 
-            jsec = jSecs.objects.create(name = request.user, club = club)
-            mem, created = Members.objects.get_or_create(memname = request.user)
-            mem.club.add(club)
-            mem.save()
-            jsec.save()
+        jsec = jSecs.objects.create(name = request.user, club = club)
+        mem, created = Members.objects.get_or_create(memname = request.user)
+        mem.club.add(club)
+        mem.save()
+        jsec.save()
 
-            group = Group.objects.get(name = "jsecs")
-            group.user_set.add(request.user)
+        group = Group.objects.get(name = "jsecs")
+        group.user_set.add(request.user)
 
-            foo = Clubverification(club = club, email = email, is_verified = True)
-            foo.save()
-            messages.success(request, f"Welcome to {club.name}!")
-            return redirect(f"/accounts/your-club/{club.id}/")
+        foo = Clubverification(club = club, is_verified = True)
+        foo.save()
+        messages.success(request, f"Welcome to {club.name}!")
+        return redirect(f"/accounts/your-club/{club.id}/")
 
 
     else:
-        form = ClubverificationForm()
-    return render(request, "accounts/club-registration.html", {"form": form})
+        return render(request, "accounts/club-registration.html")
 
 
 @login_required
@@ -899,18 +897,25 @@ def taskChat(request, task_id, club_id):
 
 def view_club(request, club_id):
 
-    user_club, created = Members.objects.get_or_create(memname = request.user)
-    user_clubs = user_club.club.all()
     flag1 = False
+
     flag2 = False
+
     club = clubInfo.objects.get(id = club_id)
-    foo, create = WaitingArea.objects.get_or_create(club = club)
 
-    if request.user in foo.user.all():
-        flag1 = True
+    if request.user.is_authenticated:
 
-    if club in user_clubs:
-        flag2 = True
+        user_club, created = Members.objects.get_or_create(memname = request.user)
+
+        user_clubs = user_club.club.all()
+
+        foo, create = WaitingArea.objects.get_or_create(club = club)
+
+        if request.user in foo.user.all():
+            flag1 = True
+
+        if club in user_clubs:
+            flag2 = True
 
     return render(request, "accounts/join-club.html", {"club": club, "flag1": flag1, "flag2": flag2})
 

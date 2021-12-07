@@ -224,10 +224,30 @@
         {% for i in clubs %}
           <div class="col-md-4 mt-3 mb-3">
             <div class="service-item">
-              <img src="{{i.logo.url}}" alt="club's logo">
+
+                {% if i.logo == 'blank' %}
+
+                  <img src="{% static 'accounts/default.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
+                  
+
+                {% else %}
+                  <img src="{{i.logo.url}}" alt="club's logo">
+
+                {% endif %}
+
+              
               <div class="down-content">
                 <h4>{{i.name}}</h4>
-                <p>{{i.tagline}}</p>
+
+                {% if i.tagline %}
+
+                    <p>{{i.tagline}}</p>
+
+                {% else %}
+
+                    <p>We love to learn togehter!!</p>
+
+                {% endif %}
                 <a href="{% url 'your-club' i.id  %}" class="filled-button" style="text-decoration: none;">Visit</a>
               </div>
             </div>
