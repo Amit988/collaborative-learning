@@ -17,7 +17,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Join my club {{club.name}}!!" />
     <meta property="og:url" content="https://www.cosb.live/accounts/view-club/{{club.id}}/" />
-    <meta property="og:image" content="{{data.logo.url}}" />
+    <meta property="og:image" content="{{club.logo.url}}" />
     <meta property="og:description" content="Hey, Join my club {{club.name}} on cosb. We will learn together there!!" />
     <meta property="og:site_name" content="cosb" />
 
@@ -195,7 +195,7 @@
 
           <div class="section-heading text-center mb-5 mt-3">
             <h6 class="display-100 fw-bold lh-5 mb-3">Share your club with your friends!</h6>
-            <div class="sharethis-inline-share-buttons" data-url="https://www.cosb.live/accounts/view-club/{{club.id}}/" data-title="Join my club {{club.name}}" data-image="{{data.logo.url}}" data-description = "Hey, Join my club {{club.name}} on cosb. We will learn together there!!" data-message="Hey, Join my club {{club.name}} on cosb. We will learn together there!!"></div>
+            <div class="sharethis-inline-share-buttons" data-url="https://www.cosb.live/accounts/view-club/{{club.id}}/" data-title="Join my club {{club.name}}" data-image="{{club.logo.url}}" data-description = "Hey, Join my club {{club.name}} on cosb. We will learn together there!!" data-message="Hey, Join my club {{club.name}} on cosb. We will learn together there!!"></div>
           </div>
 
         {% if request.user.is_authenticated %}
