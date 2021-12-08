@@ -16,7 +16,11 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 def  QuizListView(request):
 
     quiz  = Quiz.objects.all()
-    recent = Result.objects.filter(user = request.user).order_by("-id")[:3] 
+
+    recent = ""
+
+    if request.user.is_authenticated:
+        recent = Result.objects.filter(user = request.user).order_by("-id")[:3] 
 
     return render(request, 'quizes/main.html', {"object_list": quiz, "recent_quizzes": recent})
 
