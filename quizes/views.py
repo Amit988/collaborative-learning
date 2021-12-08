@@ -38,6 +38,7 @@ def quiz_data_view(request, pk):
         'time': quiz.time,
     })
 
+@login_required
 def save_quiz_view(request, pk):
     if request.is_ajax():
         questions = []
@@ -86,6 +87,7 @@ def save_quiz_view(request, pk):
         else:
             return JsonResponse({'passed': False, 'score': score_, 'results': results})
 
+@login_required
 def RecentQuizzes(request):
 
     recent = Result.objects.filter(user = request.user)
