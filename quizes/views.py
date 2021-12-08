@@ -12,6 +12,7 @@ import statistics
 from .forms import QuizFormSet, QuestionForm, AnswerForm
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+
 def  QuizListView(request):
 
     quiz  = Quiz.objects.all()
@@ -19,12 +20,11 @@ def  QuizListView(request):
 
     return render(request, 'quizes/main.html', {"object_list": quiz, "recent_quizzes": recent})
 
-@login_required
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, 'quizes/quiz.html', {'obj': quiz})
 
-@login_required
+
 def quiz_data_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = []
@@ -38,7 +38,7 @@ def quiz_data_view(request, pk):
         'time': quiz.time,
     })
 
-@login_required
+
 def save_quiz_view(request, pk):
     if request.is_ajax():
         questions = []
@@ -87,7 +87,7 @@ def save_quiz_view(request, pk):
         else:
             return JsonResponse({'passed': False, 'score': score_, 'results': results})
 
-@login_required
+
 def RecentQuizzes(request):
 
     recent = Result.objects.filter(user = request.user)
