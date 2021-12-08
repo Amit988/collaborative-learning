@@ -195,7 +195,13 @@
 
           <div class="section-heading text-center mb-5 mt-3">
             <h6 class="display-100 fw-bold lh-5 mb-3">Share your club with your friends!</h6>
-            <div class="sharethis-inline-share-buttons" data-url="https://www.cosb.live/accounts/view-club/{{club.id}}/" data-title="Join my club {{club.name}}" data-image="{{club.logo.url}}" data-description = "Hey, Join my club {{club.name}} on cosb. We will learn together there!!" data-message="Hey, Join my club {{club.name}} on cosb. We will learn together there!!"></div>
+
+            <div class="sharethis-inline-share-buttons" data-url="https://www.cosb.live/accounts/view-club/{{club.id}}/" data-title="Join my club {{club.name}}" data-description = "Hey, Join my club {{club.name}} on cosb. We will learn together there!!" data-message="Hey, Join my club {{club.name}} on cosb. We will learn together there!!" data-image="{{club.logo.url}}">
+              
+
+            </div>
+
+
           </div>
 
         {% if request.user.is_authenticated %}
