@@ -206,6 +206,7 @@
  
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
 
+            {% if request.user.is_authenticated %}
               <h6 class="text-uppercase fw-bold mb-4">
                 Useful links
               </h6>
@@ -222,6 +223,8 @@
               <p>
                 <a href="{% url 'feedback' %}" class="text-reset text-decoration-none">Feedbacks</a>
               </p>
+
+            {% endif %}
 
             </div>
      
