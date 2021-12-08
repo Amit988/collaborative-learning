@@ -3,6 +3,7 @@
 # Create your views here.
 from django.shortcuts import render
 from .models import Quiz
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.http import JsonResponse
 from questions.models import Question, Answer
@@ -18,10 +19,12 @@ def  QuizListView(request):
 
     return render(request, 'quizes/main.html', {"object_list": quiz, "recent_quizzes": recent})
 
+@login_required
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, 'quizes/quiz.html', {'obj': quiz})
 
+@login_required
 def quiz_data_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = []
