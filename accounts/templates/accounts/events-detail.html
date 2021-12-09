@@ -41,6 +41,13 @@
                   cursor: pointer;
               }
 
+
+              .filled-button:hover {
+                  background-color: #17b978;
+                  color: white;
+              }
+
+
               .card{
 
                 box-shadow:
@@ -53,6 +60,7 @@
                 ;
         }
 
+/*
         .containers {
           width: 400px;
           height: 400px;
@@ -105,7 +113,7 @@
           color: white;
           font-size: 18px;
           font-weight: 100;
-        }
+        }*/
 
 
         .section-heading h2 {
@@ -176,19 +184,19 @@
     </div>
 
 
-    <section class="curved">
+    <section class="curved bg-dark">
 
         <div class="container-fluid text-center">
 
           <div class="text-white">
-            <p class="mt-5">Participants: <small>{{total_reg}}</small></p>
+            <p class="lead py-4" >Participants: <small>{{total_reg}}</small></p>
 
           </div>
 
 
           {% if not registered %}
              
-            <div class="containers mb-5 mt-5">
+            <!--<div class="containers mb-5 mt-5">
               <div class="center">
                 <button class="btn" onclick="registration();" data-id = {{data.id}} id="register">
                   <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
@@ -198,13 +206,15 @@
                   <span>Register</span>
                 </button>
               </div>
-            </div>
+            </div>-->
+
+            <a  onclick="registration();" class="filled-button mt-4" style="text-decoration: none;" data-id = {{data.id}} id="register">Register</a>
           
             <div id="msg"></div>
           
 
           {% else %}
-            <p class="text-success mt-5">You are registered.</p>
+            <p class="text-success py-3">You are registered.</p>
 
           {% endif %}
 
@@ -213,7 +223,7 @@
         </div>
 
 
-          <div class="card-body mt-5 text-center text-white">
+          <div class="card-body text-center text-white mt-5">
             Club:  <a href="{% url 'view-club' data.club.id %}" class="text-decoration-none">{{data.club.name}}</a>
           </div>
 
@@ -253,53 +263,6 @@
 
 
 
-<!--
-
-
-  <div class="card-header bg-light text-dark mt-5">
-    Updates
-  </div>
-
-  <ul class="list-group list-group-flush">
-
-    {% for i in updates %}
-      <li class="list-group-item border-dark text-dark"><p>{{i.user.username}}:<small> {{i.time|naturalday}} {{i.update|safe}}</small></p></li>
-
-    {% empty %}
-
-    <li class="list-group-item text-dark">No updates yet.</li>
-
-    {% endfor %}
-
-  </ul>
-
-<div class="container">
-    <div class="row">
-      <div class="col pull-right">
-
-        <div class="card border-dark" style="">
-          <div class="card-header bg-dark text-white">
-            Updates
-          </div>
-          <ul class="list-group list-group-flush">
-
-            {% for i in updates %}
-              <li class="list-group-item border-dark"><p>{{i.user.username}}:<small> {{i.time|naturalday}} {{i.update|safe}}</small></p></li>
-
-            {% empty %}
-
-            <li class="list-group-item">No updates yet.</li>
-
-            {% endfor %}
-
-          </ul>
-        </div>
-      
-      </div>
-    </div>
-</div>
-
--->
 
     <div class="container mt-5">
       <!--<p style="font-size: 16px;"></p>-->

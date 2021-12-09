@@ -120,8 +120,8 @@
                               </path>
                             </pattern>
                           </defs>
-                          <text text-anchor="middle" x="50" y="15" font-size="17" fill="white" fill-opacity="0.1"><a href="{% url 'event'  %}" class="text-dark" style = "text-decoration: none;">Competitions</a></text>
-                          <text text-anchor="middle" x="50" y="15" font-size="17" fill="url(#wave)"  fill-opacity="1"><a href="{% url 'event'  %}" class="text-dark" style = "text-decoration: none;">Competitions</a></text>
+                          <text text-anchor="middle" x="50" y="15" font-size="15" fill="white" fill-opacity="0.1"><a href="{% url 'event'  %}" class="text-dark" style = "text-decoration: none;">Competitions</a></text>
+                          <text text-anchor="middle" x="50" y="15" font-size="15" fill="url(#wave)"  fill-opacity="1"><a href="{% url 'event'  %}" class="text-dark" style = "text-decoration: none;">Competitions</a></text>
                         </svg>
                 
                     </div>
@@ -146,11 +146,21 @@
                         <p class="card-text" style="font-size: 14px;"><small><mark>On {{i.event_date }} at {{i.event_time}}</mark></small></p>
                         
 
-                        <a href="{% url 'event-details' i.id   %}" class="btn btn-dark text-left">Show More</a>
+                        {% if request.user.is_authenticated %}
+                          <a href="{% url 'event-details' i.id   %}" class="filled-button text-decoration-none">Show More</a>
+
+                        {% else %}
+
+                          <a href="{% url 'users:register'  %}" class="filled-button">Sign up</a>
+
+                        {% endif %}
+
+
                           
 
                         
                       </div>
+                        }
                   </div>
 
                 </div>
