@@ -35,7 +35,7 @@ from django.utils.encoding import force_bytes
 def index(request):
 
     if not  request.user.is_authenticated:
-        return render(request, "accounts/login.html", {"message": None})
+        return render(request, "accounts/landing.html", {"message": None})
 
     mem, created = Members.objects.get_or_create(memname = request.user)
     club = clubInfo.objects.get(name = "cosb")
@@ -921,19 +921,19 @@ def view_club(request, club_id):
 
 
 
-@login_required
+
 def clubTag(request, tag):
      
 
-    user_club, created = Members.objects.get_or_create(memname = request.user)
-    user_clubs = user_club.club.all()
+    #user_club, created = Members.objects.get_or_create(memname = request.user)
+    #user_clubs = user_club.club.all()
 
     if (tag == 'ALL'):
         clubs = Clubverification.objects.filter(is_verified = True)
-        return render(request, "accounts/allclub.html", {"clubs": clubs, "tag": "ALL", "user_clubs": user_clubs})
+        return render(request, "accounts/allclub.html", {"clubs": clubs, "tag": "ALL"})
 
     clubs = Clubverification.objects.filter(club__tag = tag, is_verified = True)
-    return render(request, "accounts/allclub.html", {"clubs": clubs, "tag": tag, "user_clubs": user_clubs}) 
+    return render(request, "accounts/allclub.html", {"clubs": clubs, "tag": tag}) 
 
 
 

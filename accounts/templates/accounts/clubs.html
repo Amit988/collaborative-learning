@@ -179,35 +179,6 @@
 </div>
 
 
-<!--
-<section class="containers">
-    <div class="wave"></div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col mt-5">
-
-
-          <h5 class="text-white">{{club.name}}: <small>{{club.tagline}}</small></h5>
-          <p class="mb-2 text-white" style="font-size: 18px;">About: {{club.vision_and_mission}}</p>
-          {% if club.dateoffound %}
-            <p class="text-muted">Found On :- {{club.dateoffound | naturalday}}</p>
-
-          {% endif %}
-
-
-          <span class="material-icons">
-          share 
-          </span>
-
-          <a href="{% url 'view-club' club.id %}" class="text-decoration-none">Share your club!</a>
-          
-          
-        </div>
-      </div>
-    </div>
-
-</section>-->
 
 
 <div id="load"></div>
@@ -544,12 +515,28 @@
                   var groupType = CometChat.GROUP_TYPE.PRIVATE;
                   const group = new CometChatWidget.CometChat.Group("{{club.id}}", "{{club.name}}", groupType, "");
                   //group.setIcon(ICON_URL);
-                  CometChatWidget.createOrUpdateGroup(group).then((group) => {
+                  CometChatWidget.createOrUpdateGroup(group);
+
+
+                  let GUID = "{{club.id}}";
+                  let UID =  "{{request.user.id}}";
+
+                  let membersList = [
+                    new CometChat.GroupMember(UID, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT)
+                  ];
+
+                  CometChat.addMembersToGroup(GUID, membersList, []).then(
+                    response => {
+                      console.log("response", response);
+                    }, error => {
+                      console.log("Something went wrong", error);
+                    }
+                  );
 
 
                     CometChatWidget.launch({
-                      // Embedded or docked layout configuration
 
+                      // Embedded or docked layout configuration
                       "widgetID": "345d2de7-cf0b-4094-9500-9f7621865b9b",
                       "docked": "true",
                       "target": "#cometchat",
@@ -562,10 +549,6 @@
 
 
                     })
-
-                  });
-
-   
 
                 });
               });

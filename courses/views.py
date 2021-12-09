@@ -9,7 +9,7 @@ from accounts.models import eventRegistration
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from qna.models import Question
 
-@login_required
+
 def view_courses(request):
 
 	all_courses = Course.objects.all()

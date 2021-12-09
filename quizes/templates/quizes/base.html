@@ -60,21 +60,28 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Clubs</a>
-              </li>
+
 
               {% if not request.user.is_authenticated %}
+
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+                  <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'users:register' %}">Sign up</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                  <a class="nav-link" href="{% url 'users:login' %}">Sign in</a>
                 </li>
 
               {% endif %}
 
               {% if request.user.is_authenticated %}
+
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Clubs</a>
+                </li>
 
                 <li class="nav-item">
                   <a class="nav-link active" href="{% url 'courses:courses-view' %}">Courses</a>
@@ -220,10 +227,13 @@
     
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
 
+
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+
               {% if request.user.is_authenticated %}
-                <h6 class="text-uppercase fw-bold mb-4">
-                  Useful links
-                </h6>
+
                 <p>
                   <a href="/accounts/club-by-tag/ALL/" class="text-reset text-decoration-none">Join a club</a>
                 </p>
@@ -236,6 +246,18 @@
                 </p>
                 <p>
                   <a href="{% url 'feedback' %}" class="text-reset text-decoration-none">Feedbacks</a>
+                </p>
+
+              {% else %}
+
+
+                <p>
+                  <a href="/quiz/" class="text-reset text-decoration-none">Take a quiz</a>
+                </p>
+
+
+                <p>
+                  <a href="/accounts/club-by-tag/ALL/" class="text-reset text-decoration-none">Join a club</a>
                 </p>
 
               {% endif %}
