@@ -70,4 +70,10 @@ urlpatterns = [
     path("jsecs/<int:club_id>/<int:mem_id>/", views.make_jsec, name = "make-jsec"),
     path("teach-on-cosb/", views.content_creators, name = "teach-on-cosb"),
     path("report-club/<int:club_id>/", views.report_club, name = "report-club"),
+    path("stories/", views.stories, name = "stories"),
+    path("add-story/", views.add_story, name = "add-story"),
+    path("view-story/<int:story_id>/", views.view_story, name = "view-story"),
+    path("delete-story/<int:story_id>/", views.delete_story, name = "delete-story"),
+    path("update-story/<int:story_id>/", views.update_story, name = "update-story"),
+
 ]

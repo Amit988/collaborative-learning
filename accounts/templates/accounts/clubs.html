@@ -238,6 +238,17 @@
     </div>
   </div>
 
+
+  <div class="text-center mt-5">
+
+
+    <a class="filled-button text-decoration-none mb-4" href="{% url 'stories' %}">
+      Stories <span class="badge bg-success">New</span>
+    </a>
+    
+  </div>
+
+
   <div class="row mt-2">
 
 
@@ -265,7 +276,7 @@
                   <h5 class="mb-1">{{i.user.username}}</h5>
                   <small>{{i.time|naturaltime}}</small>
                 </div>
-                <p class="mb-1">{{i.msg|truncatewords:15}}</p>
+                <p class="mb-1">{{i.msg|safe|truncatewords:15}}</p>
                 <p class="mb-1">Views: {{i.taskviews.all|length}}</p>
                 <!--<small>And some small print.</small> <a href="{% url 'task-chat' i.id club.id %}" class="text-success text-dark" style="text-decoration: none;"> -->
               </a>
@@ -284,7 +295,12 @@
 
           <div class="text-center">
 
-            <a href="{% url 'club-discussion' club.id %}" class="filled-button text-decoration-none mb-4">Announce</a>
+            <!--<a href="{% url 'club-discussion' club.id %}" class="filled-button text-decoration-none mb-4">Announce</a>-->
+
+
+            <button class="filled-button text-decoration-none mb-4" data-bs-toggle = "modal" data-bs-target="#Backdrop">
+              Announce
+            </button>
             
           </div>
 
@@ -341,7 +357,56 @@
 
 
               <div class="text-center">
-                <button type="submit" class="filled-button mb-5 mt-5">Ask Doubts.</button>
+                <button type="submit" class="filled-button mb-5 mt-5">Ask</button>
+              </div>
+
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="Backdrop" data-bs-backdrop="Backdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h5 class="modal-title text-dark" id="staticBackdropLabel">Announce</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'taskform' %}" enctype="multipart/form-data" method="post">
+
+              {% csrf_token %}
+
+              <div class="form-floating mb-3">
+                <input type="text" id="defaultForm" class="form-control" name="tag" placeholder="Title" required>
+                <label data-error="wrong" data-success="right" for="defaultForm" class="text-dark">Title</label>
+              </div>
+
+              <div class="form-floating mb-3">
+
+                <select class="form-select" aria-label="Default select example" name="club-name" id="floatingSelect">
+                  {% for i in allclub %}
+                    <option value="{{i.id}}"  class="text-dark">{{i.name}}</option>
+                  {% endfor %}
+                </select>
+                <label for="floatingSelect">Club</label>
+
+              </div>
+
+
+              <div class= "mb-3 text-dark">
+
+                <label data-error="wrong" data-success="right" for="summer">Detailed Description</label>
+                <textarea id="summer" name="msg" class="form-control" required></textarea>
+                
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="filled-button mb-5 mt-5">Add</button>
               </div>
 
             </form>
@@ -508,6 +573,24 @@
       </div>
        
 
+      <script>
+        $('#summer').summernote({
+          placeholder: 'Details',
+          tabsize: 2,
+          height: 100,
+
+        });
+      </script>
+
+      <script>
+        $('#summernote').summernote({
+          placeholder: 'Details',
+          tabsize: 2,
+          height: 100,
+
+        });
+      </script>
+
        <script type="text/javascript">
 
 
@@ -539,11 +622,12 @@
                 }).then((loggedInUser) => {
 
 
-                  var groupType = CometChat.GROUP_TYPE.PRIVATE;
+                  var groupType = CometChat.GROUP_TYPE.PUBLIC;
                   const group = new CometChatWidget.CometChat.Group("{{club.id}}", "{{club.name}}", groupType, "");
                   //group.setIcon(ICON_URL);
                   CometChatWidget.createOrUpdateGroup(group);
 
+                  console.log(group)
 
                   let GUID = "{{club.id}}";
                   let UID =  "{{request.user.id}}";
@@ -551,6 +635,8 @@
                   let membersList = [
                     new CometChat.GroupMember(UID, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT)
                   ];
+
+                  console.log(membersList)
 
                   CometChat.addMembersToGroup(GUID, membersList, []).then(
                     response => {
@@ -589,15 +675,6 @@
   </div>
 
 
-
-  <script>
-    $('#summernote').summernote({
-      placeholder: 'Your Question here!',
-      tabsize: 2,
-      height: 100,
-
-    });
-  </script>
 
 {% endblock main %}
 

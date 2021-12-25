@@ -1,0 +1,350 @@
+{% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+Stories
+{% endblock %}
+
+{% block script %}
+
+
+    
+  <link rel="stylesheet" href="{% static 'accounts/css/stories.css' %}">
+
+  <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+  <style type="text/css">
+    .choice {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 20px;
+      display: block;
+    }
+    span.scale-rating{
+    margin: 5px 0 15px;
+        display: inline-block;
+       
+        width: 100%;
+       
+    }
+    span.scale-rating>label {
+      position:relative;
+        -webkit-appearance: none;
+      outline:0 !important;
+        border: 1px solid grey;
+        height:33px;
+        margin: 0 5px 0 0;
+      width: calc(10% - 7px);
+        float: left;
+      cursor:pointer;
+    }
+
+    span.scale-rating label {
+      position:relative;
+        -webkit-appearance: none;
+      outline:0 !important;
+        height:33px;
+          
+        margin: 0 5px 0 0;
+      width: calc(10% - 7px);
+        float: left;
+      cursor:pointer;
+    }
+
+    span.scale-rating input[type=radio] {
+      position:absolute;
+        -webkit-appearance: none;
+      opacity:0;
+      outline:0 !important;
+        /*border-right: 1px solid grey;*/
+        height:33px;
+     
+        margin: 0 5px 0 0;
+      
+      width: 100%;
+        float: left;
+      cursor:pointer;
+      z-index:3;
+    }
+    span.scale-rating label:hover{
+    background:#fddf8d;
+    }
+    span.scale-rating input[type=radio]:last-child{
+    border-right:0;
+    }
+    span.scale-rating label input[type=radio]:checked ~ label{
+        -webkit-appearance: none;
+     
+        margin: 0;
+      background:#fddf8d;
+    }
+    span.scale-rating label:before
+    {
+      content:attr(value);
+        top: 7px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        vertical-align: middle;
+      z-index:2;
+    }
+
+  </style>
+
+    
+{% endblock %}
+{% block main %}
+  
+{% for msg in messages %}
+   
+    <p class="text-success text-center" id = "msg-container">{{msg}}</p>
+
+                
+{% endfor %}
+
+
+      <section class="cta-section theme-bg-light py-5 text-start">
+        <div class="container text-center single-col-max-width">
+          <h2 class="heading">cosb - sinx</h2>
+          <!--<div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>-->
+
+          <a class="text-decoration-none mt-5" type="button" data-toggle="collapse" data-target="#resources-box" aria-expanded="false" aria-controls="resources-box">
+          <i class="fa fa-plus"></i> Rate this course
+          </a>
+
+          </div>
+
+          <div class="container"><div class="row"><div class="col">
+
+
+            <div class="collapse" id="resources-box">
+
+              <form class="p-4 p-md-5 border rounded-3" action="{% url 'sinx:course-rating' course.id %}" method="post">
+
+                {% csrf_token %}
+
+                  <span class="text-start">Rate</span>
+                  <span class="scale-rating" id="rating">
+                    <label value="1">
+                    <input type="radio" name="rating" >
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="2">
+                    <input type="radio" name="rating" >
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="3">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="4">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="5">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="6">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="7">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="8">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="9">
+                    <input type="radio" name="rating">
+                    <label style="width:100%;"></label>
+                    </label>
+                    <label value="10">
+                    <input type="radio" name="rating" value="10">
+                    <label style="width:100%;"></label>
+                    </label>
+                  </span>
+
+
+
+                
+
+                <div class="form-floating">
+                  <textarea class="form-control" placeholder="Leave your review here" id="floatingTextarea" name="review"></textarea>
+                  <label for="floatingTextarea">Review</label>
+                </div>
+
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary mb-5 mt-3">Rate</button>
+                </div>
+
+              </form>
+
+
+
+                    
+            </div>
+            
+
+          </div></div></div>
+
+
+          <!--<div class="single-form-max-width pt-3 mx-auto">
+            <form class="signup-form row g-2 g-lg-2 align-items-center">
+                      <div class="col-12 col-md-9">
+                          <label class="sr-only" for="semail">Your email</label>
+                          <input type="email" id="semail" name="semail1" class="form-control me-md-1 semail" placeholder="Enter email">
+                      </div>
+                      <div class="col-12 col-md-2">
+                          <button type="submit" class="btn btn-primary">Subscribe</button>
+                      </div>
+            </form>
+          </div>-->
+        </div>
+      </section>
+
+
+    
+    <section class="blog-list px-3 py-5 p-md-5">
+      <div class="container single-col-max-width">
+
+        <div class="item mb-5">
+          <div class="row g-3 g-xl-0">
+            <div class="col-2 col-xl-3">
+                <img class="img-fluid post-thumb " src="{{course.image.url}}" alt="image">
+            </div>
+            <div class="col">
+              <h3 class="title mb-1"><a class="text-link" href="">{{course.name}}</a></h3>
+              Tags:
+              {% for j in course.tags.all %}
+                <span class="comment">{{j}}|</span>
+
+              {% endfor %}
+              
+              <div class="meta mb-1"><span class="date">Author: {{course.author}}</span><span class="comment"><mark>Rating {{course.overall_rating}}</mark></span></div>
+
+
+              <div class="intro mt-5">{{course.about}}</div>
+              <h3 class="title mt-3"><a class="text-link" href="{{course.link}}">Visit this course</a></h3>
+              <br>
+
+            </div><!--//col-->
+          </div><!--//row-->
+        </div><!--//item-->
+
+
+
+
+        
+      <nav class="blog-nav nav nav-justified my-5">
+        <a class="nav-link-next nav-item nav-link rounded" href="#" data-toggle="collapse" data-target="#story-box" aria-expanded="false" aria-controls="story-box">Rate this course</a>
+
+
+
+      </nav>
+
+
+
+      <div class="collapse" id="story-box">
+
+        <form class="p-4 p-md-5 border rounded-3" action="{% url 'sinx:course-rating' course.id %}" method="post">
+
+          {% csrf_token %}
+
+            <span class="text-start">Rate</span>
+            <span class="scale-rating" id="rating">
+              <label value="1">
+              <input type="radio" name="rating" >
+              <label style="width:100%;"></label>
+              </label>
+              <label value="2">
+              <input type="radio" name="rating" >
+              <label style="width:100%;"></label>
+              </label>
+              <label value="3">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="4">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="5">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="6">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="7">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="8">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="9">
+              <input type="radio" name="rating">
+              <label style="width:100%;"></label>
+              </label>
+              <label value="10">
+              <input type="radio" name="rating" value="10">
+              <label style="width:100%;"></label>
+              </label>
+            </span>
+
+
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave your review here" id="floatingTextarea" name="review"></textarea>
+            <label for="floatingTextarea">Review</label>
+          </div>
+
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary mb-5 mt-3">Rate</button>
+          </div>
+
+        </form>
+
+
+
+              
+      </div>
+      
+      </div>
+    </section>
+
+
+
+
+{% endblock %}
+
+{% block ajaxbox %}
+
+    <script>
+
+        const ele = document.getElementById("msg-container")
+        setTimeout(function(){
+
+            ele.style.display = "none";
+            },
+         3000);
+    </script>
+{% endblock %}

@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     #'django_chatter',
     'django.contrib.sites',
     'jazzmin',
+    'rest_framework',
+    'sinx',
     'django.contrib.admin',
     'social_django', 
     'django.contrib.auth',

@@ -11,7 +11,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
 from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
-from .forms import ClubverificationForm, FeedbackForm, ChatForm, SearchForm, UpdateTaskForm, TaskForm, EventForm, RegisterForm, interestForm, UpdateEventForm, CommentForm, RateForm, ClubTags
+from .forms import UpdateStoryForm, ClubverificationForm, FeedbackForm, ChatForm, SearchForm, UpdateTaskForm, TaskForm, EventForm, RegisterForm, interestForm, UpdateEventForm, CommentForm, RateForm, ClubTags
 import uuid
 from qna.models import Question
 from datetime import datetime, date, timedelta, time
@@ -24,7 +24,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from .models import ReportClub, ContentCreator, TaskView, Visitors, ClubRating, WaitingArea, EventUpdates, Clubverification, Feedbacks, TaskRoom, TaskChat, clubInfo, jSecs, Members, Info, Event, eventRegistration, Task, Interest, TaskStatus, UserRating, eventComments, eventRating
+from .models import Story, ReportClub, ContentCreator, TaskView, Visitors, ClubRating, WaitingArea, EventUpdates, Clubverification, Feedbacks, TaskRoom, TaskChat, clubInfo, jSecs, Members, Info, Event, eventRegistration, Task, Interest, TaskStatus, UserRating, eventComments, eventRating
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from django.utils.encoding import force_bytes
@@ -820,7 +820,8 @@ def club(request, club_id):
     club_mem = club.clubs.all()
     foo = Members.objects.filter(club = club)
     mem, created = WaitingArea.objects.get_or_create(club = club)
-    club_discussion = Task.objects.filter(club = club)
+    club_discussion = Task.objects.filter(club = club).order_by("-id")
+    allclub = Members.objects.get(memname = request.user)
     members = []
     for i in club_mem:
 
@@ -843,7 +844,7 @@ def club(request, club_id):
             flag = True
             break
 
-    return render(request, "accounts/clubs.html", {"club": club, "jsecs": club.jsecsclub.all(), "members": members, "questions": club_questions[:3], "club_discussion": club_discussion[:3], "flag": flag, "waiting_list": len(mem.user.all())})
+    return render(request, "accounts/clubs.html", {"club": club, "jsecs": club.jsecsclub.all(), "members": members, "questions": club_questions[:3], "club_discussion": club_discussion[:3], "flag": flag, "waiting_list": len(mem.user.all()), "allclub": allclub.club.all()})
 
 
 @login_required
@@ -874,7 +875,7 @@ def taskform(request):
 
         #create a task messages instance.
         messages.success(request, "New topic added!")
-        return redirect(f"/accounts/club-discussion/{club.id}")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
             
@@ -1049,6 +1050,63 @@ def report_club(request, club_id):
 
 
 def donation(request):
-
-
     return render(request, "accounts/donation.html")
+
+
+def stories(request):
+
+    allStories = Story.objects.all().order_by("-id")
+    allclub = Members.objects.get(memname = request.user)
+
+    return render(request, "accounts/stories.html", {"stories": allStories, "clubs": allclub.club.all()})
+
+@login_required
+def add_story(request):
+
+    if request.method == 'POST':
+
+        tag = request.POST['tag']
+        title = request.POST['title']
+        content = request.POST['content']
+        club_id = request.POST['club-name']
+        club = clubInfo.objects.get(id = club_id)
+        story = Story.objects.create(user = request.user, tag = tag, title = title, content = content, club = club, views = 0)
+        story.save()
+
+        return redirect(f"/accounts/view-story/{story.id}/")
+
+
+    return redirect("stories")
+
+
+@login_required
+def view_story(request, story_id):
+
+    story = Story.objects.get(id = story_id)
+    story.views = story.views + 1
+    story.save()
+    allclub = Members.objects.get(memname = request.user)
+
+    return render(request, "accounts/story.html", {"story": story, "clubs": allclub.club.all()})
+
+
+def delete_story(request, story_id):
+    
+    obj = get_object_or_404(Story, id = pk)
+    obj.delete()
+
+    return redirect("stories")
+
+
+def update_story(request, story_id):
+
+    context ={}
+    obj = get_object_or_404(Story, id = story_id)
+    form = UpdateStoryForm(request.POST or None, instance = obj) 
+
+
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/accounts/stories/')       
+
+    return render(request, "accounts/story-update-form.html", {"form": form})

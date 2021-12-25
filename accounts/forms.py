@@ -3,7 +3,7 @@ from django.db.models import fields
 from django.forms import widgets
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from django_summernote.fields import SummernoteTextFormField
-from .models import Event, TaskChat, eventComments, eventRating,Task, Feedbacks, clubInfo, Clubverification, Members
+from .models import Event, TaskChat, eventComments, eventRating,Task, Feedbacks, clubInfo, Clubverification, Members, Story
 
 INTERSET_CHOICES = [
 
@@ -127,6 +127,22 @@ class UpdateTaskForm(forms.ModelForm):
         fields = "__all__"
 
 
+class UpdateStoryForm(forms.ModelForm):
+
+
+    content = forms.CharField(label ="Story", widget = forms.Textarea(
+    attrs ={
+        'class':'form-control',
+        'id':'summernote',
+    }))
+
+
+    class Meta:
+
+        model = Story
+        fields = ["title", "content"]
+
+
 
 class CommentForm(forms.ModelForm):
 
@@ -209,7 +225,4 @@ class ClubverificationForm(forms.Form):
     
 
     
-    
-    
-
 #release: python manage.py migrate

@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime, time, date
 from .models import Question, Answere
@@ -213,15 +214,14 @@ def updateAnswere(request, pk):
 
     context ={}
     obj = get_object_or_404(Answere, id = pk)
-    form = UpdateAnswereForm(request.POST or None, instance = obj)
+    form = UpdateAnswereForm(request.POST or None, instance = obj) 
+
 
     if form.is_valid():
         form.save()
-        return redirect("qna:your-answer-view")
-        
+        return redirect('qna:your-answer-view')       
 
-    context["form"] = form
-    return render(request, "qna/answere-update-form.html", context)
+    return render(request, "qna/answere-update-form.html", {"form": form})
 
 def deleteAnswere(request, pk):
     

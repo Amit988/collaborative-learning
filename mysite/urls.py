@@ -19,7 +19,7 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('qna/', include('qna.urls', namespace='qna')),
     path('quiz/', include('quizes.urls', namespace='quizes')),
-
+    path('sinx/', include('sinx.urls', namespace = 'sinx')),
     path('accounts/password_reset/done/',
          auth_views.PasswordResetDoneView.as_view(
              template_name='accounts/password_reset_done.html'

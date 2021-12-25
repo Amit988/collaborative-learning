@@ -28,18 +28,22 @@ class AnswereForm(forms.Form):
     answere = forms.CharField(label = "Your Answer", widget = SummernoteWidget())
 
 class UpdateAnswereForm(forms.ModelForm):
-
     
-    answere  = SummernoteTextFormField()
-    
+    ans = forms.CharField(label ="Your answer", widget = forms.Textarea(
+    attrs ={
+        'class':'form-control',
+        'id':'summernote',
+    }))
 
     class Meta:
 
         model = Answere
-        fields = ["answere"]
+        fields = ["ans"]
 
-        widgets = {"answere": SummernoteWidget()
+        widgets = {"ans": forms.Textarea(attrs={'cols': 80, 'rows': 20, 'id': 'summernote'}),
         }
+
+
     
 class UpdateQuestionForm(forms.ModelForm):
     

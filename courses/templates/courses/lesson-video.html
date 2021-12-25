@@ -151,13 +151,13 @@
 
 
         <a class="text-decoration-none mt-2" type="button" data-toggle="collapse" data-target="#resources-box" aria-expanded="false" aria-controls="resources-box">
-        <i class="fa fa-plus"></i> Extra Resourses
+        <i class="fa fa-plus"></i> Read
         </a>
         <div class="collapse" id="resources-box">
 
 
 
-            <div class="card card-body my-2">
+            <div class="mt-5 text-start">
 
               {% if lesson.resources %}
                 <p>{{lesson.resources|safe}}</p>
@@ -169,11 +169,17 @@
               {% endif %}
 
               {% if lesson.quiz %}
+
+              <div class="text-center mt-5">
+
                 <h6>Quiz</h6>
                 <a href="/quiz/{{lesson.quiz.id}}">{{lesson.quiz.name}}</a>
+                
+              </div>
+                
               {% endif %}
 
-              <div class="">
+              <div class="text-center mt-5">
 
                 <a href="{% url 'courses:course-qna' course.id %} " class="filled-button mb-5 mt-3" style="text-decoration: none;">FAQS</a>
                 

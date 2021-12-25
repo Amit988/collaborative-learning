@@ -5,6 +5,7 @@ from django.utils import timezone
 from datetime import datetime
 from PIL import Image
 from django_resized import ResizedImageField
+from taggit.managers import TaggableManager
 #import StringIO
 # Create your models here.
 class Info(models.Model):
@@ -320,3 +321,23 @@ class ReportClub(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     club = models.ForeignKey(clubInfo, on_delete = models.CASCADE)
     msg = models.TextField()
+
+
+
+class Story(models.Model):
+
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    tag = TaggableManager()
+    title = models.CharField(max_length = 3000)
+    created_at = models.DateTimeField(auto_now_add = True)
+    content  = models.TextField(default = "Empty")
+    views = models.IntegerField()
+    club = models.ForeignKey(clubInfo, on_delete = models.CASCADE)
+
+
+    def __str__(self):
+        return f"Story by {self.user.username} in {self.club.name}"
+
+
+    class Meta:
+        verbose_name_plural = "Stories"
