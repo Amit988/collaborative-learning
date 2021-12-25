@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.conf import settings
-from django.urls import path, include
+from django.urls import path, include, re_path
 #from django.conf.urls import url
 from accounts.views import index, donation
 from django.conf.urls.static import static
@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('chat/', include('django_chatter.urls', namespace = 'django_chatter'), name="chat"),
     path('accounts/', include('accounts.urls')),
-    path(r'^auth/', include('social_django.urls', namespace='social')),
+    re_path(r'^auth/', include('social_django.urls', namespace='social')),
     path('users/', include('users.urls')),
     path('courses/', include('courses.urls')),
     path('summernote/', include('django_summernote.urls')),
