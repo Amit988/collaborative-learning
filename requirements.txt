@@ -22,7 +22,7 @@ docutils
 django-resized
 django-jazzmin
 django-allauth
-django-taggit
+django-taggit==2.0.0
 django-agora
 
 gTTS
