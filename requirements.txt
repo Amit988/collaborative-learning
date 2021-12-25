@@ -10,15 +10,12 @@ autobahn
 
 attrs
 
-channels
-channels-redis
 
 cloudinary
 django-cloudinary-storage
 dj-database-url
 Django
 django-crispy-forms
-django-rest-framework
 django-heroku
 django-summernote
 docutils
