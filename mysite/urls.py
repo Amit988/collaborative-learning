@@ -2,18 +2,18 @@
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
-#from django.conf.urls import url
+from django.conf.urls import url
 from accounts.views import index, donation
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from agora.views import Agora
+
 
 urlpatterns = [
     path("", index, name="index"),
     path('admin/', admin.site.urls),
     #path('chat/', include('django_chatter.urls', namespace = 'django_chatter'), name="chat"),
     path('accounts/', include('accounts.urls')),
-    url(r'^auth/', include('social_django.urls', namespace='social')),
+    path(r'^auth/', include('social_django.urls', namespace='social')),
     path('users/', include('users.urls')),
     path('courses/', include('courses.urls')),
     path('summernote/', include('django_summernote.urls')),
@@ -35,10 +35,7 @@ urlpatterns = [
              template_name='accounts/password_reset_complete.html'
          ),
          name='password_reset_complete'),
-
-
-    path('^agora/', Agora.as_view(app_id='4ad86adbd5a04a4d9ed8ad1f91802c46', channel='1')),
-
+    
     path("suPpoRt/", donation, name = "support"),
 
 ]
