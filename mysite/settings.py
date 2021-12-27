@@ -259,6 +259,7 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hasiryr9h',
     'API_KEY': '732423773151889',
     'API_SECRET': 'PY9bCj12f1pFivhnLH8ubj1cB1w',
+
 }
 
 

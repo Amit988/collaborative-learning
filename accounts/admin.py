@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Story, ReportClub, ContentCreator, Visitors, WaitingArea, EventUpdates, Clubverification,  Feedbacks, TaskRoom, TaskChat, clubInfo, jSecs, Members, Event, eventRegistration, Task, Interest, Info, TaskStatus, UserRating, eventRating, eventComments
+from .models import StoryAudio, Story, ReportClub, ContentCreator, Visitors, WaitingArea, EventUpdates, Clubverification,  Feedbacks, TaskRoom, TaskChat, clubInfo, jSecs, Members, Event, eventRegistration, Task, Interest, Info, TaskStatus, UserRating, eventRating, eventComments
 
 # Register your models here.
 class EventAdmin(SummernoteModelAdmin):
@@ -29,3 +29,4 @@ admin.site.register(Visitors)
 admin.site.register(ContentCreator)
 admin.site.register(ReportClub)
 admin.site.register(Story)
+admin.site.register(StoryAudio)

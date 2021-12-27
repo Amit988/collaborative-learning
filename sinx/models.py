@@ -27,6 +27,7 @@ class Course(models.Model):
 	class  Meta:
 
 		verbose_name_plural = "Courses-sinx"
+		ordering = ["overall_rating"]
 
 
 class Rating(models.Model):

@@ -69,7 +69,7 @@ sinx
 
               {% endfor %}
               
-              <div class="meta mb-1"><span class="date">{{i.author}}</span><span class="comment"><mark>Rating {{i.overall_rating}}</mark></span></div>
+              <div class="meta mb-1"><span class="date">Author: {{i.author}}</span><span class="comment"><mark>Rating {{i.overall_rating}}</mark></span></div>
 
 
               <div class="intro mt-5">{{i.content|safe|truncatewords:30}}</div>

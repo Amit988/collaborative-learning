@@ -24,7 +24,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from .models import Story, ReportClub, ContentCreator, TaskView, Visitors, ClubRating, WaitingArea, EventUpdates, Clubverification, Feedbacks, TaskRoom, TaskChat, clubInfo, jSecs, Members, Info, Event, eventRegistration, Task, Interest, TaskStatus, UserRating, eventComments, eventRating
+from .models import StoryAudio, Story, ReportClub, ContentCreator, TaskView, Visitors, ClubRating, WaitingArea, EventUpdates, Clubverification, Feedbacks, TaskRoom, TaskChat, clubInfo, jSecs, Members, Info, Event, eventRegistration, Task, Interest, TaskStatus, UserRating, eventComments, eventRating
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from django.utils.encoding import force_bytes
@@ -1079,15 +1079,18 @@ def add_story(request):
     return redirect("stories")
 
 
-@login_required
 def view_story(request, story_id):
 
     story = Story.objects.get(id = story_id)
     story.views = story.views + 1
     story.save()
-    allclub = Members.objects.get(memname = request.user)
+    foo = False
+    audio = StoryAudio.objects.filter(story = story)
+    if request.user.is_authenticated:
+        allclub = Members.objects.get(memname = request.user)
+        foo = allclub.club.all()
 
-    return render(request, "accounts/story.html", {"story": story, "clubs": allclub.club.all()})
+    return render(request, "accounts/story.html", {"story": story, "clubs": foo, "audio": audio})
 
 
 def delete_story(request, story_id):

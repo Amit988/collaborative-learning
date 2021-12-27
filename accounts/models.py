@@ -6,6 +6,11 @@ from datetime import datetime
 from PIL import Image
 from django_resized import ResizedImageField
 from taggit.managers import TaggableManager
+import tempfile
+from django.core.files import File
+#from gtts import gTTS
+from io import BytesIO
+import os
 #import StringIO
 # Create your models here.
 class Info(models.Model):
@@ -333,7 +338,7 @@ class Story(models.Model):
     content  = models.TextField(default = "Empty")
     views = models.IntegerField()
     club = models.ForeignKey(clubInfo, on_delete = models.CASCADE)
-
+    private = models.BooleanField(default = False)
 
     def __str__(self):
         return f"Story by {self.user.username} in {self.club.name}"
@@ -341,3 +346,9 @@ class Story(models.Model):
 
     class Meta:
         verbose_name_plural = "Stories"
+
+class StoryAudio(models.Model):
+
+    story = models.ForeignKey(Story, on_delete = models.CASCADE)
+    audio = models.FileField(upload_to='audio/', blank=True)
+

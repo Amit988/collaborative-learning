@@ -23,7 +23,6 @@ django-resized
 django-jazzmin
 django-allauth
 django-taggit==2.0.0
-django-agora
 
 gTTS
 gTTS-token
