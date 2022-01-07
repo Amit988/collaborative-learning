@@ -14,7 +14,7 @@ attrs
 cloudinary
 django-cloudinary-storage
 dj-database-url
-Django
+Django==3.2.9
 django-crispy-forms
 django-heroku
 django-summernote

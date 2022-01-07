@@ -1,19 +1,25 @@
 from django.shortcuts import render
-from sinx.models import Course, Rating, TotalRating
+from sinx.models import Course, Rating, TotalRating, CourseDetail
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from django.contrib import messages
+from django.core.paginator import Paginator
 # Create your views here.
 
 def all_courses(request):
 
 	courses = Course.objects.all()
+	p = Paginator(courses, 10)
+	page = request.GET.get('page', 1)
+	courses = p.page(page)
 	return render(request, "sinx/courses.html", {"courses": courses})
 
 
 def course_overview(request, course_id):
 
 	course = Course.objects.get(id = course_id)
-	return render(request, "sinx/course-rating.html", {"course": course})
+	reviews = Rating.objects.filter(course = course)
+	details = CourseDetail.objects.get(course = course)
+	return render(request, "sinx/course-rating.html", {"course": course, "reviews": reviews, "details": details})
 
 
 def course_rating(request, course_id):
@@ -26,9 +32,9 @@ def course_rating(request, course_id):
 		total, created = TotalRating.objects.get_or_create(course = course)
 
 		bar = Rating.objects.filter(course = course)
-		print(len(bar))
+	
 		if created:
-
+			print(rating)
 			foo.rating = int(rating)
 			foo.review = review
 			foo.save()
@@ -57,8 +63,23 @@ def search_courses(request):
 		query = Course.objects.filter(tags__name__in = [tag])
 		flag1 = False
 
+
 		if len(query) == 0:
 			flag1 = True
 
+
+
 		return render(request, "sinx/courses.html", {"courses": query, "flag": True, "flag1": flag1})
 
+
+def search_courses_by_tag(request, tag):
+
+
+	query = Course.objects.filter(tags__name__in = [tag])
+	flag1 = False
+
+
+	if len(query) == 0:
+		flag1 = True
+
+	return render(request, "sinx/courses.html", {"courses": query, "flag": True, "flag1": flag1})

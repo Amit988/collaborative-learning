@@ -148,6 +148,7 @@ class eventRegistration(models.Model):
     class  Meta:
         verbose_name_plural = "Event-Registrations"
 
+#Not in use currently!
 class eventComments(models.Model):
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -173,7 +174,7 @@ class eventRating(models.Model):
     def __str__(self):
         return f"{self.user.username} rate event {self.event.name} ({self.rating})."
 
-#Not is use currently!
+
 class ClubRating(models.Model):
 
     club = models.ForeignKey(clubInfo, on_delete = models.CASCADE)
@@ -270,8 +271,7 @@ class  TaskStatus(models.Model):
     class  Meta:
     	verbose_name_plural = "Task-status"
      
-
-#Not in use currently!   
+  
 class UserRating(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -351,4 +351,3 @@ class StoryAudio(models.Model):
 
     story = models.ForeignKey(Story, on_delete = models.CASCADE)
     audio = models.FileField(upload_to='audio/', blank=True)
-

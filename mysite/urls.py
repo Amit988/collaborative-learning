@@ -15,11 +15,11 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     re_path(r'^auth/', include('social_django.urls', namespace='social')),
     path('users/', include('users.urls')),
-    path('courses/', include('courses.urls')),
+    #path('courses/', include('courses.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('qna/', include('qna.urls', namespace='qna')),
     path('quiz/', include('quizes.urls', namespace='quizes')),
-    path('sinx/', include('sinx.urls', namespace = 'sinx')),
+    path('courses/', include('sinx.urls', namespace = 'sinx')),
     path('accounts/password_reset/done/',
          auth_views.PasswordResetDoneView.as_view(
              template_name='accounts/password_reset_done.html'
