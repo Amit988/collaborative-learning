@@ -8,9 +8,6 @@ from django.core.paginator import Paginator
 def all_courses(request):
 
 	courses = Course.objects.all()
-	p = Paginator(courses, 10)
-	page = request.GET.get('page', 1)
-	courses = p.page(page)
 	return render(request, "course_diary/courses.html", {"courses": courses})
 
 
@@ -26,7 +23,7 @@ def course_rating(request, course_id):
 	if request.method == 'POST':
 
 		rating, review = request.POST['rating'], request.POST['review']
-		
+
 		course = Course.objects.get(id = course_id)
 		foo, created = Rating.objects.get_or_create(course = course, user = request.user)
 		total, created = TotalRating.objects.get_or_create(course = course)
