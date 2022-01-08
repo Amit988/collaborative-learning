@@ -92,11 +92,11 @@ Diary
             </div>
             <div class="col">
               <h3 class="title mb-1"><a class="text-link" href="{% url 'sinx:course-overview' i.id %}">{{i.name}}</a></h3>
-              <div class="meta mb-1"><span class="date">Author: {{i.author}}</span><span class="comment"><mark>Rating {{i.overall_rating}}</mark></span>
-              <span class="comment">Platform: {{i.platform}}</span>{% if i.price == 0 %}<span class="comment">Fees: <mark>Free</mark></span>{% else %}<span class="comment">Fees: {{i.price}}</span>{% endif %}</div>
+              <div class="meta mb-1"><span class="date">Author: <b>{{i.author}}</b></span><span class="comment"><mark>Rating {{i.overall_rating}}</mark></span>
+              <span class="comment">Platform: <b>{{i.platform}}</b></span>{% if i.price == 0 %}<span class="comment">Fees: <mark>Free</mark></span>{% else %}<span class="comment">Fees: {{i.price}}</span>{% endif %}</div>
 
 
-              <div class="intro mt-5">{{i.description|safe|truncatewords:30}}</div>
+              <div class="intro mt-5">{{i.description|safe}}</div>
 
               <a class="text-link text-info" href="{% url 'sinx:course-overview' i.id %}">Know more &rarr;</a>
             </div><!--//col-->

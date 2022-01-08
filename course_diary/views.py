@@ -26,6 +26,7 @@ def course_rating(request, course_id):
 	if request.method == 'POST':
 
 		rating, review = request.POST['rating'], request.POST['review']
+		
 		course = Course.objects.get(id = course_id)
 		foo, created = Rating.objects.get_or_create(course = course, user = request.user)
 		total, created = TotalRating.objects.get_or_create(course = course)
@@ -37,6 +38,7 @@ def course_rating(request, course_id):
 			foo.rating = int(rating)
 			foo.review = review
 			foo.save()
+
 			total.total_rating += int(rating)
 			total.save()
 
