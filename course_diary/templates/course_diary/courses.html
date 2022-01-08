@@ -14,8 +14,8 @@ Diary
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   
-  <link rel="stylesheet" href="{% static 'sinx/styles.css' %}">
-  <link rel="stylesheet" href="{% static 'sinx/stories.css' %}">
+  <link rel="stylesheet" href="{% static 'course_diary/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'course_diary/stories.css' %}">
 
 
     
@@ -93,7 +93,7 @@ Diary
             <div class="col">
               <h3 class="title mb-1"><a class="text-link" href="{% url 'sinx:course-overview' i.id %}">{{i.name}}</a></h3>
               <div class="meta mb-1"><span class="date">Author: {{i.author}}</span><span class="comment"><mark>Rating {{i.overall_rating}}</mark></span>
-                <!--<span class="comment">Platform: {{i.course_details.platform}}</span>{% if i.course_details.price == 0 %}<span class="comment">Fees: <mark>Free</mark></span>{% else %}<span class="comment">Fees: {{i.course_details.price}}</span>{% endif %}</div>-->
+              <span class="comment">Platform: {{i.course_details.platform}}</span>{% if i.course_details.price == 0 %}<span class="comment">Fees: <mark>Free</mark></span>{% else %}<span class="comment">Fees: {{i.course_details.price}}</span>{% endif %}</div>
 
 
               <div class="intro mt-5">{{i.description|safe|truncatewords:30}}</div>

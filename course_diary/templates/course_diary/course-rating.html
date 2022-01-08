@@ -27,8 +27,8 @@
 
   <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=61cfed3106175100190c1344&product=sop' async='async'></script>
 
-  <link rel="stylesheet" href="{% static 'sinx/styles.css' %}">
-  <link rel="stylesheet" href="{% static 'sinx/stories.css' %}">
+  <link rel="stylesheet" href="{% static 'course_diary/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'course_diary/stories.css' %}">
 
   <style type="text/css">
     .choice {
@@ -179,7 +179,7 @@
               <h3 class="title mb-1"><a class="text-link" href="">{{course.name}}</a></h3>
               Tags: |
               {% for j in course.tags.all %}
-                <span class="comment"><a href="/sinx/search-courses/{{j}}/">{{j}}</a> |</span>
+                <span class="comment"><a href="/courses/search-courses/{{j}}/">{{j}}</a> |</span>
 
               {% endfor %}
               
@@ -187,17 +187,17 @@
               <h3 class="title mb-3 text-muted">Course Info</h3>
               <p><b>Author</b>: {{course.author}}</p>
               <p><b>Rating</b>: <mark>{{course.overall_rating}}</mark></p>
-              <p><b>Platform</b>: {{details.platform}}</p>
-              <p><b>Language</b>: {{details.language}}</p>
-              {% if details.price == 0 %}<p><b>Fees</b>: <mark>Free</mark></p>{% else %}<p><b>Fees</b>: {{details.price}}</p>{% endif %}
+              <p><b>Platform</b>: {{course.platform}}</p>
+              <p><b>Language</b>: {{course.language}}</p>
+              {% if course.price == 0 %}<p><b>Fees</b>: <mark>Free</mark></p>{% else %}<p><b>Fees</b>: {{course.price}}</p>{% endif %}
 
-              <p><b>Certificate</b>: {% if details.certificate %} Yes {% else %} No {% endif %}</p>
-              <p><b>Material Type</b>: {{details.material_type}}</p>
-              <p><b>Duration</b>: {{details.duration}} hours</p>
+              <p><b>Certificate</b>: {% if course.certificate %} Yes {% else %} No {% endif %}</p>
+              <p><b>Material Type</b>: {{course.material_type}}</p>
+              <p><b>Duration</b>: {{course.duration}} hours</p>
               
               <h3 class="title mt-5 text-muted">About</h3>
               <div class="intro mt-3" style="font-size: 22px;">{{course.about}}</div>
-              <h3 class="title mt-3"><a class="text-link" href="{{course.link}}">Visit this course</a></h3>
+              <h3 class="title mt-3"><a class="text-link" href="{{course.link}}">Go to course</a></h3>
               <br>
 
             </div><!--//col-->

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from sinx.models import Course, Rating, TotalRating, CourseDetail
+from course_diary.models import Course, Rating, TotalRating
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -11,15 +11,14 @@ def all_courses(request):
 	p = Paginator(courses, 10)
 	page = request.GET.get('page', 1)
 	courses = p.page(page)
-	return render(request, "sinx/courses.html", {"courses": courses})
+	return render(request, "course_diary/courses.html", {"courses": courses})
 
 
 def course_overview(request, course_id):
 
 	course = Course.objects.get(id = course_id)
 	reviews = Rating.objects.filter(course = course)
-	details = CourseDetail.objects.get(course = course)
-	return render(request, "sinx/course-rating.html", {"course": course, "reviews": reviews, "details": details})
+	return render(request, "course_diary/course-rating.html", {"course": course, "reviews": reviews})
 
 
 def course_rating(request, course_id):
@@ -69,7 +68,7 @@ def search_courses(request):
 
 
 
-		return render(request, "sinx/courses.html", {"courses": query, "flag": True, "flag1": flag1})
+		return render(request, "course_diary/courses.html", {"courses": query, "flag": True, "flag1": flag1})
 
 
 def search_courses_by_tag(request, tag):
@@ -82,4 +81,4 @@ def search_courses_by_tag(request, tag):
 	if len(query) == 0:
 		flag1 = True
 
-	return render(request, "sinx/courses.html", {"courses": query, "flag": True, "flag1": flag1})
+	return render(request, "course_diary/courses.html", {"courses": query, "flag": True, "flag1": flag1})

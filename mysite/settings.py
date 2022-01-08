@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'jazzmin',
     #'rest_framework',
-    'sinx',
+    'course_diary',
     'django.contrib.admin',
     'social_django', 
     'django.contrib.auth',
