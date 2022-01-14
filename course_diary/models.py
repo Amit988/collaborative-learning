@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import datetime
 #from PIL import Image
+from accounts.models import clubInfo
 from django_resized import ResizedImageField
 from taggit.managers import TaggableManager
 
@@ -71,3 +72,28 @@ class TotalRating(models.Model):
 	def __str__(self):
 
 		return f"{self.course.name} has {self.total_rating} rating."
+
+
+
+class Watchlist(models.Model):
+
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	courses = models.ForeignKey(Course, on_delete = models.CASCADE)
+
+	def __str__(self):
+
+		return f"{self.user.username}'s playlist!"
+
+
+class ShareCourse(models.Model):
+
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	club = models.ForeignKey(clubInfo, on_delete = models.CASCADE)
+	msg = models.TextField(default = "Hey, Look at this course it's quite popular on cosb diary.")
+	timestamp = models.DateTimeField(auto_now_add = True)
+	course = models.ForeignKey(Course, on_delete = models.CASCADE)
+	views = models.IntegerField(default=0)
+
+	def __str__(self):
+
+		return f"{self.user.username} shared {self.course.name} in {self.club.name}!"

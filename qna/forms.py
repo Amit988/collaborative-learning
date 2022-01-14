@@ -20,8 +20,9 @@ INTERSET_CHOICES = [
 
 class QuestionForm(forms.Form):
 
-    title = forms.CharField(max_length=2000, label = "Title", widget = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'title'}))
-    tag = forms.ChoiceField(choices=INTERSET_CHOICES,  widget = forms.Select(attrs = {'class': 'form-control'}))
+    title = forms.CharField(max_length=2000, label = "Title", widget = forms.Textarea(attrs = {'class': 'form-control', 'placeholder': 'title', 'rows': 0}))
+    tag = forms.CharField(label = "Tags", widget = forms.Textarea(attrs = {'placeholder': 'css,html,javascript...', 'rows': 0}))
+    detail = forms.CharField(label = "Details", widget = forms.Textarea(attrs = {'id': 'summernote'}))
     
 
 class AnswereForm(forms.Form):

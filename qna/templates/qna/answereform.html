@@ -135,7 +135,7 @@
                     {% endif %}
 
 
-                    <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#replyBox{{j.id}}" aria-expanded="false" aria-controls="replyBox{{j.id}}">
+                    <!--<a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#replyBox{{j.id}}" aria-expanded="false" aria-controls="replyBox{{j.id}}">
                     reply
                     </a>
                     <div class="collapse" id="replyBox{{j.id}}">
@@ -147,13 +147,18 @@
                                     <input type="text" class="form-control" name="answer1" placeholder="Enter reply here" required>
                                     <input type="hidden" name="parent_ans" value="{{j.id}}">
                                 </div>
-                                <button type="submit" class="filled-button mt-2 btn-sm">Submit</button>
+                                <div class="text-end">
+
+                                    <button type="submit" class="filled-button mt-2 btn-sm">Submit</button>
+
+                                    
+                                </div>
                             </form>
                         </div>
                     </div>
 
                     <div class="m-3">
-                        <!--<hr class="text-dark">-->
+
                         {% for reply in replyDict|get_val:j.id %}
 
                             <hr class="text-dark">
@@ -173,7 +178,7 @@
                                         {% if request.user == reply.user %}
                                             
                                             <a href = "{% url 'qna:update-answere-view' reply.id  %} " class="m-1" style="text-decoration: none;">update</a>
-                                            <!--<a href = "{% url 'qna:delete-answere-view' reply.id  %} " class="m-1" style="text-decoration: none;">delete</a>-->
+
 
 
 
@@ -197,10 +202,10 @@
                                 </div>
 
                             </div>
-                            <!--<hr class="text-dark">-->
+
                         {% endfor %}
 
-                    </div>
+                    </div>-->
 
                 </div>
                 
@@ -226,13 +231,19 @@
 
     <form method="post" action="{% url 'qna:add-answere-view' i.id %}">
         {% csrf_token %}
-      <textarea id="summernote" name="answer" required></textarea>
 
+        {{form|crispy}}
         <input type="hidden" name="parent" value="ans">
 
-        <div class="text-center mb-5">
+        <div class="text-end mb-5">
 
-            <button class="filled-button mt-3 mb-3 text-right" type="submit">Add</button>
+            {% if request.user.is_authenticated %}
+                <button class="filled-button mt-3 mb-3 text-right" type="submit">Add</button>
+            {% else %}
+
+                <a href="{% url 'users:register' %}" class="filled-button mt-2" style="text-decoration: none;">Sign up</a>
+
+            {% endif %}
             
         </div>
         

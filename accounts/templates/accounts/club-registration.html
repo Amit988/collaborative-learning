@@ -35,54 +35,26 @@
 
         {% csrf_token %}
 
-        <div class="form-floating mb-3">
-          <input type="username" name="name" class="form-control" id="floatingInput" placeholder="Club's Name" required>
-          <label for="floatingInput">Club's Name</label>
+        {{form|crispy}}
+
+
+        <div class="mt-3">
+
+          <button class="w-100 filled-button" type="submit">Create</button>
+
+          
         </div>
 
-        <!--
-        <div class="form-floating mb-3">
-          <input type="email" name = "email" class="form-control" id="floatingPassword" placeholder="email" required>
-          <label for="floatingPassword">Email</label>
-        </div>-->
+      </form>
 
-        <div class="form-floating mb-3">
-          <select class="form-select" aria-label="Default select example" id="floatingSelect" name="tag" required>
-            <option value="SOFTWARE">Software</option>
-            <option value="DRAMA">Drama</option>
-            <option value="TECHNICAL">Technical</option>
-            <option value="SPORTS">Sports</option>
-            <option value="MUSIC">Music</option>
-            <option value="SPRITUAL">Spritual</option>
-            <option value="FINANCE">Finance</option>
-            <option value="DESIGN">Designing</option>
-            <option value="ALL">General</option>
-          </select>
-          <label for="floatingSelect">Genre</label>
-        </div>
-
-        <div class="form-floating mb-3">
-            <span>Choose logo <small style="font-size: 14px;">(Optional)</small></span>
-            <small style="font-size: 14px;">(Recomended 300px*300px Image.)</small>
-            <input type="file" name="logo" id="floatingFile">
-            <!--<label for="floatingFile">Choose logo</label>-->
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="text" name="tagline" class="form-control" id="floatingInput" placeholder="Club's Tagline">
-          <label for="floatingInput">Club's Tagline(Optional)</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <textarea name="vision_and_mission" class="form-control" id="floatingInput" placeholder="Club's Vision"></textarea>
-          <label for="floatingInput">Club's About(Optional)</label>
-        </div>
-
-        <button class="w-100 filled-button" type="submit">Register</button>
         <hr class="my-4">
 
-        <small class="text-muted"><a href="/accounts/club-by-tag/ALL/">Explore Clubs</a></small>
-      </form>
+        <div class="text-center">
+
+        <a href="/accounts/club-by-tag/ALL/" class="text-decoration-none" style="font-size: 18px;">Explore Clubs</a>
+
+          
+        </div>
     </div>
   </div>
 

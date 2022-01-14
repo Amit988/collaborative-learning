@@ -6,65 +6,43 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
 
     path("", views.index, name="index"),
-    #path("register/", views.register, name="register"),
-    #path("login/", views.login_view, name="login"),
-    #path("logout/", views.logout_view, name="logout"),
-    path("event/", views.event.as_view(), name="event"),
-    path("eventRegister/<int:event_id>/", views.eventRegister, name="eventRegister"),
-    path("dashboard/", views.dashboard, name="dashboard"),
+
     path("members/", views.allMem, name="members"),
-    path("addevents/", views.addEvent, name="addevents"),
+
     path("addmem/<int:mem_id>/<int:club_id>/", views.addmem, name="addmem"),
-    path("search/", views.search, name="search"),
-    path("event-details/<int:id>/", views.eventdetails, name="event-details"),
+
     path("Your-club-members/<int:id>/", views.clubMembers, name="Your-club-members"),
     path("Your-club_members/<int:id>/", views.club_Members, name="Your-club_members"),
     path("tasks/", views.tasks, name="tasks"),
-    path("cluster/", views.cluster, name="cluster"),
-    path("tasks/taskmsg/<str:tag_name>/", views.taskmsg, name="taskmsg"),
-    #path("member-info/<int: member_id>/", views.memberinfo, name="member-info"),
-    path("member-info/<int:member_id>/", views.memberinfo, name="member-info"),
-    path("update-event/<slug:pk>/", views.EventUpdate, name="update-event"),
-    path("remove/<int:mem_id>/<int:club_id>/", views.removemem, name="remove"),
-    path("search-club-mem/<int:club_id>/", views.searchclubmem, name="searchclubmem"),
-    path("updatepage/", views.update, name="updatepage"),
-    #path("update-info/<slug:pk>/", views.UpdateInfo.as_view(), name="update-info"),
-    path("taskform/", views.taskform, name="taskform"),
-    path("taskstatus/<int:task_id>/", views.taskstatus, name="taskstatus"),
-    path("delete-event/<slug:pk>/", views.EventDelete, name="delete-event"),
-    path("searchCluster/", views.searchCluster, name="searchCluster"),
-    path("password_reset/", views.emailtesting, name="password_reset"),
-    path("comment-save/<int:id>/", views.commentSave, name="comment-save" ),
-    path("eventsrating/<int:id>/", views.eventsrating, name="eventsrating"),
 
-    path("user-rating/", views.rating, name="rating"),
-    #path("showClubs/<str:tag>/", views.showClubs, name = "showClubs"),
-    path("data-visuals/<int:id>/", views.dataVisuals, name = "data-visuals"),
-    #path("data-visuals-sem/", views.dataVisualsSem, name = "data-visuals-sem"),
-    path("all-participants/<int:id>/", views.allParticipants, name = "all-participants"),
+    path("tasks/taskmsg/<str:tag_name>/", views.taskmsg, name="taskmsg"),
+
+    path("member-info/<int:member_id>/", views.memberinfo, name="member-info"),
+
+    path("remove/<int:mem_id>/<int:club_id>/", views.removemem, name="remove"),
+
+    path("taskform/", views.taskform, name="taskform"),
+   # path("taskstatus/<int:task_id>/", views.taskstatus, name="taskstatus"),
+
+    path("password_reset/", views.emailtesting, name="password_reset"),
+
     path("recent-tasks/", views.recentTasks,  name="recent-tasks"),
-    path("update-task/<slug:pk>/", views.TaskUpdate, name="update-task"),
-    path("delete-task/<slug:pk>/", views.TaskDelete, name="delete-task"),
+    path("update-task/<slug:pk>/<int:club_id>/", views.TaskUpdate, name="update-task"),
+    path("delete-task/<slug:pk>/<int:club_id>/", views.TaskDelete, name="delete-task"),
     path("task-chat/<int:task_id>/<int:club_id>/", views.taskChat, name = "task-chat"),
-    path("chat-save/<int:id>/", views.chatSave, name="chat-save" ),
+
     path("task-details/<int:task_id>/", views.taskDetails, name="task-details" ),
-    path("comment-load/<int:number_comments>/<int:eventid>/", views.CommentJsonListView.as_view(), name="comment-load"),
     path("your-club/<int:club_id>/", views.club, name="your-club"),
     path("we-love-your-feedbacks/", views.feedbackForm, name="feedback"),
     path("club-registration/", views.clubRegistration, name="club-registration"),
-    path("cluster-tag/<str:tag>/", views.clusterTag, name="cluster-tag"),
     path("info/<str:username>/", views.info, name="info"),
-    #path("verify/<str:auth_token>/", views.verify, name="verify"),
-    path("event-updates/<int:event_id>/", views.eventUpdates, name="event-updates"),
-    path("updates/<int:eventid>/", views.updates, name="updates"),
     path("club-by-tag/<str:tag>/", views.clubTag, name="club-tag"),
-    #path("cosb-courses/", views.courses, name="courses"),
+
     path("leave-club/<int:club_id>/", views.leaveclub, name="leave-club"),
-    #path("delete-account/", views.deleteaccount, name="delete-account"),
+
     path("club-discussion/<int:club_id>/", views.club_discussion, name = "club-discussion"),
     path("view-club/<int:club_id>/", views.view_club, name = "view-club"),
     path("join-club/<int:club_id>/", views.join_club, name = "join-club"),
-    path("event-history/", views.reg_events, name = "reg-events"),
     path("Waiting-Area/<int:club_id>/", views.view_waitingarea, name = "view-waitingarea"),
 
     path("jsecs/<int:club_id>/<int:mem_id>/", views.make_jsec, name = "make-jsec"),
@@ -75,5 +53,7 @@ urlpatterns = [
     path("view-story/<int:story_id>/", views.view_story, name = "view-story"),
     path("delete-story/<int:story_id>/", views.delete_story, name = "delete-story"),
     path("update-story/<int:story_id>/", views.update_story, name = "update-story"),
+
+    path("edit-club/<int:pk>/", views.EditClub, name = "edit-club"),
 
 ]

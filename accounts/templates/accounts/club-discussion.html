@@ -1,4 +1,4 @@
-{% extends "accounts/base.html" %}
+{% extends "qna/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% load humanize %}
@@ -45,7 +45,7 @@
             <div class="card text-left">
               <div class="card-body text-dark text-center">
 
-                <h2 class="h1-responsive font-weight-bold text-center my-5 text-dark">{{club.name}}-Discussions</h2>
+                <h2 class="h1-responsive font-weight-bold text-center my-5 text-dark">{{club.name}}-Announcements</h2>
 
 
 
@@ -53,20 +53,17 @@
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
-                      <div class="modal-header text-center">
+                      <div class="modal-header">
                         <h5 class="modal-title text-dark" id="staticBackdropLabel">Announce</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
 
-                        <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'taskform' %}" enctype="multipart/form-data" method="post">
+                        <form class="p-4 p-md-5 border rounded-3 bg-light text-start" action="{% url 'taskform' %}" enctype="multipart/form-data" method="post">
 
                           {% csrf_token %}
 
-                          <div class="form-floating mb-3">
-                            <input type="text" id="defaultForm" class="form-control" name="tag" required>
-                            <label data-error="wrong" data-success="right" for="defaultForm" class="text-dark">Title</label>
-                          </div>
+
 
                           <div class="form-floating mb-3">
 
@@ -79,13 +76,8 @@
 
                           </div>
 
+                          {{form|crispy}}
 
-                          <div class= "mb-3 text-dark">
-
-                            <label data-error="wrong" data-success="right" for="summernote">Detailed Description</label>
-                            <textarea id="summernote" name="msg" class="form-control" required></textarea>
-                            
-                          </div>
 
                           <div class="text-center">
                             <button type="submit" class="filled-button mb-5 mt-5">Add</button>
@@ -104,7 +96,7 @@
 
 
                   <a class="filled-button text-decoration-none mb-4 mt-3 " class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Add Topic
+                    Announce
                   </a>
                   
                 </div>
@@ -138,6 +130,33 @@
                     <p class="mb-1">Views: {{i.taskviews.all|length}}</p>
                   </a>
 
+
+                  {% if request.user == i.user %}
+
+                    <span class="mt-2 mb-2 text-end">
+
+                      <a href="{% url 'update-task' i.id club.id %}" class="text-decoration-none">update</a>
+
+                      <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#deleteBox{{i.id}}" aria-expanded="false" aria-controls="deleteBox{{i.id}}">
+                      delete
+                      </a>
+
+                      <div class="collapse" id="deleteBox{{i.id}}">
+                          <div class="card card-body my-2">
+
+                              <h5 class="card-title text-danger text-center">Are you sure?</h5>
+                              <a href = "{% url 'delete-task' i.id club.id %}" class="m-1 filled-button text-center" style="text-decoration: none;">Yup!</a>
+                              
+                          </div>
+                      </div>
+
+                      
+                    </span>
+
+
+
+                  {% endif %}
+
                 {% endfor %}
 
               {% else %}
@@ -166,7 +185,7 @@
 
 
 <script>
-  $('#summernote').summernote({
+  $('#summer').summernote({
     placeholder: 'Your Question here!',
     tabsize: 2,
     height: 100,

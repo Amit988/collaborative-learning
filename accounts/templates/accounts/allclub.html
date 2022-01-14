@@ -31,22 +31,22 @@
           <div class="col-md-4 mt-5">
             <div class="service-item">
 
-              {% if i.club.logo == 'blank' %}
+              {% if i.logo == 'blank' %}
 
                 <img src="{% static 'accounts/default.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
                 
 
               {% else %}
-                <img src="{{i.club.logo.url}}" alt="club's logo">
+                <img src="{{i.logo.url}}" alt="club's logo">
 
               {% endif %}
 
               <div class="down-content">
-                <h4>{{i.club.name}}</h4>
+                <h4>{{i.name}}</h4>
 
-                {% if i.club.tagline %}
+                {% if i.tagline %}
 
-                  <p>{{i.club.tagline}}</p>
+                  <p>{{i.tagline}}</p>
 
                 {% else %}
 
@@ -54,7 +54,7 @@
 
                 {% endif %}
 
-                <a href="{% url 'view-club' i.club.id  %}" class="filled-button" style="text-decoration: none;">Show More</a>
+                <a href="{% url 'view-club' i.id  %}" class="filled-button" style="text-decoration: none;">Show More</a>
               </div>
             </div>
           </div>

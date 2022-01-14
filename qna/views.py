@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime, time, date
-from .models import Question, Answere
+from .models import Question, Answere, ClubQuestion, ClubQuestionAnswere
 from django.views.generic import View
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -12,144 +12,86 @@ from django.http import HttpResponseRedirect, request, HttpResponse, JsonRespons
 
 
 ####### Questions ==============================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-def questionListView(request):
-
-    user = request.user
-    q = Question.objects.filter(tag__in = user.groups.all())
-    now = datetime.now()
-    tag_form = QuestionSearchForm()
-   
-    events_upcoming = eventRegistration.objects.filter(user = request.user, event__event_date__gte = now).order_by("-id")
-    
-    return render(request, "qna/questionlist.html", {"questions": Question.objects.all().order_by("-id"),  
-        "events_upcoming": events_upcoming, "tag_form": tag_form})
-
-def allQuestionView(request):
-
-    q = Question.objects.all()
-
-    return render(request, "qna/allquestions.html", {"questions": q})
-
-def addQuestion(request, club_id):
-    
-    
-    if request.method == 'POST':
-
-
-        tags, title, detail = request.POST['tag'], request.POST['title'], request.POST['details']
-        
-        foo = tags.split(",")
-
-        q = Question.objects.create(user = request.user, title = title, detail=detail)
-
-        for i in foo:
-            q.tag.add(i)
-
-        q.save()
-        print("Hello")
-        return redirect(f"/qna/club-qna/{club_id}")
-
-    return redirect(f"/qna/club-qna/{club_id}")
-
-def deleteQuestion(request, pk):
-    
-    obj = get_object_or_404(Question, id = pk)
-    obj.delete()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-def updateQuestion(request, pk):
-
-    context ={}
-    obj = get_object_or_404(Question, id = pk)
-    form = UpdateQuestionForm(request.POST or None, instance = obj)
-
-    if request.method == 'POST':
-
-        tags, title, detail = request.POST['tag'], request.POST['title'], request.POST['detail']
-        
-        foo = tags.split(",")
-
-        q, created = Question.objects.get_or_create(id = pk)
-
-        q.title = title
-        q.detail = detail
-
-        for i in foo:
-            q.tag.add(i)
-
-        q.save()
-
-        return redirect("qna:your-question-view")
- 
-
-    return render(request, "qna/questionform.html", {"form": form})
-
-
-def questionTags(request, tag):
-
-
-    questions = Question.objects.values().filter(tag = tag)
-    users = []
-
-
-
-    for i in questions:
-
-        u = User.objects.values().get(pk = i['user_id'])
-
-        users.append(u)
-
-
-    return JsonResponse({"questions": list(questions), "users": list(users)})
-
-
-class QuestionJsonListView(View):
-
-    def get(self, *args, **kwargs):
-
-
-        upper = kwargs.get('visible')
-        #eventid = kwargs.get('eventid')
-        lower = upper - 5
-        username = []
-        questions = list(Question.objects.all().order_by("-id").values()[lower:upper])
-
-        users = []
-
-
-
-        for i in questions:
-
-            u = User.objects.values().get(pk = i['user_id'])
-
-            users.append(u)
-  
-
-
-        questions_size = len(Question.objects.all())
-        max_size = True if upper >= questions_size else False
-
-        return JsonResponse({'data': questions, 'max': max_size, 'users': list(users)}, safe=False)
 
 
 def clubQuestions(request, club_id):
 
     club = clubInfo.objects.get(id = club_id)
-    club_mem = club.clubs.all()
+    
+    club_questions = ClubQuestion.objects.filter(club = club)
 
-    members = []
-    for i in club_mem:
-        members.append(i.memname.username)
+    form = QuestionForm()
 
-    ques = Question.objects.all().order_by("-id")
-    club_questions = []
+    member, created = Members.objects.get_or_create(memname = request.user)
 
-    for i in ques:
-        user = i.user.username
-        if user in members:
-            club_questions.append(i)
+    user_clubs = member.club.all()
 
-    return render(request, "qna/club-qna.html", {"questions": club_questions, "club_id": club_id})
+
+    if request.method == 'POST':
+
+        form = QuestionForm(request.POST)
+
+        if form.is_valid():
+
+            title = form.cleaned_data['title']
+            tags = form.cleaned_data['tag']
+            detail = form.cleaned_data['detail']
+            club_id = request.POST['club-name']
+            club = clubInfo.objects.get(id = club_id)
+
+            question = ClubQuestion.objects.create(user = request.user, club = club, title = title, tag = tags, detail = detail)
+            question.save()
+
+            return redirect(f"/qna/club-qna/{club_id}/")
+
+    return render(request, "qna/club-qna.html", {"questions": club_questions, "club_id": club_id, "form": form, "user_clubs": user_clubs})
+
+
+
+
+
+def deleteQuestion(request, pk):
+    
+    obj = get_object_or_404(ClubQuestion, id = pk)
+
+    if obj.user == request.user:
+        obj.delete()
+        return redirect("qna:your-question-view")
+
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+
+def updateQuestion(request, pk):
+
+    context ={}
+
+    obj = get_object_or_404(ClubQuestion, id = pk)
+
+    form = UpdateQuestionForm(request.POST or None, instance = obj)
+
+    user_clubs, created = Members.objects.get_or_create(memname = request.user)
+
+    if request.method == 'POST':
+
+
+        if form.is_valid():
+
+            tags, title, detail, club_id = form.cleaned_data['tag'], form.cleaned_data['title'], form.cleaned_data['detail'], request.POST['club-name']
+
+            club = clubInfo.objects.get(id = club_id)
+
+            question = ClubQuestion.objects.create(user = request.user, tag = tags, title = title, detail = detail, club = club)
+
+            messages.success(request, "Question updated.")
+            return redirect(f"/qna/add-answere/{pk}/")
+ 
+
+    return render(request, "qna/questionform.html", {"form": form, "user_clubs": user_clubs.club.all()})
+
+
 
 
 
@@ -157,12 +99,12 @@ def clubQuestions(request, club_id):
 
 def addAnswere(request, id):
 
-    question = Question.objects.get(id = id)
-    a = Answere.objects.filter(question=question, parent = None)
-    replies = Answere.objects.filter(question = question).exclude(parent = None)
+    question = ClubQuestion.objects.get(id = id)
+    a = ClubQuestionAnswere.objects.filter(question=question, parent = None)
+    replies = ClubQuestionAnswere.objects.filter(question = question).exclude(parent = None)
 
     replyDict={}
-
+    form = UpdateAnswereForm()
     for reply in replies:
 
         if reply.parent.id not in replyDict.keys():
@@ -172,71 +114,89 @@ def addAnswere(request, id):
 
     if request.method == 'POST':
         
-        user = request.user
-        parentSno = request.POST.get('parent')
-        parent_ans = request.POST.get('parent_ans')
+        form = UpdateAnswereForm(request.POST or None)
+
+        if form.is_valid():
+
+            user = request.user
+            parentSno = request.POST.get('parent')
+            parent_ans = request.POST.get('parent_ans')
 
 
-        if parentSno == "ans":  
-            foo = request.POST.get('answer', 'blank')         
-            ans  = Answere(ans = foo, user = user, question = question)
-            ans.save()
-            messages.success(request, "Your ans has been posted successfully")
+            if parentSno == "ans":  
+                foo = form.cleaned_data['ans']
+                        
+                ans  = ClubQuestionAnswere(ans = foo, user = user, question = question)
+                ans.save()
+                messages.success(request, "Your ans has been posted successfully")
 
-        elif parent_ans:
+            elif parent_ans:
 
-            foo = request.POST.get('answer1', 'blank')
-            parent = Answere.objects.get(id = parent_ans)
-            reply = Answere(ans = foo, user = user, question = question, parent = parent)
-            reply.save()
+                foo = request.POST.get('answer1', 'blank')
+                parent = ClubQuestionAnswere.objects.get(id = parent_ans)
+                reply = ClubQuestionAnswere(ans = foo, user = user, question = question, parent = parent)
+                reply.save()
 
-            messages.success(request, "Your reply has been posted successfully")
+                messages.success(request, "Your reply has been posted successfully")
 
 
-        replies = Answere.objects.filter(question = question).exclude(parent = None)
+            replies = ClubQuestionAnswere.objects.filter(question = question).exclude(parent = None)
 
-        replyDict={}
+            replyDict={}
 
-        for reply in replies:
+            for reply in replies:
 
-            if reply.parent.id not in replyDict.keys():
-                replyDict[reply.parent.id]=[reply]
-            else:
-                replyDict[reply.parent.id].append(reply)
-                
-        #ajax
-        return render(request, "qna/answereform.html", {"i": question, "answeres": a, "total_q": len(a), "replyDict": replyDict})
+                if reply.parent.id not in replyDict.keys():
+                    replyDict[reply.parent.id]=[reply]
+                else:
+                    replyDict[reply.parent.id].append(reply)
+                    
+            #ajax
+            return render(request, "qna/answereform.html", {"i": question, "answeres": a, "total_q": len(a), "replyDict": replyDict, "form": form})
 
-    return render(request, "qna/answereform.html", {"i": question, "answeres": a, "total_q": len(a), "replyDict": replyDict})
+    return render(request, "qna/answereform.html", {"i": question, "answeres": a, "total_q": len(a), "replyDict": replyDict, "form": form})
+
+
 
 def updateAnswere(request, pk):
 
 
     context ={}
-    obj = get_object_or_404(Answere, id = pk)
+    obj = get_object_or_404(ClubQuestionAnswere, id = pk)
     form = UpdateAnswereForm(request.POST or None, instance = obj) 
 
 
     if form.is_valid():
         form.save()
-        return redirect('qna:your-answer-view')       
+        return redirect(f"/qna/add-answere/{obj.question.id}/")       
 
     return render(request, "qna/answere-update-form.html", {"form": form})
 
+
+
+
 def deleteAnswere(request, pk):
     
-    obj = Answere.objects.filter(id = pk)
-    obj.delete()
+    obj = get_object_or_404(ClubQuestionAnswere, id = pk)
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if obj.user == request.user:
+        obj.delete()
+        return redirect("qna:your-answer-view")
+
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 
 
 def userQuestion(request):
 
-    questions = Question.objects.filter(user=request.user)
+    questions = ClubQuestion.objects.filter(user=request.user)
     return render(request, "qna/yourquestion.html", {"questions": questions})
+
+
 
 def userAnswer(request):
 
-    ans = Answere.objects.filter(user = request.user)
+    ans = ClubQuestionAnswere.objects.filter(user = request.user)
     return render(request, "qna/yourans.html", {"ans": ans})

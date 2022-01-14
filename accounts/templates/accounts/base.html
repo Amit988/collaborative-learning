@@ -67,10 +67,6 @@
                   <a class="nav-link active" href="{% url 'sinx:sinx' %}">Courses</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" href="{% url 'event' %}">Competitions</a>
-                </li>
-
-                <li class="nav-item">
                   <a class="nav-link active" href="{% url 'users:logout' %}">Log Out</a>
                 </li>
 
@@ -80,10 +76,10 @@
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{% url 'password_reset' %}">Change Password</a></li>
-                    <li><a class="dropdown-item" href="{% url 'users:update-info' request.user.id  %}">Update Profile</a></li>
-                    <!--<li><a class="dropdown-item" href="{% url 'rating'  %}">Your Ratings</a></li>-->
-                    <li><a class="dropdown-item" href="{% url 'qna:your-question-view' %}">Your questions</a></li>
-                    <li><a class="dropdown-item" href="{% url 'qna:your-answer-view' %}">Your answers</a></li>
+                    <!--<li><a class="dropdown-item" href="{% url 'users:update-info' request.user.id  %}">Update Profile</a></li>-->
+                    <li><a class="dropdown-item" href="{% url 'sinx:view-watchlist' %}">Your Watchlist</a></li>
+                    <li><a class="dropdown-item" href="{% url 'qna:your-question-view' %}">Your Questions</a></li>
+                    <li><a class="dropdown-item" href="{% url 'qna:your-answer-view' %}">Your Answers</a></li>
                     <!--<li><a class="dropdown-item" href="{% url 'users:delete-account' %}">Delete Account</a></li>-->
                   </ul>
 
@@ -225,7 +221,7 @@
               </p>
               
               <p>
-                <a href="/quiz/" class="text-reset text-decoration-none">Take a quiz</a>
+                <a href="{% url 'stories' %}" class="text-reset text-decoration-none">Stories</a>
               </p>
               <p>
                 <a href="{% url 'club-registration' %}" class="text-reset text-decoration-none">Open Club</a>
@@ -238,7 +234,7 @@
 
 
               <p>
-                <a href="/quiz/" class="text-reset text-decoration-none">Take a quiz</a>
+                <a href="{% url 'stories' %}" class="text-reset text-decoration-none">Stories</a>
               </p>
 
 

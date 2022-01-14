@@ -23,8 +23,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
   <link href="https://unpkg.com/pattern.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'accounts/css/templatemo-style.css' %}">
-  <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+  <!--<link rel="stylesheet" href="{% static 'accounts/css/templatemo-style.css' %}">-->
+
+  <!--<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">-->
 
 
   <script defer src="https://widget-js.cometchat.io/v3/cometchatwidget.js"></script>
@@ -33,6 +34,30 @@
 
 
   <style type="text/css">
+
+
+    .filled-button {
+        background-color: transparent;
+        color: #fff;
+        background-color: #515148;
+        border: none;
+        font-size: 13px;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 12px 30px;
+        border-radius: 30px;
+        display: inline-block;
+        transition: all 0.3s;
+        outline: none;
+        box-shadow: none;
+        text-shadow: none;
+        cursor: pointer;
+    }
+       
+    .filled-button:hover {
+        background-color: #17b978;
+        color: white;
+    }
     
     .curved {
       position: relative;
@@ -206,6 +231,13 @@
         <img src="{{club.logo.url}}" class="d-block mx-lg-auto img-fluid" alt="Course Image" width="300" height="300" loading="lazy">
 
       {% endif %}
+
+      <div class="text-end mt-2">
+
+        <a class="btn text-info" href="{% url 'edit-club' club.id %}"><i class="fa fa-edit" aria-hidden="true" style="font-size: 20px;"> Edit</i></a>
+
+        
+      </div>
     </div>
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold lh-1 mb-3">{{club.name}}: {{club.tagline}}</h1>
@@ -225,11 +257,11 @@
       {% endif %}
       <div class="d-grid gap-2 d-md-flex justify-content-md-start">
 
-        <span class="material-icons">
+        <span class="material-icons text-info">
         share 
         </span>
 
-        <a href="{% url 'view-club' club.id %}" class="text-decoration-none">Share your club!</a>
+        <a href="{% url 'view-club' club.id %}" class="text-decoration-none">Share</a>
         <!--<button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
         <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>-->
 
@@ -239,20 +271,116 @@
   </div>
 
 
-  <div class="text-center mt-5">
+  <!--<div class="text-center mt-5">
 
 
-    <a class="filled-button text-decoration-none mb-4" href="{% url 'stories' %}">
-      Stories <span class="badge bg-success">New</span>
-    </a>
+    <a class="filled text-decoration-none" href="{% url 'sinx:sinx' %}">Find a Course</a>
     
-  </div>
+  </div>-->
 
 
   <div class="row mt-2">
 
 
     <div class="px-4 py-5 my-5">
+      
+      <div class="text-dark text-center">
+
+
+        <!--<i class="fa fa-bullhorn" aria-hidden="true" style="font-size: 20px;"></i>--><h1 class="display-5 fw-bold text-center"><a href="{% url 'sinx:sinx' %}" class="text-decoration-none text-dark">Find a Course</a></h1>
+        
+      </div>
+
+      
+      <div class="col-lg-6 mx-auto">
+
+
+          {% if shared_courses %}
+          
+
+            {% for i in shared_courses %}
+
+              <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <a href="{% url 'sinx:course-overview' i.course.id %}" class="text-decoration-none"><h6 class="border-bottom pb-2 mb-0 text-dark">{{i.course.name}} {{i.course.overall_rating}} <i class="fa fa-star" aria-hidden="true" style="color:yellow;"></i></h6></a>
+                <div class="d-flex text-muted pt-3">
+                  <img
+                    class="rounded-circle shadow-1-strong me-3"
+                    src="https://ui-avatars.com/api/?name={{i.user.username}}"
+                    alt="avatar"
+                    width="65"
+                    height="65"
+                  />
+
+                  <p class="pb-3 mb-0 small lh-sm border-bottom">
+                    <strong class="d-block text-gray-dark">{{i.user.username}}</strong>
+
+                    {% if i.msg == '' %}
+                      Hey look at this course it is quite popular on cosb diary.
+
+                    {% else %}
+
+
+                      {{i.msg}}
+
+                    {% endif %}
+                    <br>
+                    {% if request.user == i.user %}
+
+                      <span class="mt-2 mb-2 text-end">
+                       
+                        <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#delete{{i.id}}" aria-expanded="false" aria-controls="delete{{i.id}}">
+                        delete
+                        </a>
+
+                        <div class="collapse" id="delete{{i.id}}">
+                            <div class="card card-body my-2">
+
+                                <h5 class="card-title text-danger text-center">Are you sure?</h5>
+                                <a href = "{% url 'sinx:delete-shared-course' i.id club.id %}" class="m-1 filled-button text-center" style="text-decoration: none;">Yup!</a>
+                                
+                            </div>
+                        </div>
+                        
+                      </span>
+
+
+
+                    {% endif %}
+                  </p>  
+
+
+                </div>
+
+                <small class="d-block text-end mt-3">
+                  <a href="{% url 'sinx:course-overview' i.course.id %}">View Course</a>
+                </small>
+              
+              </div>
+
+            {% endfor %}
+
+          {% else %}
+
+            <div class="text-center mt-5">
+
+            <a class="filled text-decoration-none" href="{% url 'sinx:sinx' %}">Find a Course</a>
+
+              
+            </div>
+
+          {% endif %}
+
+
+
+
+    </div>
+  </div>
+
+  </div>
+  <div class="row">
+
+
+    <div class="px-4 py-3 my-2">
       
       <div class="text-dark text-center">
 
@@ -278,10 +406,39 @@
                 </div>
                 <p class="mb-1">{{i.msg|safe|truncatewords:15}}</p>
                 <p class="mb-1">Views: {{i.taskviews.all|length}}</p>
-                <!--<small>And some small print.</small> <a href="{% url 'task-chat' i.id club.id %}" class="text-success text-dark" style="text-decoration: none;"> -->
+
+
               </a>
 
+
+              {% if request.user == i.user %}
+
+                <span class="mt-2 mb-2 text-end">
+
+                  <a href="{% url 'update-task' i.id club.id %}" class="text-decoration-none">update</a>
+                 
+                  <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#deleteBox{{i.id}}" aria-expanded="false" aria-controls="deleteBox{{i.id}}">
+                  delete
+                  </a>
+
+                  <div class="collapse" id="deleteBox{{i.id}}">
+                      <div class="card card-body my-2">
+
+                          <h5 class="card-title text-danger text-center">Are you sure?</h5>
+                          <a href = "{% url 'delete-task' i.id club.id %}" class="m-1 filled-button text-center" style="text-decoration: none;">Yup!</a>
+                          
+                      </div>
+                  </div>
+                  
+                </span>
+
+
+
+              {% endif %}
+
             {% endfor %}
+
+
 
           {% else %}
 
@@ -321,7 +478,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="static-Backdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade text-dark" id="static-Backdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header text-center">
@@ -330,30 +487,27 @@
           </div>
           <div class="modal-body">
 
-            <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'qna:add-question-view' club.id %}" enctype="multipart/form-data" method="post">
+            <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'qna:club-qna' club.id %}" enctype="multipart/form-data" method="post">
 
               {% csrf_token %}
 
-              <div class="form-floating mb-3">
-                <input type="text" id="defaultForm" class="form-control" name="title" required placeholder="title">
-                <label data-error="wrong" data-success="right" for="defaultForm" class="text-dark">Title</label>
+              
+              {{question_form|crispy}}
+
+
+              <div class="form-floating mb-3 mt-3">
+
+                <select class="form-select" aria-label="Default select example" name="club-name" id="floatingSelect">
+                  {% for i in allclub %}
+                    <option value="{{i.id}}"  class="text-dark">{{i.name}}</option>
+                  {% endfor %}
+                </select>
+                <label for="floatingSelect">Club</label>
+
               </div>
 
-              <div class="form-floating mb-3">
-
-                <input type="text" id="floatingSelect" class="form-control text-dark" name="tag" required placeholder="web-development, front-end, HTML...">
-                <label for="floatingSelect" class="text-dark">Tags(HTML, CSS, CP...)</label>
-
-              </div>
 
 
-              <div class= "mb-3 text-dark form-floating">
-
-                
-                <textarea id="summernote" name="details" class="form-control" required placeholder="details"></textarea>
-                <!--<label data-error="wrong" data-success="right" for="summernote">Detailed Description</label>-->
-                
-              </div>
 
 
               <div class="text-center">
@@ -377,14 +531,14 @@
           </div>
           <div class="modal-body">
 
-            <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'taskform' %}" enctype="multipart/form-data" method="post">
+            <form class="p-4 p-md-5 border rounded-3 bg-light text-dark" action="{% url 'taskform' %}" enctype="multipart/form-data" method="post">
 
               {% csrf_token %}
 
-              <div class="form-floating mb-3">
+              <!--<div class="form-floating mb-3">
                 <input type="text" id="defaultForm" class="form-control" name="tag" placeholder="Title" required>
                 <label data-error="wrong" data-success="right" for="defaultForm" class="text-dark">Title</label>
-              </div>
+              </div>-->
 
               <div class="form-floating mb-3">
 
@@ -397,13 +551,13 @@
 
               </div>
 
-
-              <div class= "mb-3 text-dark">
+              {{announcement_form|crispy}}
+              <!--<div class= "mb-3 text-dark">
 
                 <label data-error="wrong" data-success="right" for="summer">Detailed Description</label>
                 <textarea id="summer" name="msg" class="form-control" required></textarea>
                 
-              </div>
+              </div>-->
 
               <div class="text-center">
                 <button type="submit" class="filled-button mb-5 mt-5">Add</button>
@@ -442,11 +596,11 @@
             {% endfor %}
 
             {% if members|length <= 1 %}
-              <h6 class="card-subtitle mb-2 text-muted mt-3"><span class="badge bg-info">{{members|length}} Member</span></h6>
+              <h6 class="card-subtitle mb-2 text-muted mt-3"><span class="badge bg-info">{{total_members}} Member</span></h6>
 
             {% else %}
 
-              <h6 class="card-subtitle mb-2 text-muted mt-3"><span class="badge bg-info">{{members|length}} Members</span></h6>
+              <h6 class="card-subtitle mb-2 text-muted mt-3"><span class="badge bg-info">{{total_members}} Members</span></h6>
 
             {% endif %}
 
@@ -516,14 +670,14 @@
     </div>
 
 
-    <div class="modal fade" id="Backdrop" data-bs-backdrop="#Backdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!--<div class="modal fade" id="Backdrop" data-bs-backdrop="#Backdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header text-center">
             <h5 class="modal-title text-dark" id="staticBackdropLabel">Report Club</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-dark">
 
             <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'report-club' club.id %}" enctype="multipart/form-data" method="post">
 
@@ -544,13 +698,17 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
         <div class="text-center mb-4">
 
 
-          <a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#Backdrop" href="">
+          <!--<a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#Backdrop" href="">
             Report Club
+          </a>-->
+
+          <a class="filled-button text-decoration-none mb-4" href="{% url 'stories' %}">
+            Stories <span class="badge bg-success">New</span>
           </a>
           
         </div>
@@ -574,6 +732,15 @@
        
 
       <script>
+
+
+        const ele = document.getElementById("msg-container")
+        setTimeout(function(){
+
+            ele.style.display = "none";
+            },
+         3000);
+
         $('#summer').summernote({
           placeholder: 'Details',
           tabsize: 2,
@@ -597,9 +764,9 @@
         window.addEventListener('DOMContentLoaded', (event) => {
 
             CometChatWidget.init({
-              appID: '19851140fbfb68a7',
+              appID: '2016540acb515643',
               appRegion: 'us',
-              authKey: '7a3dee94e88d9757c7fb2dee2752db548402c37a',
+              authKey: '80d51eec6ff906933a655c6b61883473d34df9ec',
 
             }).then((response) => {
 
@@ -682,9 +849,12 @@
 
 {% block ajaxbox %}
 
-<!--
+
   <script>
 
+
+
+      
       const ele = document.getElementById("msg-container")
       setTimeout(function(){
 
@@ -692,21 +862,7 @@
           },
        3000);
 
-
-        document.onreadystatechange = function () {
-        var state = document.readyState
-        if (state == 'interactive') {
-             document.getElementById('cont').style.visibility="hidden";
-        } else if (state == 'complete') {
-            setTimeout(function(){
-               document.getElementById('interactive');
-               document.getElementById('load').style.visibility="hidden";
-               document.getElementById('cont').style.visibility="visible";
-            },1000);
-        }
-      }
-
-  </script>-->
+  </script>
 
 
 {% endblock %}

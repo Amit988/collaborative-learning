@@ -69,7 +69,7 @@
 
         <div class="card mt-2 mb-2">
 
-          <!--<a href = "{% url 'qna:add-question-view' club_id %} " class="filled-button m-3" style="text-decoration: none;">Ask</a>-->
+
           <div class="card-body">
 
             <!-- Modal -->
@@ -82,34 +82,29 @@
                   </div>
                   <div class="modal-body">
 
-                    <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'qna:add-question-view' club_id %}" enctype="multipart/form-data" method="post">
+                    <form class="p-4 p-md-5 border rounded-3 bg-light text-dark text-start" action="{% url 'qna:club-qna' club_id %}" enctype="multipart/form-data" method="post">
 
                       {% csrf_token %}
 
-                      <div class="form-floating mb-3">
-                        <input type="text" id="defaultForm" class="form-control" name="title" required placeholder="title">
-                        <label data-error="wrong" data-success="right" for="defaultForm" class="text-dark">Title</label>
-                      </div>
-
-                      <div class="form-floating mb-3">
-
-                        <input type="text" id="floatingSelect" class="form-control text-dark" name="tag" required placeholder="web-development, front-end, HTML...">
-                        <label for="floatingSelect" class="text-dark">Tags(HTML, CSS, CP...)</label>
-
-                      </div>
+                      
+                      {{form|crispy}}
 
 
-                      <div class= "mb-3 text-dark form-floating">
 
-                        
-                        <textarea id="summernote" name="details" class="form-control" required placeholder="details"></textarea>
-                        <!--<label data-error="wrong" data-success="right" for="summernote">Detailed Description</label>-->
-                        
+                      <div class="form-floating mb-3 mt-3">
+
+                        <select class="form-select" aria-label="Default select example" name="club-name" id="floatingSelect">
+                          {% for i in user_clubs %}
+                            <option value="{{i.id}}"  class="text-dark">{{i.name}}</option>
+                          {% endfor %}
+                        </select>
+                        <label for="floatingSelect">Club</label>
+
                       </div>
 
 
                       <div class="text-center">
-                        <button type="submit" class="filled-button mb-5 mt-5">Ask Doubts.</button>
+                        <button type="submit" class="filled-button mb-5 mt-5">Ask</button>
                       </div>
 
                     </form>
@@ -123,15 +118,21 @@
             <!-- Button trigger modal -->
             <div class="text-center">
 
-
+              {% if request.user.is_authenticated %}
               <a class="filled-button text-decoration-none mb-4 mt-3 " class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Ask Doubts
               </a>
+              <a  href="{% url 'qna:your-question-view' %}" style="font-size: 12px; text-decoration: none;">Your questions</a>
+              <a  href="{% url 'qna:your-answer-view' %}" style="font-size: 12px; text-decoration: none;">Your answers</a>
+              {% else %}
+
+                <a href="{% url 'users:register' %}" class="filled-button mt-2" style="text-decoration: none;">Sign up</a>
+
+              {% endif %}
               
             </div>
 
-            <a  href="{% url 'qna:your-question-view' %}" style="font-size: 12px; text-decoration: none;">Your questions</a>
-            <a  href="{% url 'qna:your-answer-view' %}" style="font-size: 12px; text-decoration: none;">Your answers</a>
+
             
           </div>
         </div>

@@ -7,8 +7,34 @@ Members
 {% endblock %}
 
 {% block script %}
+
+  <style type="text/css">
     
-    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+    .filled-button {
+        background-color: transparent;
+        color: #fff;
+        background-color: #515148;
+        border: none;
+        font-size: 13px;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 12px 30px;
+        border-radius: 30px;
+        display: inline-block;
+        transition: all 0.3s;
+        outline: none;
+        box-shadow: none;
+        text-shadow: none;
+        cursor: pointer;
+    }
+       
+    .filled-button:hover {
+        background-color: #17b978;
+        color: white;
+    }
+
+  </style>
+
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     
@@ -40,112 +66,154 @@ Members
     <div class="row">
 
       <!-- Grid column -->
-      <div class="col-sm-4 mb-lg-0 mb-4 m-3 mx-auto">
+      <div class="col-sm-4 mb-lg-0 mb-4 m-3 mx-auto py-5">
 
         <h2 class="h1-responsive font-weight-bold text-center my-5 text-dark">Add New Members</h2>
 
-        {% if members|length <= 1 %}
-          <h6 class="mt-2 text-dark text-center">{{members|length}} Member Waiting.</h6>
+        <div class="text-center">
 
-        {% else %}
+          <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#deleteBox{{i.id}}" aria-expanded="false" aria-controls="deleteBox{{i.id}}">
+            <i class="fa fa-plus"></i> View
+          </a>
+          
+        </div>
 
-          <h6 class="mt-2 text-dark text-center">{{members|length}} Members Waiting.</h6>
+        <div class="collapse" id="deleteBox{{i.id}}">
 
-        {% endif %}
+          {% if members|length <= 1 %}
+            <h6 class="mt-2 text-dark text-center">{{members|length}} Member Waiting.</h6>
+
+          {% else %}
+
+            <h6 class="mt-2 text-dark text-center">{{members|length}} Members Waiting.</h6>
+
+          {% endif %}
 
 
-        <ol class="list-group list-group-numbered">
+          <ol class="list-group list-group-numbered">
 
-          {% for i in members %}
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold"><a href="{% url 'info' i.username %}" style="text-decoration: none;">{{i.username}}</a></div>
-              </div>
-              <div id="msg-{{i.id}}" class="text-center m-3"></div>
-              <span class="badge rounded-pill" id="btn-{{i.id}}-{{club_id}}"><a style="text-decoration: none;" class="filled-button" 
-                onclick="add({{i.id}}, {{club_id}});">Add</a></span>
-            </li>
-          {% endfor %}
+            {% for i in members %}
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold"><a href="{% url 'info' i.username %}" style="text-decoration: none;">{{i.username}}</a></div>
+                </div>
+                <div id="msg-{{i.id}}" class="text-center m-3"></div>
+                <span class="badge rounded-pill" id="btn-{{i.id}}-{{club_id}}"><a style="text-decoration: none;" class="filled-button" 
+                  onclick="add({{i.id}}, {{club_id}});">Add</a></span>
+              </li>
+            {% endfor %}
 
-        </ol>
+          </ol>
+
+          <div class="text-center">
+
+            <span class="material-icons text-info">
+            share 
+            </span>
+
+            <a href="{% url 'view-club' club.id %}" class="text-decoration-none">Share with friend!</a>
+            
+          </div>
+
+
+            
+        </div>
+
 
 
     </div>
 
-      <div class="col-sm-4 mb-lg-0 mb-4 m-3 mx-auto">
+      <div class="col-sm-4 mb-lg-0 mb-4 m-3 mx-auto py-5">
 
-        <h2 class="h1-responsive font-weight-bold text-center my-5 text-dark">Members</h2>
-
-        {% if mem|length <= 1 %}
-          <h6 class="mt-2 text-dark text-center">{{mem|length}} Member</h6>
-
-        {% else %}
-
-          <h6 class="mt-2 text-dark text-center">{{mem|length}} Members</h6>
-
-        {% endif %}
+        <h2 class="h1-responsive font-weight-bold text-center my-5 text-dark">{{club.name}} Members</h2>
 
 
-        <ol class="list-group list-group-numbered">
+        <div class="text-center">
 
-          {% for i in mem %}
-            <li class="list-group-item d-flex">
+          <a class="text-decoration-none" type="button" data-toggle="collapse" data-target="#delete" aria-expanded="false" aria-controls="delete">
+            <i class="fa fa-plus"></i> View
+          </a>
+          
+        </div>
 
-              <div class="ms-2 me-auto">
-
-                {% if i.memname.username == request.user.username %}
-                  <div class="fw-bold"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;">You</a></div>
-
-                {% else %}
-
-                  <div class="fw-bold"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;">{{i.memname.username}}</a></div>
-
-                {% endif %}
-              </div><br>
+        <div class="collapse" id="delete">
 
 
-            </li>
+          {% if mem|length <= 1 %}
+            <h6 class="mt-2 text-dark text-center">{{mem|length}} Member</h6>
 
-              <div class="text-center">
+          {% else %}
 
-                <a class="text-danger mb-3" type="button" data-toggle="collapse" data-target="#deleteBox{{i.id}}" aria-expanded="false" aria-controls="deleteBox{{i.id}}">
-                remove
-                </a>
-                {% if i.memname.id in club.jsecsclub.all %}
+            <h6 class="mt-2 text-dark text-center">{{mem|length}} Members</h6>
 
-                  <p>Jsec</p>
-                {% else %}
-                  <a class="text-info mb-3 m-2" type="button" data-toggle="collapse" data-target="#jsecBox{{i.id}}" aria-expanded="false" aria-controls="jsecBox{{i.id}}">
-                    make jsec
+          {% endif %}
+
+
+          <ol class="list-group list-group-numbered">
+
+            {% for i in mem %}
+              <li class="list-group-item d-flex ">
+
+                <div class="ms-2 me-auto">
+
+                  {% if i.memname.username == request.user.username %}
+                    <div class="fw-bold"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;" class="text-center">You</a></div>
+
+                  {% else %}
+
+                    <div class="fw-bold text-center"><a href="{% url 'info' i.memname.username %}" style="text-decoration: none;" class="text-center">{{i.memname.username}}</a></div>
+
+                  {% endif %}
+                </div><br>
+
+
+              </li>
+
+                <div class="text-center">
+
+                  <a class="text-danger mb-3  text-decoration-none" type="button" data-toggle="collapse" data-target="#deleteBox{{i.id}}" aria-expanded="false" aria-controls="deleteBox{{i.id}}">
+                  Remove
                   </a>
+                  {% if i.memname.id in club.jsecsclub.all %}
 
-                {% endif %}
+                    <p>Jsec</p>
+                  {% else %}
+                    <a class="text-success mb-3 m-2 text-decoration-none" type="button" data-toggle="collapse" data-target="#jsecBox{{i.id}}" aria-expanded="false" aria-controls="jsecBox{{i.id}}">
+                      Make Jsec
+                    </a>
 
+                  {% endif %}
+
+                  
+                </div>
+
+                <div class="collapse mb-3" id="deleteBox{{i.id}}">
+                    <div class="card card-body my-2 text-center">
+
+                        <h5 class="card-title text-danger">Are you sure?</h5>
+                        <span class="badge rounded-pill"><a style="text-decoration: none;" class="filled-button" href="{% url 'remove' i.memname.id club_id %}">Yes</a></span>
+                        
+                    </div>
+                </div>
+
+                <div class="collapse mb-3" id="jsecBox{{i.id}}">
+                    <div class="card card-body my-2 text-center">
+
+                        <h5 class="card-title text-danger">Are you sure?</h5>
+                        <span class="badge rounded-pill"><a style="text-decoration: none;" class="filled-button" href="{% url 'make-jsec' club_id i.memname.id %}">Yes</a></span>
+                        
+                    </div>
+                </div>
                 
-              </div>
-
-              <div class="collapse mb-3" id="deleteBox{{i.id}}">
-                  <div class="card card-body my-2 text-center">
-
-                      <h5 class="card-title text-danger">Are you sure?</h5>
-                      <span class="badge rounded-pill"><a style="text-decoration: none;" class="filled-button" href="{% url 'remove' i.memname.id club_id %}">Yes</a></span>
-                      
-                  </div>
-              </div>
-
-              <div class="collapse mb-3" id="jsecBox{{i.id}}">
-                  <div class="card card-body my-2 text-center">
-
-                      <h5 class="card-title text-danger">Are you sure?</h5>
-                      <span class="badge rounded-pill"><a style="text-decoration: none;" class="filled-button" href="{% url 'make-jsec' club_id i.memname.id %}">Yes</a></span>
-                      
-                  </div>
-              </div>
               
-            
-          {% endfor %}
+            {% endfor %}
 
-        </ol>
+          </ol>
+
+
+
+            
+        </div>
 
 
     </div>
@@ -163,6 +231,14 @@ Members
 {% block ajaxbox %}
 
   <script>
+
+    
+    const ele = document.getElementById("msg-container")
+    setTimeout(function(){
+
+        ele.style.display = "none";
+        },
+     3000);
 
 
     function add(user_id, club_id) 

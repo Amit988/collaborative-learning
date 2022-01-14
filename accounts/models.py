@@ -41,7 +41,7 @@ class clubInfo(models.Model):
     vision_and_mission = models.TextField(null = True, blank = True)
     tag = models.CharField(max_length=1000, default="ALL")
     tagline = models.CharField(max_length = 1000, null = True, blank=True)
-
+    private = models.BooleanField(default = False)
 
     def __str__(self):
         return self.name
@@ -215,10 +215,10 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # only users clubs
     club = models.ForeignKey(clubInfo, on_delete = models.CASCADE, default="cosb", related_name="clubstask")
-    tag = models.CharField(max_length=255, choices=TAG_CHOICES)
+    #tag = models.CharField(max_length=255, choices=TAG_CHOICES)
     time = models.DateTimeField(auto_now_add=True)
-    deadline_date = models.DateField(default = timezone.now(), blank = True, null=True)
-    deadline_time = models.TimeField(default=timezone.now(),  null=True, blank=True)
+    #deadline_date = models.DateField(default = timezone.now(), blank = True, null=True)
+    #deadline_time = models.TimeField(default=timezone.now(),  null=True, blank=True)
     msg = models.TextField()
 
     def __str__(self):

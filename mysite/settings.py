@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'django_summernote',
     #'channels',
     'users',
-    'courses',
+    #'courses',
     'crispy_forms',
     'cloudinary_storage',
     'cloudinary',

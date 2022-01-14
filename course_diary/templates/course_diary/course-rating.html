@@ -141,6 +141,18 @@
 
               
             </div>
+
+            <div class="mb-3">
+              
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/python/" class="text-dark text-decoration-none">Python</a></span>
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/competitive programming/" class="text-dark text-decoration-none">Competitive programming</a></span>
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/android/" class="text-dark text-decoration-none">Android development</a></span>
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/web development/" class="text-dark text-decoration-none">Web development</a></span>
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/investing/" class="text-dark text-decoration-none">Investing</a></span>
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/machine learning/" class="text-dark text-decoration-none">Machine learning</a></span><br>
+              <span class="badge bg-info text-dark"><a href="/courses/search-courses/data structures/" class="text-dark text-decoration-none">Data structures</a></span>
+
+            </div>
             
 
 
@@ -176,17 +188,36 @@
                 <img class="img-fluid post-thumb " src="{{course.image.url}}" alt="image">
             </div>
             <div class="col">
-              <h3 class="title mb-1"><a class="text-link" href="">{{course.name}}</a></h3>
+              <h3 class="title mb-3"><a class="text-link" href="">{{course.name}}</a></h3>
               Tags: |
               {% for j in course.tags.all %}
                 <span class="comment"><a href="/courses/search-courses/{{j}}/">{{j}}</a> |</span>
 
               {% endfor %}
-              
+              <br>
+
+              {% if request.user.is_authenticated %}
+                {% if added %}
+
+                  <a href="{% url 'sinx:view-watchlist' %}" class="btn btn-primary mt-4">Manage Watchlist</a></p>
+                {% else %}
+
+                  <button class="btn btn-primary mt-4" id="watchlist" onclick="add();" data-id = {{course.id}}>Add to Watchlist</button><br>
+                  <div id="msg" class="mt-2"></div>
+                {% endif %}
+
+
+                  <button class="btn btn-primary text-decoration-none mb-4" data-bs-toggle="modal" data-bs-target="#static-Backdrop">
+                    Share in clubs
+                  </button>
+
+              {% endif %}
+
               <hr>
+
               <h3 class="title mb-3 text-muted">Course Info</h3>
               <p><b>Author</b>: {{course.author}}</p>
-              <p><b>Rating</b>: <mark>{{course.overall_rating}}</mark></p>
+              <p><b>Rating</b>: <mark class="bg-success text-white px-2">{{course.overall_rating}} <i class="fa fa-star" aria-hidden="true" style="color:yellow;"></i></mark></p>
               <p><b>Platform</b>: {{course.platform}}</p>
               <p><b>Language</b>: {{course.language}}</p>
               {% if course.price == 0 %}<p><b>Fees</b>: <mark>Free</mark></p>{% else %}<p><b>Fees</b>: {{course.price}}</p>{% endif %}
@@ -197,7 +228,7 @@
               
               <h3 class="title mt-5 text-muted">About</h3>
               <div class="intro mt-3" style="font-size: 22px;">{{course.about}}</div>
-              <h3 class="title mt-3"><a class="text-link" href="{{course.link}}">Go to course</a></h3>
+              <h3 class="title mt-3"><a class="text-link" href="{{course.link}}" target="_blank">Go to course</a></h3>
               <br>
 
             </div><!--//col-->
@@ -205,7 +236,48 @@
         </div><!--//item-->
 
 
+        <div class="modal fade" id="static-Backdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h5 class="modal-title text-dark" id="staticBackdropLabel">Share in a club!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
 
+                <form class="p-4 p-md-5 border rounded-3 bg-light" action="{% url 'sinx:share' course.id %}" method="post">
+
+                  {% csrf_token %}
+
+                  <!--<div class="form-floating mb-3">
+                    <input type="text" id="floatingForm" class="form-control" name="title" required placeholder="title">
+                    <label data-error="wrong" data-success="right" for="floatingForm" class="text-dark">Say something...</label>
+                  </div>-->
+
+                  {{form|crispy}}
+
+
+                  <div class="form-floating mb-3 mt-5">
+
+                    <select class="form-select" aria-label="Default select example" name="club-name" id="floatingSelect">
+                      {% for i in clubs %}
+                        <option value="{{i.id}}">{{i.name}}</option>
+                      {% endfor %}
+                    </select>
+                    <label for="floatingSelect">Club</label>
+
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="filled-button mb-5 mt-5">Share</button>
+                  </div>
+
+                </form>
+                
+              </div>
+            </div>
+          </div>
+        </div>
 
     {% if request.user.is_authenticated %} 
       <nav class="blog-nav nav nav-justified my-5">
@@ -369,5 +441,46 @@
             ele.style.display = "none";
             },
          3000);
+
+
+        function add() 
+        {
+
+
+          const reg = document.getElementById("watchlist");
+          const msg = document.getElementById("msg");
+
+
+          console.log(reg);
+          console.log(msg);
+
+
+            const id = reg.dataset.id;
+            $.ajax({
+            type: 'GET',
+            url: `/courses/add-to-watchlist/${id}/`,
+
+            success: function(response){
+
+              if (response.status === 1){
+
+                //reg.classList.add('hide');
+                //reg.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Adding...`
+              
+                reg.style.visibility = "hidden";
+                msg.innerHTML += `<p class="text-success">Added to watchlist.</p>`
+              }
+
+              else{
+
+                msg.innerHTML += `<p class="text-danger">Please try in few moments.</p>`
+              }
+
+
+            }
+          })
+
+        }
+
     </script>
 {% endblock %}

@@ -208,7 +208,7 @@
     <div class="px-4 pt-5 my-5 text-center border-bottom bg-dark">
       <h6 class="display-5 fw-bold">Learning together!</h6>
       <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">cosb is a one of its kind platform. Get clubbed with your friends, take a course from our wide catalog and start learning together. Collaborate on projects, Ask doubts, Discuss ideas, Conduct live sessions, Participate in competitions, All in one place.</p>
+        <p class="lead mb-4">cosb is a one of its kind platform. Get clubbed with your friends, take a rated course from our wide catalog and start learning together. Collaborate on projects, Ask doubts, Discuss ideas, Conduct live sessions, Participate in competitions, All in one place.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
 
             <a class="filled-button btn-sm text-decoration-none" href="{% url 'club-registration' %}">Open Club</a>
@@ -230,7 +230,7 @@
     <div class="row text-center">
         <div class="section-heading mt-5 mb-5">
 
-            <h2> <em><a href="{% url 'event' %}" class="text-dark" style = "text-decoration: none;">Competitions</a></em></h2>
+            <h2> <em><a href="{% url 'stories' %}" class="text-dark" style = "text-decoration: none;">Latest Stories</a></em></h2>
 
 
         </div>
@@ -246,8 +246,34 @@
 
             <div class="col-sm-8 mx-auto text-center">
 
+                  <div class="mt-5" style="text-decoration: inline;">
 
-                    <i class="fa fa-bullhorn mt-3" aria-hidden="true"></i>
+                    {% for i in stories %}
+
+
+                          <li class="mt-5"><a href="{% url 'view-story' i.id %}" class="text-white">{{i.title}}</a></li>
+
+
+                    {% endfor %}
+
+
+                    <div class="text-center mt-5">
+
+
+                      <!--<a class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#Backdrop" href="">
+                        Report Club
+                      </a>-->
+
+                      <a class="filled-button text-decoration-none mb-4" href="{% url 'stories' %}">
+                        Stories <span class="badge bg-success">New</span>
+                      </a>
+                      
+                    </div>
+
+                  </div>
+
+
+                    <!--<i class="fa fa-bullhorn mt-3" aria-hidden="true"></i>
 
                         <div class="mt-1">
 
@@ -257,20 +283,20 @@
 
                                 {% for i in events_upcoming %}
 
-                                    <li><a href="{% url 'event-details' i.event.id  %}" style="font-size: 18px;"> {{i.event.name}}.</a></li>
+                                    <li><a href="" style="font-size: 18px;"> {{i.event.name}}.</a></li>
                                     <p class="text-white" style="font-size: 14px;">{{i.event.event_date}}</p>
                                     
     
                                 {% endfor %}
-                                <a href="{% url 'reg-events' %}">View all</a>
+                                <a href="">View all</a>
                             {% else %}
 
                                 <h6 class="text-white text-center mt-5"> Your Registered Competitions will appear here.</h6>
 
                             {% endif %}
 
-                            <!-- add view all registered events -->
-                        </div>
+
+                        </div>-->
 
 
             </div>
@@ -440,7 +466,7 @@
 
 {% block ajaxbox %}
 
-    <!--
+    
     <script>
 
         const ele = document.getElementById("msg-container")
@@ -450,18 +476,7 @@
             },
          3000);
 
-        document.onreadystatechange = function () {
-        var state = document.readyState
-        if (state == 'interactive') {
-             document.getElementById('cont').style.visibility="hidden";
-        } else if (state == 'complete') {
-            setTimeout(function(){
-               document.getElementById('interactive');
-               document.getElementById('load').style.visibility="hidden";
-               document.getElementById('cont').style.visibility="visible";
-            },1000);
-        }
-      }
-    </script>-->
+
+    </script>
     
 {% endblock %}

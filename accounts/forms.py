@@ -67,14 +67,21 @@ CLUB_FIELDS = [
     ("SPORTS", "SPORTS"),
     ("MUSIC", "MUSIC"),
     ("SOFTWARE", "SOFTWARE"),
+    ("FINANCE", "FINANCE"),
+    ("DESIGN", "DESIGN"),
     ("ALL", "ALL"),
 
 
 ]
 
 
-class TaskForm(forms.Form):
-    tag = forms.ChoiceField(choices=INTERSET_CHOICES)
+class TaskForm(forms.ModelForm):
+    msg = forms.CharField(label = "Message", widget = forms.Textarea(attrs = {'id': 'summer'}))
+
+    class Meta:
+
+        model = Task 
+        fields = ['msg']
 
 
 class RegisterForm(forms.Form):
@@ -120,11 +127,12 @@ class UpdateEventForm(forms.ModelForm):
 
 class UpdateTaskForm(forms.ModelForm):
 
+    msg = forms.CharField(label = "Message", widget = forms.Textarea(attrs = {'class': 'form-control', 'id': 'summernote'}))
 
     class Meta:
 
         model = Task
-        fields = "__all__"
+        fields = ['msg']
 
 
 class UpdateStoryForm(forms.ModelForm):
@@ -213,16 +221,38 @@ class FeedbackForm(forms.ModelForm):
 
 class ClubverificationForm(forms.Form):
 
-    name = forms.CharField(max_length=255, label = "Club's Name")
-    email = forms.EmailField(max_length= 255, label="Club's Email")
-    logo = forms.ImageField(label = "Club's logo")
-    #clg = forms.CharField(max_length=1000, label="College")
-    #dateoffound = forms.DateField(label = "Date of found")
+    name = forms.CharField(label = "Club's Name", widget = forms.TextInput(attrs = {'class': 'mt-1 mb-1'}))
+
+    logo = forms.ImageField(label = "Club's logo", required = False, widget = forms.FileInput(attrs = {'class': 'mt-1 mb-2'}))
+
     tag = forms.ChoiceField(choices=CLUB_FIELDS, label = "club's Field")
-    tagline = forms.CharField(max_length = 1000, required = False)
-    vision_and_mission = forms.CharField(label = "club's vission and mission", required = False, widget = forms.Textarea(attrs = {"class": "form-control", "cols":30}))
+    tagline = forms.CharField(required = False, widget = forms.TextInput(attrs = {'class': 'mt-2 mb-2'}))
+    vision_and_mission = forms.CharField(label = "club's vission and mission", required = False, widget = forms.Textarea(attrs = {"class": "form-control", "cols":10}))
     
+    private = forms.BooleanField(label = "Make Private", required = False)
+
+
+
+
+class ClubverificationUpdateForm(forms.ModelForm):
+
+    name = forms.CharField(label = "Club's Name", widget = forms.TextInput(attrs = {'class': 'mt-1 mb-1'}))
+
+    logo = forms.ImageField(label = "Club's logo", required = False, widget = forms.FileInput(attrs = {'class': 'mt-1 mb-2'}))
+
+    tag = forms.ChoiceField(choices=CLUB_FIELDS, label = "club's Field")
+    tagline = forms.CharField(required = False, widget = forms.TextInput(attrs = {'class': 'mt-2 mb-2'}))
+    vision_and_mission = forms.CharField(label = "club's vission and mission", required = False, widget = forms.Textarea(attrs = {"class": "form-control", "cols":10}))
+    
+    private = forms.BooleanField(label = "Make Private", required = False)
+    
+    class Meta:
+
+        model = clubInfo
+
+        fields = ['name', 'logo', 'tag', 'tagline', 'vision_and_mission']
+            
     
 
-    
+# , widget = forms.FileInput(attrs = {'class': 'mt-1 mb-2'})   
 #release: python manage.py migrate

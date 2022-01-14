@@ -11,7 +11,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("delete-account/", views.deleteaccount, name="delete-account"),
-    path("update-info/<slug:pk>/", views.UpdateInfo.as_view(), name="update-info"),
+    path("update-info/<int:pk>/", views.UpdateInfo.as_view(), name="update-info"),
     path("verify/<str:auth_token>/", views.verify, name="verify"),
 
 ]
