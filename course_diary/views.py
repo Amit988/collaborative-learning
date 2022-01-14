@@ -17,12 +17,16 @@ def all_courses(request):
 def course_overview(request, course_id):
 
 	course = Course.objects.get(id = course_id)
-	watchlist = Watchlist.objects.filter(user = request.user, courses=course)
+	added = False
+
+	if request.user.is_authenticated:
+		watchlist = Watchlist.objects.filter(user = request.user, courses=course)
+		if watchlist:
+			added = True
+
 	member, created = Members.objects.get_or_create(memname = request.user)
 	form = ShareForm()
-	added = False
-	if watchlist:
-		added = True
+
 	reviews = Rating.objects.filter(course = course)
 	return render(request, "course_diary/course-rating.html", {"course": course, "reviews": reviews, "added": added, 'clubs': member.club.all(), "form": form})
 

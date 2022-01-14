@@ -229,7 +229,7 @@ class ClubverificationForm(forms.Form):
     tagline = forms.CharField(required = False, widget = forms.TextInput(attrs = {'class': 'mt-2 mb-2'}))
     vision_and_mission = forms.CharField(label = "club's vission and mission", required = False, widget = forms.Textarea(attrs = {"class": "form-control", "cols":10}))
     
-    private = forms.BooleanField(label = "Make Private", required = False)
+    #private = forms.BooleanField(label = "Make Private", required = False)
 
 
 
@@ -244,7 +244,7 @@ class ClubverificationUpdateForm(forms.ModelForm):
     tagline = forms.CharField(required = False, widget = forms.TextInput(attrs = {'class': 'mt-2 mb-2'}))
     vision_and_mission = forms.CharField(label = "club's vission and mission", required = False, widget = forms.Textarea(attrs = {"class": "form-control", "cols":10}))
     
-    private = forms.BooleanField(label = "Make Private", required = False)
+    #private = forms.BooleanField(label = "Make Private", required = False)
     
     class Meta:
 

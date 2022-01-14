@@ -296,9 +296,8 @@ def clubRegistration(request):
             tagline = form.cleaned_data['tagline']
 
             vision_and_mission = form.cleaned_data['vision_and_mission']
-            private = form.cleaned_data['private']
 
-            club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission, private = private)
+            club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission)
             club.save()
 
             jsec = jSecs.objects.create(name = request.user, club = club)
@@ -346,9 +345,8 @@ def EditClub(request, pk):
 
         vision_and_mission = form.cleaned_data['vision_and_mission']
 
-        private = form.cleaned_data['private']
 
-        club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission, private = private)
+        club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission)
         club.save()
 
         return redirect(f"/accounts/your-club/{pk}/")       
@@ -486,10 +484,10 @@ def clubTag(request, tag):
     #user_clubs = user_club.club.all()
 
     if (tag == 'ALL'):
-        clubs = clubInfo.objects.filter(private = False)
+        clubs = clubInfo.objects.all()
         return render(request, "accounts/allclub.html", {"clubs": clubs, "tag": "ALL"})
 
-    clubs = clubInfo.objects.filter(tag = tag, private = False)
+    clubs = clubInfo.objects.filter(tag = tag)
     return render(request, "accounts/allclub.html", {"clubs": clubs, "tag": tag}) 
 
 
