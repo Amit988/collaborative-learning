@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'users',
     #'courses',
     'course_diary',
-    
+
     'crispy_forms',
     'cloudinary_storage',
     'cloudinary',
