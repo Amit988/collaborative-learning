@@ -13,7 +13,7 @@ from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
 from .forms import ClubverificationUpdateForm, UpdateStoryForm, ClubverificationForm, FeedbackForm, ChatForm, SearchForm, UpdateTaskForm, TaskForm, EventForm, RegisterForm, interestForm, UpdateEventForm, CommentForm, RateForm, ClubTags
 import uuid
-from qna.models import Question, ClubQuestion
+from doubts.models import Question, ClubQuestion
 from datetime import datetime, date, timedelta, time
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from django.utils.http import urlsafe_base64_encode
@@ -28,8 +28,8 @@ from .models import StoryAudio, Story, ReportClub, ContentCreator, TaskView, Vis
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from django.utils.encoding import force_bytes
-from course_diary.models import ShareCourse
-from qna.forms import QuestionForm
+from diary.models import ShareCourse
+from doubts.forms import QuestionForm
 
 #### Home <<<< ==============================================================================>>>>
 def index(request):

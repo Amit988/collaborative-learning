@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from course_diary.models import Course, Rating, TotalRating, Watchlist, ShareCourse
+from diary.models import Course, Rating, TotalRating, Watchlist, ShareCourse
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required

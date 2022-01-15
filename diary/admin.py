@@ -1,5 +1,5 @@
 from django.contrib import admin
-from course_diary.models import Course, Rating, TotalRating, Watchlist, ShareCourse
+from diary.models import Course, Rating, TotalRating, Watchlist, ShareCourse
 
 
 

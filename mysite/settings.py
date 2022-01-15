@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     #'channels',
     'users',
     #'courses',
-    'course_diary',
+    'diary',
 
     'crispy_forms',
     'cloudinary_storage',
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'taggit',
     #'agora',
     'django.contrib.humanize',
-    'qna.apps.QnaConfig',
+    'doubts',
     #'django_chatter',
     'django.contrib.sites',
     'jazzmin',

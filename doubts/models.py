@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from course_diary.models import Course
+from diary.models import Course
 from taggit.managers import TaggableManager
 from accounts.models import clubInfo
 # Create your models here.
