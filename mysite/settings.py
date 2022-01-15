@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     #'channels',
     'users',
     #'courses',
+    'course_diary',
+    
     'crispy_forms',
     'cloudinary_storage',
     'cloudinary',
@@ -35,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'jazzmin',
     #'rest_framework',
-    'course_diary',
     'django.contrib.admin',
     'social_django', 
     'django.contrib.auth',
