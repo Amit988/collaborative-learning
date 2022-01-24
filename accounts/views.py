@@ -345,9 +345,13 @@ def EditClub(request, pk):
 
         vision_and_mission = form.cleaned_data['vision_and_mission']
 
+        obj.name = name
+        obj.logo = logo
+        obj.tag = tag
+        obj.tagline = tagline
+        obj.vision_and_mission = vision_and_mission
 
-        club = clubInfo.objects.create(name = name, logo = logo, tag = tag, tagline = tagline, vision_and_mission = vision_and_mission)
-        club.save()
+        obj.save()
 
         return redirect(f"/accounts/your-club/{pk}/")       
 
