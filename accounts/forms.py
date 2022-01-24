@@ -61,8 +61,10 @@ COURSE_CHOICES = [
 
 CLUB_FIELDS = [
 
+    ("ART & CRAFT", "ART & CRAFT"),
     ("DRAMA", "DRAMA"),
     ("TECHNICAL", "TECHNICAL"),
+    ("CYBERSECURITY", "CYBERSECURITY"),
     ("SPRITUAL", "SPRITUAL"),
     ("SPORTS", "SPORTS"),
     ("MUSIC", "MUSIC"),
