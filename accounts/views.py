@@ -331,29 +331,30 @@ def EditClub(request, pk):
     obj = get_object_or_404(clubInfo, id = pk)
 
     form = ClubverificationUpdateForm(request.POST or None, instance = obj) 
+    print(obj)
+    if request.method == 'POST':
 
+        if form.is_valid():
 
-    if form.is_valid():
+            name = form.cleaned_data['name']
 
-        name = form.cleaned_data['name']
+            logo = request.FILES.get('logo', 'blank')
 
-        logo = request.FILES.get('logo', 'blank')
+            tag = form.cleaned_data['tag']
 
-        tag = form.cleaned_data['tag']
+            tagline = form.cleaned_data['tagline']
 
-        tagline = form.cleaned_data['tagline']
+            vision_and_mission = form.cleaned_data['vision_and_mission']
 
-        vision_and_mission = form.cleaned_data['vision_and_mission']
+            obj.name = name
+            obj.logo = logo
+            obj.tag = tag
+            obj.tagline = tagline
+            obj.vision_and_mission = vision_and_mission
 
-        obj.name = name
-        obj.logo = logo
-        obj.tag = tag
-        obj.tagline = tagline
-        obj.vision_and_mission = vision_and_mission
+            obj.save()
 
-        obj.save()
-
-        return redirect(f"/accounts/your-club/{pk}/")       
+            return redirect(f"/accounts/your-club/{pk}/")       
 
     return render(request, "accounts/club-registration.html", {"form": form})
 
